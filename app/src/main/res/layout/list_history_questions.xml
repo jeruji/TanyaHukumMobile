@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <include layout="@layout/toolbar"/>
+
+    <RelativeLayout
+        android:id="@+id/layoutUser"
+        android:layout_marginTop="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tvClient"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="client"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/tvClientName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text=""
+            android:layout_marginRight="20dp"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:layout_below="@+id/tvClient"
+            android:layout_marginLeft="20dp"/>
+
+        <TextView
+            android:id="@+id/tvConsultant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="consultant"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginRight="20dp"/>
+        <TextView
+            android:id="@+id/tvConsultantName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="20dp"
+            android:text=""
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:textColor="@color/colorPrimary"
+            android:layout_below="@+id/tvClient"
+            android:layout_marginRight="20dp"/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:id="@+id/lineSeparator"
+        android:layout_below="@+id/layoutUser"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/md_grey_300"></LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/lineSeparator"
+        android:layout_marginTop="20dp"
+        android:id="@+id/recycler_view_history_questions"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:listitem="@layout/list_row_history_questions">
+    </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/text_no_questions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Questions history is empty"
+        android:textColor="@color/md_red_400"
+        android:textSize="14dp"
+        android:visibility="gone" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true" />
+
+</RelativeLayout>

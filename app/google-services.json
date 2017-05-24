@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "792434143182",
+    "firebase_url": "https://tanyahukum-9d16f.firebaseio.com",
+    "project_id": "tanyahukum-9d16f",
+    "storage_bucket": "tanyahukum-9d16f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:792434143182:android:2c8a91000f22d9c0",
+        "android_client_info": {
+          "package_name": "com.app.tanyahukum"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "792434143182-1s4ulrickdet66jv9s4do0qj21nguto3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.tanyahukum",
+            "certificate_hash": "186f71560ec150f83ac8f3c78740d62d9cbde488"
+          }
+        },
+        {
+          "client_id": "792434143182-r3ifo7h23ph6aehanhqrv2b68l5gjqd5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB9SAPd0uIvXnvKdUteAuK4cR85uIT_ly4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "792434143182-r3ifo7h23ph6aehanhqrv2b68l5gjqd5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

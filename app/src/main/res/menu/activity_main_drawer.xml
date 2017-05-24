@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_my_account"
+            android:icon="@drawable/ic_account_md"
+            android:title="My Account" />
+        <item
+            android:id="@+id/nav_consultation_list"
+            android:icon="@drawable/icon_list_consult"
+            android:title="Consultation List" />
+        <item
+            android:id="@+id/nav_add_consultation"
+            android:icon="@drawable/icon_add"
+            android:title="Add Consultation" />
+
+        <item
+            android:id="@+id/nav_appointment_list"
+            android:icon="@drawable/icon_appointment"
+            android:title="Appointment List" />
+        <item
+            android:id="@+id/nav_appointment_history"
+            android:icon="@drawable/icon_appointment_history"
+            android:title="Appointment History" />
+
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/icon_logout"
+                android:title="Logout" />
+
+    </group>
+
+
+</menu>

@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include layout="@layout/toolbar"/>
+        <TableLayout
+            android:id="@+id/tableRegistration"
+            android:layout_marginTop="50dp"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+           <TableRow>
+               <TextView
+                   android:layout_marginTop="50dp"
+                   android:text="Make Appointment"
+                   android:textColor="@color/md_grey_500"
+                   android:layout_margin="20dp"/>
+           </TableRow>
+            <TableRow>
+
+                <RelativeLayout android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelDoB"
+                        android:layout_marginLeft="30dp"
+                        android:text="Date"/>
+                    <EditText
+                        android:layout_below="@+id/labelDoB"
+                        android:id="@+id/edTextDateAppointment"
+                        android:layout_width="match_parent"
+                        android:padding="@dimen/padding"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_weight="1"
+                        android:hint="" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/calenderAppointmnet"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="0dp"
+                    android:onClick="setDate"
+                    android:src="@drawable/ic_calender" />
+
+            </TableRow>
+            <TableRow>
+
+                <RelativeLayout android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelTime"
+                        android:layout_marginLeft="30dp"
+                        android:text="Time"/>
+                    <EditText
+                        android:layout_below="@+id/labelTime"
+                        android:id="@+id/edTextTimeAppointment"
+                        android:layout_width="match_parent"
+                        android:padding="@dimen/padding"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_weight="1"
+                        android:hint="" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/timeAppointment"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="0dp"
+                    android:src="@drawable/ic_calender" />
+
+            </TableRow>
+            <TableRow>
+
+                <RelativeLayout
+                    android:id="@+id/layoutUser"
+                    android:visibility="gone"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelUser"
+                        android:layout_marginLeft="30dp"
+                        android:text=""/>
+                    <EditText
+                        android:layout_below="@+id/labelUser"
+                        android:hint=""
+                        android:padding="@dimen/padding"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:inputType="textNoSuggestions|textEmailAddress"
+                        android:id="@+id/edTextUser"
+                        />
+                </RelativeLayout>
+
+            </TableRow>
+            <TableRow>
+
+                <RelativeLayout
+                    android:id="@+id/layoutPhoneUser"
+                    android:visibility="gone"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelPhoneUser"
+                        android:layout_marginLeft="30dp"
+                        android:text=""/>
+                    <EditText
+                        android:layout_below="@+id/labelPhoneUser"
+                        android:hint=""
+                        android:padding="@dimen/padding"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:inputType="textNoSuggestions|textEmailAddress"
+                        android:id="@+id/edTextPhoneUser"
+                        />
+                </RelativeLayout>
+
+            </TableRow>
+            <TableRow>
+
+                <RelativeLayout
+                    android:id="@+id/layoutAddressUser"
+                    android:visibility="gone"
+                    android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelAddressUser"
+                        android:layout_marginLeft="30dp"
+                        android:text=""/>
+                    <EditText
+                        android:layout_below="@+id/labelAddressUser"
+                        android:hint=""
+                        android:padding="@dimen/padding"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:inputType="textNoSuggestions|textEmailAddress"
+                        android:id="@+id/edTextAddressUser"
+                        />
+                </RelativeLayout>
+
+            </TableRow>
+            <TableRow>
+
+                <RelativeLayout android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelDetails"
+                        android:layout_marginLeft="30dp"
+                        android:text="Detail"/>
+                    <EditText
+                        android:layout_below="@+id/labelDetails"
+                        android:hint=""
+                        android:padding="@dimen/padding"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textNoSuggestions|textMultiLine"
+                        android:id="@+id/edTextDetail"
+                        />
+                </RelativeLayout>
+
+            </TableRow>
+            <TableRow>
+                <RelativeLayout
+                    android:id="@+id/layoutTopic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/tvTopic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Choose Topic"/>
+                    <Spinner
+                        android:id="@+id/spinnerTopic"
+                        android:layout_width="match_parent"
+                        android:layout_below="@+id/tvTopic"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:entries="@array/consultation"
+                        android:prompt="@string/consultation_type"
+                        android:layout_weight="1" />
+                </RelativeLayout>
+            </TableRow>
+            <TableRow>
+                <RelativeLayout
+                    android:layout_marginTop="10dp"
+                    android:layout_width="match_parent"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin">
+                    <TextView
+                        android:id="@+id/tvTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Title"/>
+                    <RelativeLayout
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:background="@color/md_grey_200"
+                        android:layout_below="@+id/tvTitle">
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/input_layout_title"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content">
+                            <EditText
+                                android:padding="@dimen/padding"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:paddingLeft="10dp"
+                                android:paddingEnd="10dp"
+                                android:inputType="textNoSuggestions|textEmailAddress|textMultiLine"
+                                android:id="@+id/edTextTitle"
+                                />
+                        </android.support.design.widget.TextInputLayout>
+                    </RelativeLayout>
+
+                </RelativeLayout>
+            </TableRow>
+            <TableRow>
+                <RelativeLayout
+                    android:id="@+id/layoutBookinghCode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/tvBookingCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Booking Code"/>
+                    <EditText
+                        android:layout_below="@+id/tvBookingCode"
+                        android:hint=""
+                        android:padding="@dimen/padding"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:inputType="textNoSuggestions|textEmailAddress"
+                        android:id="@+id/edTextBookingCode"
+                        />
+
+                </RelativeLayout>
+            </TableRow>
+            <TableRow>
+                <RelativeLayout
+                    android:id="@+id/layoutStatusAppointment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_weight="1">
+                    <TextView
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/tvStatusAppointment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="Status Appointment"/>
+                    <EditText
+                        android:layout_below="@+id/tvStatusAppointment"
+                        android:hint=""
+                        android:padding="@dimen/padding"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:inputType="textNoSuggestions|textEmailAddress"
+                        android:id="@+id/edTextStatusAppointment"
+                        />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:layout_below="@+id/edTextStatusAppointment"
+                        android:layout_marginTop="10dp"
+                        android:id="@+id/tvDone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:padding="20dp"
+                        android:textSize="14dp"
+                        android:text="Tell us if the consultation is done or report if there is problem"/>
+                </RelativeLayout>
+            </TableRow>
+            <TableRow>
+            <LinearLayout
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_width="match_parent"
+                android:id="@+id/layoutButton"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/linearLayoutHistory"
+                    android:layout_width="0dp"
+                    android:layout_margin="10dp"
+                    android:layout_weight="0.5"
+                    android:layout_height="wrap_content">
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btnMakeAppointment"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:text="Make Appointment"
+                        android:textColor="@color/white"
+                        android:background="@color/md_green_400"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearLayoutAnswers"
+                    android:layout_margin="10dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5">
+                    <android.support.v7.widget.AppCompatButton
+                        android:id="@+id/btnClear"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginRight="20dp"
+                        android:text="CLEAR"
+                        android:textColor="@color/md_green_400"
+                        android:background="@color/md_grey_200"/>
+                </LinearLayout>
+
+
+            </LinearLayout>
+            </TableRow>
+            <TableRow>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:id="@+id/layoutButtonApprove"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:id="@+id/linearLayoutApprove"
+                        android:layout_width="0dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="wrap_content">
+                        <android.support.v7.widget.AppCompatButton
+                            android:id="@+id/btnApproveAppointment"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:text="Accept"
+                            android:textColor="@color/white"
+                            android:background="@color/colorPrimary"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/linearLayoutReschedule"
+                        android:layout_margin="10dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5">
+                        <android.support.v7.widget.AppCompatButton
+                            android:id="@+id/btnRescheduleAppointment"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginRight="20dp"
+                            android:text="RESCHEDULE"
+                            android:textColor="@color/white"
+                            android:background="@color/colorPrimary"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:id="@+id/layoutButtonDone"
+                    android:layout_height="wrap_content">
+                    <LinearLayout
+                        android:id="@+id/linearLayoutDone"
+                        android:layout_width="0dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="wrap_content">
+                        <android.support.v7.widget.AppCompatButton
+                            android:id="@+id/btnDone"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:text="Done"
+                            android:textColor="@color/white"
+                            android:background="@color/colorPrimary"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/linearLayoutReport"
+                        android:layout_margin="10dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5">
+                        <android.support.v7.widget.AppCompatButton
+                            android:id="@+id/btnReport"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginRight="20dp"
+                            android:text="Report"
+                            android:textColor="@color/white"
+                            android:background="@color/colorPrimary"/>
+                    </LinearLayout>
+
+
+                </LinearLayout>
+            </TableRow>
+
+            <TableRow>
+                <RelativeLayout android:layout_weight="1"
+                    android:visibility="gone"
+                    android:id="@+id/layoutReschedule"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/rscheduleText"
+                        android:layout_marginLeft="30dp"
+                        android:text="Reschedule"/>
+                    <TextView
+                        android:layout_below="@+id/rscheduleText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelDoBnew"
+                        android:layout_marginLeft="30dp"
+                        android:text="Date"/>
+                    <EditText
+                        android:layout_below="@+id/labelDoBnew"
+                        android:id="@+id/edTextDateNewAppointment"
+                        android:layout_width="match_parent"
+                        android:padding="@dimen/padding"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_weight="1"
+                        android:hint="" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/calenderAppointmnetNew"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="0dp"
+                    android:src="@drawable/ic_calender" />
+
+            </TableRow>
+            <TableRow>
+                <RelativeLayout android:layout_weight="1"
+                    android:visibility="gone"
+                    android:id="@+id/layoutRescheduleTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelTIme"
+                        android:layout_marginLeft="30dp"
+                        android:text="Time"/>
+                    <EditText
+                        android:layout_below="@+id/labelTIme"
+                        android:id="@+id/edTextTImeNewAppointment"
+                        android:layout_width="match_parent"
+                        android:padding="@dimen/padding"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_weight="1"
+                        android:hint="" />
+                </RelativeLayout>
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/timeAppointmnetNew"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="0dp"
+                    android:src="@drawable/ic_calender" />
+
+            </TableRow>
+            <TableRow>
+                <LinearLayout
+                    android:visibility="gone"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_width="match_parent"
+                    android:id="@+id/layoutButtonPropose"
+                    android:layout_height="wrap_content">
+                    <RelativeLayout
+                        android:id="@+id/linearLayoutPropose"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <android.support.v7.widget.AppCompatButton
+                            android:id="@+id/btnPropose"
+                            android:layout_width="200dp"
+                            android:layout_height="50dp"
+                            android:layout_centerHorizontal="true"
+                            android:text="Propose"
+                            android:textColor="@color/white"
+                            android:background="@color/colorPrimary"/>
+                    </RelativeLayout>
+
+
+                </LinearLayout>
+            </TableRow>
+        </TableLayout>
+        </RelativeLayout>
+    </ScrollView>
