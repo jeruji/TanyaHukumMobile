@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/TanyaHukum.iml" filepath="$PROJECT_DIR$/TanyaHukum.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TanyaHukumApp.iml" filepath="$PROJECT_DIR$/TanyaHukumApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
