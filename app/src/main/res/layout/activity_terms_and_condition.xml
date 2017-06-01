@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.app.tanyahukum.view.TermsAndConditionActivity">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/marginTopHeader"
+        android:layout_marginLeft="@dimen/marginGeneral"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
+        android:src="@drawable/logo" />
+
+    <WebView
+        android:id="@+id/containerTermsAndCondition"
+        android:layout_below="@+id/logo"
+        android:layout_marginTop="@dimen/marginTopHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/logo"
+        android:layout_alignRight="@+id/logo"
+        android:verticalScrollbarPosition="right" />
+
+
+    <CheckBox
+        android:id="@+id/checkTermsAndCondition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/containerTermsAndCondition"
+        android:layout_marginTop="@dimen/marginTopHeader"
+        android:layout_centerHorizontal="true"
+        android:text="@string/agree_tag"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btnContinue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/checkTermsAndCondition"
+        android:layout_marginTop="@dimen/marginTopHeader"
+        android:layout_alignLeft="@+id/logo"
+        android:layout_alignRight="@+id/logo"
+        android:text="@string/continue_tag"
+        android:textColor="@color/white"
+        android:backgroundTint="@color/colorPrimary"
+        />
+
+</RelativeLayout>

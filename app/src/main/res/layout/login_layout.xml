@@ -101,7 +101,7 @@
             android:layout_below="@+id/btnLogin"
             android:src="@drawable/google"
             android:background="@android:color/transparent"
-            android:contentDescription="Sign in With Google"
+            android:contentDescription="@string/google_sign_in"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/marginTopHeader"
             android:layout_marginTop="@dimen/marginTopHeader"
@@ -114,7 +114,7 @@
             android:layout_below="@+id/btnLogin"
             android:src="@drawable/facebook"
             android:background="@android:color/transparent"
-            android:contentDescription="Sign in With Facebook"
+            android:contentDescription="@string/facebook_sign_in"
             android:layout_toRightOf="@+id/btnGmail"
             android:layout_marginRight="@dimen/marginGeneral"
             android:layout_marginTop="@dimen/marginTopHeader"
@@ -129,7 +129,7 @@
             android:layout_below="@+id/btnGmail"
             android:layout_marginTop="@dimen/marginTopHeader"
             android:layout_marginLeft="@dimen/marginTopHeader"
-            android:text="Sign in With Google"/>
+            android:text="@string/google_sign_in"/>
 
         <TextView
             android:id="@+id/loginFacebook"
@@ -138,7 +138,7 @@
             android:layout_below="@+id/btnFacebook"
             android:layout_marginTop="@dimen/marginTopHeader"
             android:layout_alignRight="@+id/btnFacebook"
-            android:text="Sign in With Facebook"/>
+            android:text="@string/facebook_sign_in"/>
 
         <TextView
             android:id="@+id/createAccount"
