@@ -46,7 +46,9 @@
     <string name="btn_sign_up">SIGN UP</string>
     <string name="btn_sign_in">SIGN IN</string>
     <string name="btn_sign_by_email">Login with Email</string>
+    <string name="google_sign_in">Sign in With Google</string>
     <string name="btn_sign_by_facebook">Login with Facebook</string>
+    <string name="facebook_sign_in">Sign in With Facebook</string>
     <string name="btn_clear">CLEAR</string>
     <string name="disclimerSignUp">Please Sign Up Your Identity in here..</string>
     <string name="disclimerSignin">Please Sign In here..</string>
@@ -55,4 +57,7 @@
     <string name="validate_empty_email">Please input email</string>
     <string name="validate_empty_password">Please input password</string>
     <string name="validate_wrong_email">Please correct your email address</string>
+    <string name="continue_tag">Continue</string>
+    <string name="agree_tag">Setuju</string>
+    <string name="terms_and_condition">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 </resources>

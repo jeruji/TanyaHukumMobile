@@ -2,7 +2,6 @@ package com.app.tanyahukum.view;
 
 import com.app.tanyahukum.model.User;
 import com.facebook.AccessToken;
-import com.facebook.GraphResponse;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 /**
@@ -26,7 +25,7 @@ public interface LoginActivityInterface {
         void hidePassword();
     }
     interface Presenter{
-         int checkValidation(String email,String password);
+        int checkValidation(String email,String password);
         void submitLoginByEmailPassword(String email,String password);
         void submitLoginByEmail(GoogleSignInAccount acct);
         void submitLoginByFacebook(User user,AccessToken token);

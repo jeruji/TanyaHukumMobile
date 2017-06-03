@@ -6,10 +6,9 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputType;
 import android.util.Log;
-import android.util.LogPrinter;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,29 +18,22 @@ import com.app.tanyahukum.App;
 import com.app.tanyahukum.R;
 import com.app.tanyahukum.data.component.DaggerLoginActivityComponent;
 import com.app.tanyahukum.data.module.LoginActivityModule;
-import com.app.tanyahukum.data.module.RegistrationActivityModule;
 import com.app.tanyahukum.model.User;
 import com.app.tanyahukum.presenter.LoginPresenter;
-import com.app.tanyahukum.presenter.RegistrationPresenter;
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.OptionalPendingResult;
-import com.google.android.gms.common.api.ResultCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -68,8 +60,8 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityInt
     EditText email;
     @BindView(R.id.edTextPassword)
     EditText password;
-    @BindView(R.id.button_facebook_sign_in)
-    LoginButton facebookLogin;
+    @BindView(R.id.btnFacebook)
+    ImageButton facebookLogin;
     @BindView(R.id.visibility)
     ImageView _showPassword;
     @BindView(R.id.invisibility)
@@ -85,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityInt
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(getApplicationContext());
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.login_layout);
         ButterKnife.bind(this);
         checkSession();
@@ -96,8 +88,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityInt
         gso = ((App) getApplication()).getGoogleSignInOptions();
         mGoogleApiClient = ((App) getApplication()).getGoogleApiClient(LoginActivity.this, this);
         callbackManager = CallbackManager.Factory.create();
-        facebookLogin.setReadPermissions("email", "public_profile");
-        facebookLogin.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(final LoginResult loginResult) {
                 GraphRequest request = GraphRequest.newMeRequest(
@@ -140,6 +131,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityInt
             }
         });
     }
+
     @Override
     @OnClick(R.id.btnLogin)
     public void submitLoginEmailWithPassword() {
@@ -158,7 +150,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityInt
 
     }
     @Override
-    @OnClick(R.id.sign_in_button)
+    @OnClick(R.id.btnGmail)
     public void submitLoginEmail() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
@@ -190,7 +182,9 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityInt
         super.onStop();
     }
     @Override
+    @OnClick(R.id.btnFacebook)
     public void submitLoginFacebook() {
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends"));
     }
     @Override
     public void submitResult(boolean result) {

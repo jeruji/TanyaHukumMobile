@@ -5,149 +5,153 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-    <TableLayout
-        android:id="@+id/tableLogin"
-        android:layout_marginTop="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TableRow>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="150dp"
-                android:src="@drawable/tanya_hukum_logo"/>
-        </TableRow>
-    <TableRow>
 
-        <RelativeLayout android:layout_weight="1"
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/marginTopHeader"
+            android:layout_marginLeft="@dimen/marginGeneral"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo" />
+
+        <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/labelEmail"
-                android:layout_marginLeft="30dp"
-                android:text="Email"/>
-            <EditText
-                android:layout_below="@+id/labelEmail"
-                android:hint=""
-                android:padding="@dimen/padding"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:inputType="textNoSuggestions|textEmailAddress"
-                android:id="@+id/edTextEmail"
-                />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/logo"
+            android:layout_marginTop="@dimen/marginGeneral"
+            android:id="@+id/labelEmail"
+            android:layout_marginLeft="@dimen/marginGeneral"
+            android:text="Email"/>
 
-        </RelativeLayout>
+        <EditText
+            android:layout_below="@+id/labelEmail"
+            android:layout_marginTop="@dimen/marginTopHeader"
+            android:hint=""
+            android:padding="@dimen/padding"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textNoSuggestions|textEmailAddress"
+            android:id="@+id/edTextEmail"
+            />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/labelPassword"
+            android:layout_marginLeft="30dp"
+            android:layout_below="@+id/edTextEmail"
+            android:layout_marginTop="@dimen/marginTopHeader"
+            android:text="Password"/>
 
-    </TableRow>
-        <TableRow>
+        <EditText
+            android:layout_below="@+id/labelPassword"
+            android:hint=""
+            android:padding="@dimen/padding"
+            android:layout_marginTop="@dimen/marginTopHeader"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:inputType="textNoSuggestions|textPassword"
+            android:id="@+id/edTextPassword"
+            />
 
-            <RelativeLayout android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/labelPassword"
-                android:layout_marginLeft="30dp"
-                android:text="Password"/>
-                <EditText
-                    android:layout_below="@+id/labelPassword"
-                    android:hint=""
-                    android:padding="@dimen/padding"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:inputType="textNoSuggestions|textPassword"
-                    android:id="@+id/edTextPassword"
-                    />
-           </RelativeLayout>
-            <ImageView
-                android:id="@+id/visibility"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="0dp"
-                android:src="@drawable/ic_visibility" />
+        <ImageView
+            android:id="@+id/visibility"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/marginVisiblePass"
+            android:layout_toRightOf="@+id/labelPassword"
+            android:layout_below="@+id/edTextEmail"
+            android:src="@drawable/ic_visibility" />
 
-            <ImageView
+        <ImageView
             android:id="@+id/invisibility"
             android:layout_width="40dp"
             android:layout_height="40dp"
-                android:visibility="gone"
-            android:layout_marginBottom="20dp"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="0dp"
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/marginVisiblePass"
+            android:layout_toRightOf="@+id/labelPassword"
+            android:layout_below="@+id/edTextEmail"
             android:src="@drawable/icon_show_password" />
 
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btnLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edTextPassword"
+            android:layout_marginTop="@dimen/marginTopHeader"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:text="@string/btn_sign_in"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/colorPrimary"/>
 
-        </TableRow>
-        <TableRow>
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/btnLogin"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="50dp"
-                android:layout_below="@+id/input_layout_phone"
-                android:layout_marginTop="50dp"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:text="@string/btn_sign_in"
-                android:textColor="@color/white"
-                android:backgroundTint="@color/colorPrimary"/>
-        </TableRow>
-        <TableRow>
-            <com.google.android.gms.common.SignInButton
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:id="@+id/sign_in_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:textAlignment="center"
-                android:layout_weight="1"
-                android:layout_centerHorizontal="true" />
-        </TableRow>
-        <TableRow>
-            <com.facebook.login.widget.LoginButton
-                android:id="@+id/button_facebook_sign_in"
-                style="?android:textAppearanceSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="#303F9F"
-                android:padding="10dp"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:text="Login with Facebook"
-                android:textStyle="bold"
-                android:textColor="#fff"/>
+        <ImageButton
+            android:id="@+id/btnGmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnLogin"
+            android:src="@drawable/google"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/google_sign_in"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/marginTopHeader"
+            android:layout_marginTop="@dimen/marginTopHeader"
+            />
 
-        </TableRow>
-        <TableRow>
-            <TextView
-                android:id="@+id/createAccount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/disclimerNoAccount"
-                android:textColor="@color/colorAccent"
-                android:layout_weight="1"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                android:layout_centerHorizontal="true"/>
-        </TableRow>
+        <ImageButton
+            android:id="@+id/btnFacebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnLogin"
+            android:src="@drawable/facebook"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/facebook_sign_in"
+            android:layout_toRightOf="@+id/btnGmail"
+            android:layout_marginRight="@dimen/marginGeneral"
+            android:layout_marginTop="@dimen/marginTopHeader"
+            android:scaleType="fitEnd"
+            android:layout_alignRight="@+id/logo"
+            />
 
-    </TableLayout>
+        <TextView
+            android:id="@+id/loginGmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnGmail"
+            android:layout_marginTop="@dimen/marginTopHeader"
+            android:layout_marginLeft="@dimen/marginTopHeader"
+            android:text="@string/google_sign_in"/>
+
+        <TextView
+            android:id="@+id/loginFacebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnFacebook"
+            android:layout_marginTop="@dimen/marginTopHeader"
+            android:layout_alignRight="@+id/btnFacebook"
+            android:text="@string/facebook_sign_in"/>
+
+        <TextView
+            android:id="@+id/createAccount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/disclimerNoAccount"
+            android:textColor="@color/colorAccent"
+            android:layout_marginTop="@dimen/marginTopHeader"
+            android:gravity="center"
+            android:layout_below="@+id/loginGmail"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_centerHorizontal="true"/>
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_centerVertical="true"

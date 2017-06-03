@@ -8,6 +8,7 @@
     <color name="white">#FFF</color>
     <color name="bgEmail">#C62828</color>
     <color name="bgFacebook">#01579B</color>
+    <color name="bgLogin">#4b576a</color>
 
     <color name="colorAccentDark">#dedfe4</color>
     <color name="black">#000000</color>
