@@ -52,7 +52,7 @@ public class MyPreferenceManager {
         editor.putString(KEY_PHONE, user.getPhone());
         editor.putString(KEY_GENDER, user.getGender());
         editor.putString(KEY_PROVINCE, user.getProvince());
-        editor.putString(KEY_CITY, user.getAddress());
+        editor.putString(KEY_CITY, user.getCity());
         editor.putString(KEY_ADDRESS, user.getAddress());
         editor.putString(KEY_USERTYPE, user.getUsertype());
         editor.putString(KEY_LAWFIRM,user.getLawFirm());

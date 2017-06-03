@@ -1,28 +1,42 @@
 package com.app.tanyahukum.view;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ContextThemeWrapper;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.app.tanyahukum.App;
 import com.app.tanyahukum.R;
+import com.app.tanyahukum.adapter.ProvinceAdapter;
+import com.app.tanyahukum.adapter.RegencyAdapter;
 import com.app.tanyahukum.data.component.DaggerRegistrationActivityComponent;
 import com.app.tanyahukum.data.module.RegistrationActivityModule;
+import com.app.tanyahukum.model.Province;
+import com.app.tanyahukum.model.Regency;
 import com.app.tanyahukum.model.User;
 import com.app.tanyahukum.presenter.RegistrationPresenter;
 import com.app.tanyahukum.util.Config;
@@ -89,7 +103,13 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     ArrayList<String> selectedSpecialization;
     String loginType="";
     String userId="";
-
+    Long prov_id;
+    RecyclerView _rcylerViewDialog;
+    TextView _titleDialog;
+    ArrayList<Province> provinceArrayList;
+    ArrayList<Regency> regencyArrayList;
+    private ProvinceAdapter provinceAdapter;
+    private RegencyAdapter regencyAdapter;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration_layout);
@@ -99,7 +119,8 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
                 .registrationActivityModule(new RegistrationActivityModule(this, this))
                 .build().inject(this);
 
-        Intent i=getIntent();
+        regencyArrayList =new ArrayList<>();
+         Intent i=getIntent();
         loginType=i.getStringExtra("loginType");
         userId=i.getStringExtra("userId");
             if (loginType.equals("FACEBOOK") || loginType.equals("GMAIL")) {
@@ -108,7 +129,10 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
                 name.setText(nameStr);
                 email.setText(emailStr);
             }
-
+            province.setEnabled(false);
+            province.setTextColor(Color.parseColor("#000000"));
+        city.setEnabled(false);
+        city.setTextColor(Color.parseColor("#000000"));
         List<String> specialization = Arrays.asList(getResources().getStringArray(R.array.specialization));
         specializationSpinner.setItems(specialization, "Select Specialization", this);
         selectedSpecialization = new ArrayList<>();
@@ -163,8 +187,12 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         String emailStr = email.getText().toString();
         String passwordStr = password.getText().toString();
         String bornDateStr= bornDate.getText().toString();
-        String provinceStr=province.getText().toString();
-        String cityStr=city.getText().toString();
+        String provinceStr=
+               // "";
+                province.getText().toString();
+        String cityStr=
+                "";
+                city.getText().toString();
         String addressStr=address.getText().toString();
         String phoneStr=phone.getText().toString();
         String userTypeStr=userType.getSelectedItem().toString();
@@ -203,8 +231,8 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         address.setText("");
         password.setText("");
         bornDate.setText("");
-        province.setText("");
-        city.setText("");
+        //province.setSe("");
+        //city.setText("");
         lawFirm.setText("");
         lawFirmCity.setText("");
         lawFirmAddress.setText("");
@@ -226,17 +254,22 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
             user.setAddress(address.getText().toString());
             user.setPhone(phone.getText().toString());
             user.setFirebaseToken("");
-
             String genderStr = gender.getSelectedItem().toString();
             if (genderStr.equals("Male"))
                 user.setGender("MALE");
             else if (genderStr.equals("Female"))
                 user.setGender("FEMALE");
-            else
-                user.setGender("TRANSGENDER");
             String userStr = userType.getSelectedItem().toString();
             if (userStr.equals("Client")) {
                 user.setUsertype("CLIENT");
+                user.setLawFirm("");
+                user.setLawFirmAddress("");
+                user.setLawFirmCity("");
+                user.setLawFirmPhone("");
+                List<String> specialization = Arrays.asList(getResources().getStringArray(R.array.specialization));
+                selectedSpecialization.add(specialization.get(0));
+                user.setSpecialization(selectedSpecialization);
+
             }
             else if (userStr.equals("Consultant")) {
                 user.setUsertype("CONSULTANT");
@@ -245,8 +278,8 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
                 user.setLawFirmCity(lawFirmCity.getText().toString());
                 user.setLawFirmPhone(lawFirmPhone.getText().toString());
                 user.setSpecialization(selectedSpecialization);
+                user.setTotalConsultation(0);
             }
-
             if (loginType.equals("FACEBOOK")||loginType.equals("GMAIL")){
                 user.setId(userId);
                 App.getInstance().getPrefManager().storeUser(user);
@@ -255,7 +288,6 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
                 user.setId(result);
                 registrationPresenter.submitUserDetail(user);
             }
-
         }
         else
             Toast.makeText(this, result, Toast.LENGTH_LONG).show();
@@ -326,6 +358,78 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     }
 
     @Override
+    public void showSpinnerProvince(List<Province> provList) {
+        final Dialog dialog=new Dialog(new ContextThemeWrapper(this,R.style.AppCompatAlertDialogStyle));
+        LayoutInflater factory=LayoutInflater.from(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        final View view=factory.inflate(R.layout.list_dialog,null);
+        _rcylerViewDialog= (RecyclerView) view.findViewById(R.id.rcylerViewDialog);
+        _titleDialog= (TextView) view.findViewById(R.id.titleDialog);
+        provinceArrayList =new ArrayList<>();
+        provinceArrayList.addAll(provList);
+        provinceAdapter=new ProvinceAdapter(this,provinceArrayList);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+        _titleDialog.setText("Select Province : ");
+        _rcylerViewDialog.setLayoutManager(layoutManager);
+        _rcylerViewDialog.setAdapter(provinceAdapter);
+        _rcylerViewDialog.setItemAnimator(new DefaultItemAnimator());
+        _rcylerViewDialog.addOnItemTouchListener(new ProvinceAdapter.RecyclerTouchListener(getApplicationContext(), _rcylerViewDialog, new ProvinceAdapter.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Province prov=provinceArrayList.get(position);
+                province.setText(prov.getNama());
+                 prov_id=prov.getId();
+                dialog.dismiss();
+            }
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+        dialog.setContentView(view);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.MATCH_PARENT);
+        dialog.show();
+
+    }
+
+    @Override
+    public void showSpinnerRegency(List<Regency> regencyList, final String tipe) {
+        final Dialog dialog=new Dialog(new ContextThemeWrapper(this,R.style.AppCompatAlertDialogStyle));
+      LayoutInflater factory=LayoutInflater.from(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        final View view=factory.inflate(R.layout.list_dialog,null);
+        _rcylerViewDialog= (RecyclerView) view.findViewById(R.id.rcylerViewDialog);
+        _titleDialog= (TextView) view.findViewById(R.id.titleDialog);
+        regencyArrayList=new ArrayList<>();
+        regencyArrayList.addAll(regencyList);
+        regencyAdapter=new RegencyAdapter(this,regencyArrayList);
+        LinearLayoutManager layoutManager=new LinearLayoutManager(this);
+        _titleDialog.setText("Select Regency : ");
+        _rcylerViewDialog.setLayoutManager(layoutManager);
+        _rcylerViewDialog.setAdapter(regencyAdapter);
+        _rcylerViewDialog.setItemAnimator(new DefaultItemAnimator());
+        _rcylerViewDialog.addOnItemTouchListener(new ProvinceAdapter.RecyclerTouchListener(getApplicationContext(), _rcylerViewDialog, new ProvinceAdapter.ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                Regency regency=regencyArrayList.get(position);
+                if (tipe.equalsIgnoreCase("FIRM")){
+                    lawFirmCity.setText(regency.getNama());
+                }else {
+                    city.setText(regency.getNama());
+                }
+                dialog.dismiss();
+            }
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+        dialog.setContentView(view);
+        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,WindowManager.LayoutParams.MATCH_PARENT);
+        dialog.show();
+    }
+
+    @Override
     public void onBackPressed() {
         Intent a = new Intent(Intent.ACTION_MAIN);
         a.addCategory(Intent.CATEGORY_HOME);
@@ -342,5 +446,26 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
             if(selected[x])
                 selectedSpecialization.add(specialization.get(x));
         }
+    }
+
+
+
+    @Override
+    @OnClick(R.id.selectProvince)
+    public void selectProvinsi(){
+      registrationPresenter.getProvince();
+    }
+
+    @Override
+    @OnClick(R.id.selectRegency)
+    public void selectRegency(){
+        registrationPresenter.getRegencies(prov_id,"");
+
+    }
+
+    @OnClick(R.id.selectCity)
+    public void selectCityLawFirm(){
+        registrationPresenter.getRegencies(prov_id,"FIRM");
+
     }
 }

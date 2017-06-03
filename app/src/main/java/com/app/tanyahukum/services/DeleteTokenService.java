@@ -42,6 +42,7 @@ public class DeleteTokenService extends IntentService
             // Now manually call onTokenRefresh()
             Log.d(TAG, "Getting new token");
             FirebaseInstanceId.getInstance().getToken();
+//            Log.d("token : ",FirebaseInstanceId.getInstance().getToken());
         }
         catch (IOException e)
         {

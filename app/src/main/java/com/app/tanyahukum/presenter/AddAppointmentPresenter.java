@@ -6,6 +6,7 @@ import android.util.Log;
 import com.app.tanyahukum.App;
 import com.app.tanyahukum.fcm.FCMHelper;
 import com.app.tanyahukum.model.Appointment;
+import com.app.tanyahukum.model.Consultations;
 import com.app.tanyahukum.model.User;
 import com.app.tanyahukum.util.Config;
 import com.app.tanyahukum.view.AddAppointmentActivityInterface;
@@ -72,11 +73,10 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
                     if (user.getId().equals(appointment.getConsultantId())){
                         deviceToken.add(user.getFirebaseToken());
                     }
-
                 }
                 System.out.println("device token next : "+deviceToken);
                 try {
-                    FCMHelper.getInstance().sendNotificationMultipleDevice("APPOINTMENT",deviceToken,appointment.getAppointmentId(),"appointment from "+ Config.USER_NAME,"APPOINTMENT NEW ",appointment.getTitle(),Config.USER_TYPE);
+                    FCMHelper.getInstance().sendNotificationMultipleDevice("APPOINTMENT",deviceToken,appointment.getAppointmentId(),"appointment from "+ Config.USER_NAME,"APPOINTMENT NEW ",appointment.getTitle(),Config.USER_TYPE,"appointmentPage","","");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -119,8 +119,9 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
     }
 
     @Override
-    public void proposeAppointment(final String appointmetId,final String clientId,final String consultantId, final String date) {
+    public void proposeAppointment(final String appointmetId,final String clientId,final String consultantId, final String date,final  String time) {
         if (App.getInstance().getPrefManager().getUserType().equalsIgnoreCase("CLIENT")){
+
             final List<String> deviceToken = new ArrayList<>();
             Query userQuery = userRef.orderByChild("id").equalTo(consultantId);
             userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -138,11 +139,12 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
 
                     }
                     System.out.println("device token next : " + deviceToken);
-                    try {
-                        FCMHelper.getInstance().sendNotificationMultipleDevice("APPOINTMENT", deviceToken, appointmetId, "appointment is reschedule with " + Config.USER_NAME, "Reschedule ", "Reschedule appointment", Config.USER_TYPE);
+                   try {
+                        FCMHelper.getInstance().sendNotificationMultipleDevice("APPOINTMENT", deviceToken, appointmetId, "appointment is reschedule with " + Config.USER_NAME, "Reschedule ", "Reschedule appointment", Config.USER_TYPE,"appointmentPage","","");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                 }
 
                 @Override
@@ -154,8 +156,9 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
                 @Override
                 public void onDataChange(DataSnapshot tasksSnapshot) {
                     try {
-                        appointmentRef.child(appointmetId).child("status").setValue("RESCHEDULE");
+                        appointmentRef.child(appointmetId).child("status").setValue("RESCHEDULE by Client");
                         appointmentRef.child(appointmetId).child("dateAppointment").setValue(date);
+                        appointmentRef.child(appointmetId).child("timeAppointment").setValue(time);
                         Log.d("success update : ", "true");
                         view.toAppointmentList(true,"APPOINTMENT");
                     } catch (Exception e) {
@@ -187,11 +190,13 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
 
                     }
                     System.out.println("device token next : " + deviceToken);
+
                     try {
-                        FCMHelper.getInstance().sendNotificationMultipleDevice("APPOINTMENT", deviceToken, appointmetId, "appointment is reschedule with " + Config.USER_NAME, "Reschedule ", "Reschedule appointment", Config.USER_TYPE);
+                        FCMHelper.getInstance().sendNotificationMultipleDevice("APPOINTMENT", deviceToken, appointmetId, "appointment is reschedule with " + Config.USER_NAME, "Reschedule ", "Reschedule appointment", Config.USER_TYPE,"appointmentPage","","");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                 }
 
                 @Override
@@ -204,8 +209,9 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
                 public void onDataChange(DataSnapshot tasksSnapshot) {
                     try {
                         appointmentRef.child(appointmetId).child("consultantName").setValue(App.getInstance().getPrefManager().getUser().getName());
-                        appointmentRef.child(appointmetId).child("status").setValue("RESCHEDULE");
+                        appointmentRef.child(appointmetId).child("status").setValue("RESCHEDULE by Consultant");
                         appointmentRef.child(appointmetId).child("dateAppointment").setValue(date);
+                        appointmentRef.child(appointmetId).child("timeAppointment").setValue(time);
                         Log.d("success update : ", "true");
                         view.toAppointmentList(true,"APPOINTMENT");
                     } catch (Exception e) {
@@ -243,11 +249,13 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
 
                     }
                     System.out.println("device token next : " + deviceToken);
+
                     try {
-                        FCMHelper.getInstance().sendNotificationMultipleDevice("APPOINTMENT", deviceToken, appointmentId, "appointment is approved with " + Config.USER_NAME, "Approved ", "Approved appointment", Config.USER_TYPE);
+                        FCMHelper.getInstance().sendNotificationMultipleDevice("APPOINTMENT", deviceToken, appointmentId, "appointment is approved with " + Config.USER_NAME, "Approved ", "Approved appointment", Config.USER_TYPE,"appointmentPage","","");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                 }
 
                 @Override
@@ -291,11 +299,13 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
 
                     }
                     System.out.println("device token next : " + deviceToken);
+
                     try {
-                        FCMHelper.getInstance().sendNotificationMultipleDevice("APPOINTMENT", deviceToken, appointmentId, "appointment is approved with " + Config.USER_NAME, "Approved ", "Approved appointment", Config.USER_TYPE);
+                        FCMHelper.getInstance().sendNotificationMultipleDevice("APPOINTMENT", deviceToken, appointmentId, "appointment is approved with " + Config.USER_NAME, "Approved ", "Approved appointment", Config.USER_TYPE,"appointmentPage","","");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                 }
 
                 @Override
@@ -347,10 +357,11 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
                     }
                     System.out.println("device token next : " + deviceToken);
                     try {
-                        FCMHelper.getInstance().sendNotificationMultipleDevice("APPOINTMENT", deviceToken, appointmentId, "appointment is DONE with " + Config.USER_NAME, "APPOINTMENT DONE ", "APPOINTMENT DONE", Config.USER_TYPE);
+                        FCMHelper.getInstance().sendNotificationMultipleDevice("APPOINTMENT", deviceToken, appointmentId, "appointment is DONE with " + Config.USER_NAME, "APPOINTMENT DONE ", "APPOINTMENT DONE", Config.USER_TYPE,"appointmentPage","","");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
@@ -362,6 +373,7 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
                 public void onDataChange(DataSnapshot tasksSnapshot) {
                     try {
                         appointmentRef.child(appointmentId).child("status").setValue("Done");
+                       // view.sendReport();
                         view.toAppointmentList(true,"HISTORY");
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -394,10 +406,11 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
                     }
                     System.out.println("device token next : " + deviceToken);
                     try {
-                        FCMHelper.getInstance().sendNotificationMultipleDevice("APPOINTMENT", deviceToken, appointmentId, "appointment is DONE with " + Config.USER_NAME, "APPOINTMENT DONE ", "APPOINTMENT DONE", Config.USER_TYPE);
+                        FCMHelper.getInstance().sendNotificationMultipleDevice("APPOINTMENT", deviceToken, appointmentId, "appointment is DONE with " + Config.USER_NAME, "APPOINTMENT DONE ", "APPOINTMENT DONE", Config.USER_TYPE,"appointmentPage","","");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                 }
 
                 @Override
@@ -410,7 +423,8 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
                 public void onDataChange(DataSnapshot tasksSnapshot) {
                     try {
                           appointmentRef.child(appointmentId).child("status").setValue("Done");
-                        view.toAppointmentList(true,"HISTORY");
+                       // view.toAppointmentList(true,"HISTORY");
+                        view.sendReport();
                         Log.d("success update : ", "true");
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -442,7 +456,71 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
     }
 
     @Override
-    public void rateConsultant(String appointmentId, String clientId, String consultantId) {
+    public void rateConsultant(final String appointmentId, final String rate) {
+        appointmentRef.child(appointmentId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot tasksSnapshot) {
+                try {
+                    appointmentRef.child(appointmentId).child("rating").setValue(rate);
+                    view.toAppointmentList(true,"");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("success update : ", "false");
+                view.toAppointmentList(false,"HISTORY");
+            }
+        });
+    }
+
+    @Override
+    public void reportAppointment(final String appointmentId, final String report) {
+        appointmentRef.child(appointmentId).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot tasksSnapshot) {
+                try {
+                    appointmentRef.child(appointmentId).child("report").setValue(report);
+                    view.toAppointmentList(true,"");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.d("success update : ", "false");
+                view.toAppointmentList(false,"HISTORY");
+            }
+        });
+    }
+
+
+    @Override
+    public void getAppointmentById(String appointmentId) {
+        Query userQuery;
+        userQuery = questionsRef.orderByChild("consultationId").equalTo(appointmentId);
+        userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("data consult : ", dataSnapshot.toString());
+                List<Appointment> appointmentList=new ArrayList<Appointment>();
+                Appointment appointment=null;
+                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+                    appointment = singleSnapshot.getValue(Appointment.class);
+                    appointmentList.add(appointment);
+                }
+                if (appointmentList.size()>0) {
+                    view.showData(appointment);
+                }else {
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 }

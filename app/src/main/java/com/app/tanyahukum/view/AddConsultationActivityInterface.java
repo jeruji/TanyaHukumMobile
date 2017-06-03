@@ -9,12 +9,14 @@ import com.app.tanyahukum.model.Consultations;
 public interface AddConsultationActivityInterface {
     interface View{
         void submit();
-        void detailConsultationResult(boolean result);
+        void detailConsultationResult(boolean result,String consultationId);
         void toastShedule(String msg);
+        void showProgressDialog(boolean status);
     }
     interface Presenter{
-        void submitConsultation(Consultations consultations,String status);
-        void answers(String questionId,String historyId,String clientId,String answers);
+        void submitConsultation(Consultations consultations,String status,String path);
+        void answers(String questionId,String historyId,String clientId,String answers,String path);
         void getConsultant(String usertype,String specialization);
+        void attachmentFileUpload(String path);
     }
 }

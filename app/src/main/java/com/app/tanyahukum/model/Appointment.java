@@ -10,6 +10,8 @@ public class Appointment {
     String dateAppointment;
     String appointmentDetail;
     String questionsId;
+    String rating;
+    String report;
 
     public String getTimeAppointment() {
         return timeAppointment;
@@ -36,6 +38,22 @@ public class Appointment {
 
     public void setConsultantPhone(String consultantPhone) {
         this.consultantPhone = consultantPhone;
+    }
+
+    public String getRating() {
+        return rating;
+    }
+
+    public void setRating(String rating) {
+        this.rating = rating;
+    }
+
+    public String getReport() {
+        return report;
+    }
+
+    public void setReport(String report) {
+        this.report = report;
     }
 
     public String getClientPhone() {

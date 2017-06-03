@@ -17,8 +17,15 @@ public interface QuestionsDetailActivityInterface {
         void checkConsultation(List<HistoryConsultations> questions);
         void makeAppointment();
         void showImage(String url);
+        void showData(Consultations consultations);
+        void downloadAttachment();
+        void openFileAttachment(String filepath);
+        void showProgressDialog(boolean status);
+        void infoDialog(String message);
     }
     interface Presenter{
        void getHistoryConsultation(String questionsId);
+       void getConsultationDetailById(String consultationId);
+       void downloadAttachment(String filename);
     }
 }

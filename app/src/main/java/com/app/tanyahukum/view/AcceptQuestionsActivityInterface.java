@@ -9,6 +9,7 @@ public interface AcceptQuestionsActivityInterface {
     interface View{
         void accept();
         void toDashboard();
+        void infoDialog();
     }
     interface Presenter{
         void acceptQuestions();

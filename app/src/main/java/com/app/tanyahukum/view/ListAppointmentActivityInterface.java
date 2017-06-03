@@ -16,6 +16,6 @@ public interface ListAppointmentActivityInterface  {
         void showEmptyMessage();
     }
     interface Presenter{
-        void getAppointmentByUser(String userId,String type);
+        void getAppointmentByUser(String userId);
     }
 }

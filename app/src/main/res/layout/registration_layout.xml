@@ -50,31 +50,31 @@
                 </RelativeLayout>
 
             </TableRow>
-            <TableRow>
 
-                <RelativeLayout android:layout_weight="1"
+        <TableRow>
+            <RelativeLayout android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/marginTopHeader">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/labelEmail"
-                        android:layout_marginLeft="30dp"
-                        android:text="Email"/>
-                    <EditText
-                        android:layout_below="@+id/labelEmail"
-                        android:hint=""
-                        android:padding="@dimen/padding"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:inputType="textNoSuggestions|textEmailAddress"
-                        android:id="@+id/edTextEmail"
-                        />
-                </RelativeLayout>
-            </TableRow>
+                    android:layout_marginTop="@dimen/marginTopHeader"
+                    android:id="@+id/labelEmail"
+                    android:layout_marginLeft="30dp"
+                    android:text="Email"/>
+                <EditText
+                    android:layout_below="@+id/labelEmail"
+                    android:hint=""
+                    android:padding="@dimen/padding"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:inputType="textNoSuggestions|textEmailAddress"
+                    android:id="@+id/edTextEmail"
+                    />
+            </RelativeLayout>
+        </TableRow>
             <TableRow>
 
                 <RelativeLayout android:layout_weight="1"
@@ -209,6 +209,15 @@
                         />
                 </RelativeLayout>
 
+                <ImageView
+                    android:id="@+id/selectProvince"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="0dp"
+                    android:src="@drawable/expand_icon" />
+
             </TableRow>
 
             <TableRow>
@@ -227,14 +236,24 @@
                         android:layout_below="@+id/labelCity"
                         android:hint=""
                         android:padding="@dimen/padding"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:inputType="textNoSuggestions|textEmailAddress"
                         android:id="@+id/edTextCity"
                         />
+
                 </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/selectRegency"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="0dp"
+                    android:src="@drawable/expand_icon" />
 
             </TableRow>
 

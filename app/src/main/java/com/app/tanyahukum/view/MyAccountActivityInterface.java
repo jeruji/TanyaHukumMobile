@@ -13,6 +13,7 @@ public interface MyAccountActivityInterface {
         void editAccount();
         void changeImageProfile();
         void showImage(String url);
+        void cancel();
     }
     interface Presenter{
          void getUserById(String userId);
