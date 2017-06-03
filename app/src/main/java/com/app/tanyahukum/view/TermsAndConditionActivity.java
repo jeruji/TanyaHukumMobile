@@ -50,13 +50,17 @@ public class TermsAndConditionActivity extends AppCompatActivity implements Term
     @OnClick(R.id.btnContinue)
     public void continueToRegistration() {
         if(termsAndConditionPresenter.checkCheckedAgreeBox(checkTermsAndCondition)){
-            Intent intent = new Intent();
+            Intent intent = getIntent();
+            intent.putExtra("loginType",intent.getStringExtra("loginType"));
+            intent.putExtra("userId",intent.getStringExtra("userId"));
+            intent.putExtra("name",intent.getStringExtra("name"));
+            intent.putExtra("email",intent.getStringExtra("email"));
             intent.setClassName(this, "com.app.tanyahukum.view.RegistrationActivity");
             startActivity(intent);
         }
         else{
             AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-            dlgAlert.setMessage("Anda harus centang Checkbox \"Setuju\" sebelum melanjuntkan");
+            dlgAlert.setMessage("Anda harus centang Checkbox \"Setuju\" sebelum melanjutkan");
             dlgAlert.setTitle("Centang Checkbox");
             dlgAlert.setPositiveButton("OK",
                     new DialogInterface.OnClickListener() {
