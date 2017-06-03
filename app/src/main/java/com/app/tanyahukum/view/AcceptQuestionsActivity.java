@@ -1,11 +1,14 @@
 package com.app.tanyahukum.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.os.StrictMode;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
@@ -30,7 +33,7 @@ import butterknife.OnClick;
  */
 
 public class AcceptQuestionsActivity  extends AppCompatActivity implements AcceptQuestionsActivityInterface.View{
-    String questionId="";
+    String consultationId="";
     @BindView(R.id.labelTitle)
     TextView _title;
     @BindView(R.id.questions)
@@ -47,8 +50,7 @@ public class AcceptQuestionsActivity  extends AppCompatActivity implements Accep
                 .acceptQuestionsActivityModule((new AcceptQuestionsActivityModule(this,this)))
                 .build().inject(this);
         Intent i=getIntent();
-        questionId=i.getStringExtra("questionsid");
-        Log.d("quest : ",questionId);
+        consultationId=i.getStringExtra("consultationId");
         _title.setText(i.getStringExtra("title"));
         _questions.setText(i.getStringExtra("questions"));
 
@@ -57,20 +59,43 @@ public class AcceptQuestionsActivity  extends AppCompatActivity implements Accep
     @Override
     @OnClick(R.id.btnAcceptQuestions)
     public void accept() {
-        acceptQuestionsPresenter.updateQuestions(questionId);
-        Intent intent = new Intent();
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setClassName(this, "com.app.tanyahukum.view.ListConsultationActivity");
-        startActivity(intent);
+        acceptQuestionsPresenter.updateQuestions(consultationId);
+
     }
 
     @Override
     public void toDashboard() {
         Intent intent = new Intent();
+        intent.putExtra("consultationId",consultationId);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.setClassName(this, "com.app.tanyahukum.view.DashboardActivity");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        AcceptQuestionsActivity.this.finish();
+        intent.setClassName(this, "com.app.tanyahukum.view.QuestionsDetailActivity");
         startActivity(intent);
+    }
+
+    @Override
+    public void infoDialog() {
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(AcceptQuestionsActivity.this, R.style.MyDialogTheme);
+        } else {
+            builder = new AlertDialog.Builder(AcceptQuestionsActivity.this);
+        }
+        builder.setTitle("Info")
+                .setMessage("Other Consultant was accepted questions.")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(AcceptQuestionsActivity.this,DashboardActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        AcceptQuestionsActivity.this.finish();
+                        startActivity(intent);
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
     }
 }

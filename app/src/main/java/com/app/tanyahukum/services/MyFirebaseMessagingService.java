@@ -18,6 +18,7 @@ import com.app.tanyahukum.view.AcceptQuestionsActivity;
 import com.app.tanyahukum.view.DashboardActivity;
 import com.app.tanyahukum.view.ListAppointmentActivity;
 import com.app.tanyahukum.view.ListConsultationActivity;
+import com.app.tanyahukum.view.MyAccountActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
@@ -35,124 +36,52 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         Log.e(TAG, "From: " + remoteMessage.toString());
         Log.d(TAG,"data : "+remoteMessage.getData().toString());
+        Log.d(TAG," notification : "+remoteMessage.getNotification().getClickAction().toString());
         Log.d(TAG,"appBackground : "+String.valueOf(NotificationUtils.isAppIsInBackground(getApplicationContext())));
         if (remoteMessage.getData().size() > 0) {
             Log.d(TAG, "Data Payload: " + remoteMessage.getData());
             try {
-                handleDataMessage(remoteMessage.getData().toString());
+                String click_action=remoteMessage.getNotification().getClickAction().toString();
+                sendNotification(remoteMessage.getData().toString(),click_action);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        
-       // String message = remoteMessage.getData().get("message");
-        //String TrueOrFlase = "True";
-        //sendNotification(message, TrueOrFlase);
     }
-    private void handleNotification(String data) throws JSONException {
+    private void sendNotification(String data,String clickAction) throws JSONException{
+        Log.e(TAG, "push json: " + data);
         String value= ConvertStringToJson.convertToJson(data);
         JSONObject json = new JSONObject(value);
+        /*payload*/
         Log.d("json handle, ",json.toString());
         String usertype=json.getString("usertype");
         String title=json.getString("title");
         String questions=json.getString("questions");
         String message = json.getString("message");
-        String questionsId=json.getString("questionsid");
-        String statusQuestions=json.getString("statusQuestions");
-        Log.d("json questions, ",questions);
-        if (!NotificationUtils.isAppIsInBackground(getApplicationContext())) {
-            Log.d("background","lain");
-            Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
-            pushNotification.putExtra("message", message);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
-        }else{
-            Log.d("background","enya");
-            Intent pushNotification = new Intent(Config.PUSH_NOTIFICATION);
-            pushNotification.putExtra("message", message);
-            pushNotification.putExtra("statusQuestions",statusQuestions);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(pushNotification);
-        }
-    }
-    private void handleDataMessage(String data) throws JSONException {
-        Log.e(TAG, "push json: " + data);
-            String value= ConvertStringToJson.convertToJson(data);
-            JSONObject json = new JSONObject(value);
-            Log.d("json handle, ",json.toString());
-            String usertype=json.getString("usertype");
-            String title=json.getString("title");
-            String questions=json.getString("questions");
-            String message = json.getString("message");
-            String questionsId=json.getString("questionsid");
-            String statusQuestions=json.getString("statusQuestions");
-            Log.d("json questions, ",questions);
-            if (usertype.equals("CLIENT")){
-                if (statusQuestions.equals("NEW")) {
-                    Intent resultIntent = new Intent(getApplicationContext(), AcceptQuestionsActivity.class);
-                    resultIntent.putExtra("message", title);
-                    resultIntent.putExtra("questionsid", questionsId);
-                    resultIntent.putExtra("title", title);
-                    resultIntent.putExtra("questions", questions);
-                    showNotificationMessage(getApplicationContext(), title, message, resultIntent);
-                }
-                else if (statusQuestions.equals("RESEND")) {
-                    Intent resultIntent = new Intent(getApplicationContext(), AcceptQuestionsActivity.class);
-                    resultIntent.putExtra("message", title);
-                    resultIntent.putExtra("questionsid", questionsId);
-                    resultIntent.putExtra("title", title);
-                    resultIntent.putExtra("questions", questions);
-                    showNotificationMessage(getApplicationContext(), title, message, resultIntent);
-                }else if (statusQuestions.equals("APPOINTMENT")){
-                    Intent resultIntent = new Intent(getApplicationContext(), ListAppointmentActivity.class);
-                    resultIntent.putExtra("type","APPOINTMENT");
-                    showNotificationMessage(getApplicationContext(), title, message, resultIntent);
-                }
-                else {
-                    Intent resultIntent = new Intent(getApplicationContext(), ListConsultationActivity.class);
-                    showNotificationMessage(getApplicationContext(), title, message, resultIntent);
-                }
-            }else{
-                if (statusQuestions.equals("APPOINTMENT")){
-                    Intent resultIntent = new Intent(getApplicationContext(), ListAppointmentActivity.class);
-                    resultIntent.putExtra("type","APPOINTMENT");
-                    showNotificationMessage(getApplicationContext(), title, message, resultIntent);
-                }else {
-                    Intent resultIntent = new Intent(getApplicationContext(), ListConsultationActivity.class);
-                    resultIntent.putExtra("message", title);
-                    resultIntent.putExtra("questionsid", questionsId);
-                    showNotificationMessage(getApplicationContext(), title, message, resultIntent);
-                }
-            }
-    }
-    private void showNotificationMessage(Context context, String title, String message, Intent intent) {
-        notificationUtils = new NotificationUtils(context);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        notificationUtils.showNotificationMessage(title, message, intent);
-    }
+        String consultationId=json.getString("consultationid");
+        String fromId=json.getString("fromId");
+        String toId=json.getString("toId");
 
-    /**
-     * Showing notification with text and image
-     */
-    private void showNotificationMessageWithBigImage(Context context, String title, String message, String timeStamp, Intent intent, String imageUrl) {
-        notificationUtils = new NotificationUtils(context);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        notificationUtils.showNotificationMessage(title, message, intent, imageUrl);
-    }
-    private void sendNotification(String messageBody, String TrueOrFalse) {
-        Intent intent = new Intent(this, DashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("AnotherActivity", TrueOrFalse);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+
+         /*payload*/
+        Intent intent = new Intent(clickAction);
+        intent.putExtra("consultationId",consultationId);
+        intent.putExtra("fromId",fromId);
+        intent.putExtra("toId",toId);
+        intent.putExtra("userType",usertype);
+        intent.putExtra("questions",questions);
+        intent.putExtra("title",title);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
-        Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.drawable.tanya_hukum_logo)
-                .setContentTitle(messageBody)
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this);
+        notificationBuilder.setSmallIcon(R.drawable.tanya_hukum_logo)
+                .setContentTitle(title)
+                .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, notificationBuilder.build());
     }
 

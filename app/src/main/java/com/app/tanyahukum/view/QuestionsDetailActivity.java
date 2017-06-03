@@ -1,12 +1,18 @@
 package com.app.tanyahukum.view;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -28,6 +34,7 @@ import com.app.tanyahukum.presenter.QuestionDetailPresenter;
 import com.app.tanyahukum.util.Config;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -66,6 +73,8 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
     TextView consultationType;
     @BindView(R.id.status)
     TextView status_;
+    @BindView(R.id.attachment)
+    TextView attachment_;
     @BindView(R.id.linearLayoutHistory)
     LinearLayout layoutButtonHistory;
     @BindView(R.id.linearLayoutAnswers)
@@ -81,6 +90,7 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
     @BindView(R.id.badgeAnswers)
     TextView badgeAnswers_;
 
+    ProgressDialog progressDialog ;
     @Inject
     QuestionDetailPresenter questionDetailPresenter;
     Consultations consultations;
@@ -96,73 +106,14 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
                 .netComponent(((App)getApplicationContext()).getNetComponent())
                 .questionsActivityModule((new QuestionsActivityModule(this,this)))
                 .build().inject(this);
-        Intent i=getIntent();
-        consultations=new Consultations();
-        consultations.setTitle(i.getStringExtra("title"));
-        consultations.setConsultationsDate(i.getStringExtra("date"));
-        consultations.setClientName(i.getStringExtra("clientName"));
-        consultations.setConsultantName(i.getStringExtra("consultantName"));
-        consultations.setQuestions(i.getStringExtra("questions"));
-        consultations.setConsultationId(i.getStringExtra("consultationId"));
-        consultations.setConsultationsType(i.getStringExtra("consultationType"));
-        consultations.setConsultantId(i.getStringExtra("consultantId"));
-        consultations.setStatus(i.getStringExtra("status"));
-        consultations.setAnswers(i.getStringExtra("answers"));
-        consultations.setConsultantId(i.getStringExtra("consultantId"));
-        consultations.setExpertRecomendations(i.getStringExtra("expertRecomendation"));
-        consultations.setHistoryId(i.getStringExtra("historyId"));
-        consultations.setStatusAppointment(i.getStringExtra("statusAppointment"));
-        //==============================//
-        title_.setText(consultations.getTitle());
-        consultationDate_.setText(consultations.getConsultationsDate());
-        questions_.setText(consultations.getQuestions());
-        answers_.setText(consultations.getAnswers());
-        consultationType.setText(consultations.getConsultationsType());
-        status_.setText(consultations.getStatus());
-        if (Config.USER_TYPE.equals("CLIENT")){
-            consultations.setClientId(Config.USER_ID);
-            labelUser.setText("consultant");
-            user.setText(consultations.getConsultantName());
-            questionDetailPresenter.getImageProfile(consultations.getConsultantId());
-            questionDetailPresenter.getHistoryConsultation(consultations.getConsultationId());
-            if (!answers_.getText().toString().equals("")){
-                badgeAnswers_.setVisibility(View.VISIBLE);
-                badgeAnswers_.setText("Answered");
-            }else{
-                badgeAnswers_.setVisibility(View.GONE);
-            }
-
-            if (consultations.getStatus().equals("Answered")){
-                layoutButtonNext.setVisibility(View.VISIBLE);
-            }else {
-                layoutButtonNext.setVisibility(View.GONE);
-                badgeQuestions_.setVisibility(View.VISIBLE);
-                answers_.setText("waiting answers from consultant..!");
-                answers_.setTextColor(Color.parseColor("#8BC34A"));
-                badgeAnswers_.setVisibility(View.GONE);
-            }
-        }else{
-            labelUser.setText("client");
-            user.setText(consultations.getClientName());
-            consultations.setClientId(i.getStringExtra("clientId"));
-            questionDetailPresenter.getImageProfile(consultations.getClientId());
-            if (answers_.getText().toString().equals("")){
-                badgeQuestions_.setVisibility(View.VISIBLE);
-                badgeQuestions_.setText("New");
-            }
-            else{
-                badgeQuestions_.setVisibility(View.GONE);
-            }
-            if (consultations.getStatus().equals("Answered")||consultations.getStatus().equals("appointment")){
-                layoutButtonAnswers.setVisibility(View.GONE);
-            }else {
-                layoutButtonAnswers.setVisibility(View.VISIBLE);
-                answers_.setText("please answer the question..!");
-                answers_.setTextColor(Color.parseColor("#8BC34A"));
-                badgeQuestions_.setVisibility(View.VISIBLE);
-            }
-
+        progressDialog= new ProgressDialog(this);
+        Intent startingIntent = getIntent();
+        String consultationId;
+        if (startingIntent != null) {
+             consultationId= startingIntent.getStringExtra("consultationId"); // Retrieve the id
+             questionDetailPresenter.getConsultationDetailById(consultationId);
         }
+
     }
     @Override
     public void onBackPressed() {
@@ -215,7 +166,6 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
         intent.putExtra("date",consultations.getConsultationsDate());
         intent.putExtra("status",consultations.getStatus());
         intent.putExtra("answers",consultations.getAnswers());
-        intent.putExtra("expertRecomendation",consultations.getExpertRecomendations());
         intent.putExtra("statusConsultation","UPDATE");
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -225,8 +175,8 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
 
     @Override
     public void checkConsultation(List<HistoryConsultations> questions) {
-
         if(questions.size()==5&&consultations.getStatusAppointment().equals("false")){
+            infoDialog("Your consultation exceeds the limit. Please make an Appointment.");
             layoutButtonMakeAppointment.setVisibility(View.VISIBLE);
             layoutButtonNext.setVisibility(View.GONE);
         }else if(questions.size()==5&&consultations.getStatusAppointment().equals("true")){
@@ -245,8 +195,8 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
         intent.putExtra("consultantId",consultations.getConsultantId());
         intent.putExtra("date", "");
         intent.putExtra("detail", "");
-        intent.putExtra("title", "");
-        intent.putExtra("topic", "");
+        intent.putExtra("title", consultations.getTitle());
+        intent.putExtra("topic", consultations.getConsultationsType());
         intent.putExtra("status", "");
         intent.putExtra("id","");
         intent.putExtra("bookingcode","");
@@ -263,4 +213,115 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
                 .into(imageUser);
     }
 
+    @Override
+    public void showData(Consultations cons) {
+        consultations= cons;
+        title_.setText(consultations.getTitle());
+        consultationDate_.setText(consultations.getConsultationsDate());
+        questions_.setText(consultations.getQuestions());
+        answers_.setText(consultations.getAnswers());
+        consultationType.setText(consultations.getConsultationsType());
+        status_.setText(consultations.getStatus());
+        attachment_.setText(consultations.getAttachment());
+        if (Config.USER_TYPE.equals("CLIENT")){
+            consultations.setClientId(Config.USER_ID);
+            labelUser.setText("consultant");
+            user.setText(consultations.getConsultantName());
+            questionDetailPresenter.getImageProfile(consultations.getConsultantId());
+            questionDetailPresenter.getHistoryConsultation(consultations.getConsultationId());
+            if (!answers_.getText().toString().equals("")){
+                badgeAnswers_.setVisibility(View.VISIBLE);
+                badgeAnswers_.setText("Answered");
+            }else{
+                badgeAnswers_.setVisibility(View.GONE);
+            }
+
+            if (consultations.getStatus().equals("Answered")){
+                layoutButtonNext.setVisibility(View.VISIBLE);
+            }
+            else if(consultations.getStatus().equals("Done")){
+                layoutButtonNext.setVisibility(View.GONE);
+            }else {
+                layoutButtonNext.setVisibility(View.GONE);
+                badgeQuestions_.setVisibility(View.VISIBLE);
+                answers_.setText("waiting answers from consultant..!");
+                answers_.setTextColor(Color.parseColor("#8BC34A"));
+                badgeAnswers_.setVisibility(View.GONE);
+            }
+        }else{
+            labelUser.setText("client");
+            user.setText(consultations.getClientName());
+           // consultations.setClientId(i.getStringExtra("clientId"));
+            questionDetailPresenter.getImageProfile(consultations.getClientId());
+            if (answers_.getText().toString().equals("")){
+                badgeQuestions_.setVisibility(View.VISIBLE);
+                badgeQuestions_.setText("New");
+            }
+            else{
+                badgeQuestions_.setVisibility(View.GONE);
+            }
+            if (consultations.getStatus().equals("Answered")||consultations.getStatus().equals("appointment")||consultations.getStatus().equals("Done")){
+                layoutButtonAnswers.setVisibility(View.GONE);
+            }else {
+                layoutButtonAnswers.setVisibility(View.VISIBLE);
+                answers_.setText("please answer the question..!");
+                answers_.setTextColor(Color.parseColor("#8BC34A"));
+                badgeQuestions_.setVisibility(View.VISIBLE);
+            }
+
+        }
+    }
+
+    @Override
+    @OnClick(R.id.downloadAttachment)
+    public void downloadAttachment() {
+        if (attachment_.getText().toString().equalsIgnoreCase("")){
+             Toast.makeText(getApplicationContext(),"attachment is empty",Toast.LENGTH_LONG).show();
+        }else {
+            questionDetailPresenter.downloadAttachment(consultations.getAttachment());
+        }
+    }
+
+    @Override
+    public void openFileAttachment(String filepath) {
+        File file = new File(filepath);
+        MimeTypeMap map = MimeTypeMap.getSingleton();
+        String ext = MimeTypeMap.getFileExtensionFromUrl(file.getName());
+        String type = map.getMimeTypeFromExtension(ext);
+        if (type == null)
+            type = "*/*";
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        Uri data = Uri.fromFile(file);
+        intent.setDataAndType(data, type);
+        startActivity(intent);
+    }
+
+    @Override
+    public void showProgressDialog(boolean status) {
+        if(status){
+            progressDialog.setTitle("Info");
+            progressDialog.setMessage("download attachment file");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }else{
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void infoDialog(String message) {
+            final AlertDialog.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder = new AlertDialog.Builder(QuestionsDetailActivity.this, R.style.MyDialogTheme);
+            } else {
+                builder = new AlertDialog.Builder(QuestionsDetailActivity.this);
+            }
+            builder.setTitle("Info")
+                    .setMessage(message)
+                    .setPositiveButton("OK",null
+                    )
+                    .show();
+
+    }
 }

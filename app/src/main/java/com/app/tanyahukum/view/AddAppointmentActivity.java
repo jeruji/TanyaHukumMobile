@@ -6,18 +6,23 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -56,12 +61,6 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     EditText dateAppointment;
     @BindView(R.id.edTextBookingCode)
     EditText bookingCode;
-    @BindView(R.id.edTextDetail)
-    EditText detailAppointment;
-    @BindView(R.id.edTextTitle)
-    EditText titleAppointment;
-    @BindView(R.id.spinnerTopic)
-    Spinner mSpinnerTopic;
     @BindView(R.id.layoutButtonApprove)
     LinearLayout _layoutButtonApprove;
     @BindView(R.id.layoutButton)
@@ -102,6 +101,8 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     LinearLayout _layoutButtonDone;
     @BindView(R.id.calenderAppointmnetNew)
     ImageView calenderNew;
+    @BindView(R.id.calenderAppointmnet)
+    ImageView calenderAppointment;
     @BindView(R.id.timeAppointmnetNew)
     ImageView selectTimeNew;
     @BindView(R.id.toolbar)
@@ -110,8 +111,16 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     EditText timeAppointment;
     @BindView(R.id.edTextTImeNewAppointment)
     EditText timeAppointmentNew;
+    @BindView(R.id.edTextTopic)
+    EditText topic;
+    @BindView(R.id.edTextTitle)
+    EditText title;
     @BindView(R.id.timeAppointment)
     ImageView selectTimeAppointment;
+    @BindView(R.id.rating)
+    RelativeLayout layoutRating;
+    @BindView(R.id.appointmentRate)
+    RatingBar rating;
     @Inject
     AddAppointmentPresenter addAppointmentPresenter;
     Appointment appointments;
@@ -136,6 +145,14 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
         appointments.setClientId(intent.getStringExtra("clientId"));
         appointments.setConsultantId(intent.getStringExtra("consultantId"));
         appointments.setQuestionsId(intent.getStringExtra("questionsId"));
+        appointments.setReport(intent.getStringExtra("report"));
+        appointments.setRating(intent.getStringExtra("rate"));
+        topic.setText(intent.getStringExtra("topic"));
+        topic.setEnabled(false);
+        topic.setTextColor(Color.parseColor("#000000"));
+        title.setText(intent.getStringExtra("title"));
+        title.setEnabled(false);
+        title.setTextColor(Color.parseColor("#000000"));
         if (Config.USER_TYPE.equals("CONSULTANT")){
             _layoutButtonApprove.setVisibility(View.VISIBLE);
             _layoutButtonMakeAppointment.setVisibility(View.GONE);
@@ -145,20 +162,20 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
             _user.setText(intent.getStringExtra("clientName"));
             _user.setEnabled(false);
             _user.setTextColor(Color.parseColor("#000000"));
-            mSpinnerTopic.setEnabled(false);
-            mSpinnerTopic.setPrompt(intent.getStringExtra("topic"));
+            topic.setText(intent.getStringExtra("topic"));
+            topic.setEnabled(false);
+            topic.setTextColor(Color.parseColor("#000000"));
+            title.setText(intent.getStringExtra("title"));
+            title.setEnabled(false);
+            title.setTextColor(Color.parseColor("#000000"));
+            calenderAppointment.setEnabled(false);
+            selectTimeAppointment.setEnabled(false);
             dateAppointment.setText(intent.getStringExtra("date"));
             dateAppointment.setEnabled(false);
             dateAppointment.setTextColor(Color.parseColor("#000000"));
             timeAppointment.setText(intent.getStringExtra("time"));
             timeAppointment.setEnabled(false);
             timeAppointment.setTextColor(Color.parseColor("#000000"));
-            detailAppointment.setText(intent.getStringExtra("detail"));
-            detailAppointment.setEnabled(false);
-            detailAppointment.setTextColor(Color.parseColor("#000000"));
-            titleAppointment.setText(intent.getStringExtra("title"));
-            titleAppointment.setEnabled(false);
-            titleAppointment.setTextColor(Color.parseColor("#000000"));
             bookingCode.setText(intent.getStringExtra("bookingcode"));
             bookingCode.setEnabled(false);
             bookingCode.setTextColor(Color.parseColor("#000000"));
@@ -170,13 +187,29 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                 _layoutButtonDone.setVisibility(View.VISIBLE);
                 labelDone.setVisibility(View.VISIBLE);
             }
-            else if(status.equals("RESCHEDULE")){
+            else if(status.equalsIgnoreCase("Reschedule by Client")){
+                _layoutButtonApprove.setVisibility(View.VISIBLE);
+            }
+            else if(status.equalsIgnoreCase("Reschedule by Consultant")){
                 _layoutButtonApprove.setVisibility(View.GONE);
             }
             else if(status.equals("Done")){
                 _layoutButtonApprove.setVisibility(View.GONE);
+                if (!appointments.getRating().equalsIgnoreCase("")){
+                    float rated=Float.parseFloat(appointments.getRating());
+                    layoutRating.setVisibility(View.VISIBLE);
+                    rating.setRating(rated);
+                    rating.setEnabled(false);
+                    LayerDrawable stars = (LayerDrawable) rating.getProgressDrawable();
+                    stars.getDrawable(2).setColorFilter(Color.parseColor("#0097a7"), PorterDuff.Mode.SRC_ATOP);
+                }
+
+
+
             }
         }else if(Config.USER_TYPE.equals("CLIENT")&&status.equalsIgnoreCase("Accepted")){
+            calenderAppointment.setEnabled(false);
+            selectTimeAppointment.setEnabled(false);
             _layoutStatusAppointment.setVisibility(View.VISIBLE);
             _layoutButtonApprove.setVisibility(View.GONE);
             _layoutButtonMakeAppointment.setVisibility(View.GONE);
@@ -186,6 +219,12 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
             labelAddressUser.setText("Address");
             layoutPhoneUser.setVisibility(View.VISIBLE);
             labelPhoneUser.setText("Phone");
+            topic.setText(intent.getStringExtra("topic"));
+            topic.setEnabled(false);
+            topic.setTextColor(Color.parseColor("#000000"));
+            title.setText(intent.getStringExtra("title"));
+            title.setEnabled(false);
+            title.setTextColor(Color.parseColor("#000000"));
             _user.setText(intent.getStringExtra("consultantName"));
             _user.setEnabled(false);
             _user.setTextColor(Color.parseColor("#000000"));
@@ -201,46 +240,51 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
             timeAppointment.setText(intent.getStringExtra("time"));
             timeAppointment.setEnabled(false);
             timeAppointment.setTextColor(Color.parseColor("#000000"));
-            detailAppointment.setText(intent.getStringExtra("detail"));
-            detailAppointment.setEnabled(false);
-            detailAppointment.setTextColor(Color.parseColor("#000000"));
-            titleAppointment.setText(intent.getStringExtra("title"));
-            titleAppointment.setEnabled(false);
-            titleAppointment.setTextColor(Color.parseColor("#000000"));
-            bookingCode.setText(intent.getStringExtra("bookingcode"));
+              bookingCode.setText(intent.getStringExtra("bookingcode"));
             bookingCode.setEnabled(false);
             bookingCode.setTextColor(Color.parseColor("#000000"));
             _statusAppointment.setText(intent.getStringExtra("status"));
             _statusAppointment.setEnabled(false);
             _statusAppointment.setTextColor(Color.parseColor("#000000"));
+
         }else if(Config.USER_TYPE.equals("CLIENT")&&status.equalsIgnoreCase("Pending")){
+            calenderAppointment.setEnabled(false);
+            selectTimeAppointment.setEnabled(false);
             _layoutStatusAppointment.setVisibility(View.VISIBLE);
             _layoutButtonApprove.setVisibility(View.GONE);
             _layoutButtonMakeAppointment.setVisibility(View.GONE);
+            topic.setText(intent.getStringExtra("topic"));
+            topic.setEnabled(false);
+            topic.setTextColor(Color.parseColor("#000000"));
+            title.setText(intent.getStringExtra("title"));
+            title.setEnabled(false);
+            title.setTextColor(Color.parseColor("#000000"));
             dateAppointment.setText(intent.getStringExtra("date"));
             dateAppointment.setEnabled(false);
             dateAppointment.setTextColor(Color.parseColor("#000000"));
             timeAppointment.setText(intent.getStringExtra("time"));
             timeAppointment.setEnabled(false);
             timeAppointment.setTextColor(Color.parseColor("#000000"));
-            detailAppointment.setText(intent.getStringExtra("detail"));
-            detailAppointment.setEnabled(false);
-            detailAppointment.setTextColor(Color.parseColor("#000000"));
-            titleAppointment.setText(intent.getStringExtra("title"));
-            titleAppointment.setEnabled(false);
-            titleAppointment.setTextColor(Color.parseColor("#000000"));
-            bookingCode.setText(intent.getStringExtra("bookingcode"));
+             bookingCode.setText(intent.getStringExtra("bookingcode"));
             bookingCode.setEnabled(false);
             bookingCode.setTextColor(Color.parseColor("#000000"));
             _statusAppointment.setText(intent.getStringExtra("status"));
             _statusAppointment.setEnabled(false);
             _statusAppointment.setTextColor(Color.parseColor("#000000"));
-        }else if(Config.USER_TYPE.equals("CLIENT")&&status.equalsIgnoreCase("Reschedule")){
+        }else if(Config.USER_TYPE.equals("CLIENT")&&status.equalsIgnoreCase("Reschedule By Consultant")){
+            calenderAppointment.setEnabled(false);
+            selectTimeAppointment.setEnabled(false);
             _layoutStatusAppointment.setVisibility(View.VISIBLE);
             _layoutButtonApprove.setVisibility(View.VISIBLE);
             _layoutButtonMakeAppointment.setVisibility(View.GONE);
             layoutUser.setVisibility(View.VISIBLE);
             labelUser.setText("Consultant");
+            topic.setText(intent.getStringExtra("topic"));
+            topic.setEnabled(false);
+            topic.setTextColor(Color.parseColor("#000000"));
+            title.setText(intent.getStringExtra("title"));
+            title.setEnabled(false);
+            title.setTextColor(Color.parseColor("#000000"));
             _user.setText(intent.getStringExtra("consultantName"));
             _user.setEnabled(false);
             _user.setTextColor(Color.parseColor("#000000"));
@@ -250,12 +294,36 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
             timeAppointment.setText(intent.getStringExtra("time"));
             timeAppointment.setEnabled(false);
             timeAppointment.setTextColor(Color.parseColor("#000000"));
-            detailAppointment.setText(intent.getStringExtra("detail"));
-            detailAppointment.setEnabled(false);
-            detailAppointment.setTextColor(Color.parseColor("#000000"));
-            titleAppointment.setText(intent.getStringExtra("title"));
-            titleAppointment.setEnabled(false);
-            titleAppointment.setTextColor(Color.parseColor("#000000"));
+            bookingCode.setText(intent.getStringExtra("bookingcode"));
+            bookingCode.setEnabled(false);
+            bookingCode.setTextColor(Color.parseColor("#000000"));
+            _statusAppointment.setText(intent.getStringExtra("status"));
+            _statusAppointment.setEnabled(false);
+            _statusAppointment.setTextColor(Color.parseColor("#000000"));
+        }
+        else if(Config.USER_TYPE.equals("CLIENT")&&status.equalsIgnoreCase("Reschedule By Client")){
+            calenderAppointment.setEnabled(false);
+            selectTimeAppointment.setEnabled(false);
+            _layoutStatusAppointment.setVisibility(View.VISIBLE);
+            _layoutButtonApprove.setVisibility(View.GONE);
+            _layoutButtonMakeAppointment.setVisibility(View.GONE);
+            layoutUser.setVisibility(View.VISIBLE);
+            labelUser.setText("Consultant");
+            topic.setText(intent.getStringExtra("topic"));
+            topic.setEnabled(false);
+            topic.setTextColor(Color.parseColor("#000000"));
+            title.setText(intent.getStringExtra("title"));
+            title.setEnabled(false);
+            title.setTextColor(Color.parseColor("#000000"));
+            _user.setText(intent.getStringExtra("consultantName"));
+            _user.setEnabled(false);
+            _user.setTextColor(Color.parseColor("#000000"));
+            dateAppointment.setText(intent.getStringExtra("date"));
+            dateAppointment.setEnabled(false);
+            dateAppointment.setTextColor(Color.parseColor("#000000"));
+            timeAppointment.setText(intent.getStringExtra("time"));
+            timeAppointment.setEnabled(false);
+            timeAppointment.setTextColor(Color.parseColor("#000000"));
             bookingCode.setText(intent.getStringExtra("bookingcode"));
             bookingCode.setEnabled(false);
             bookingCode.setTextColor(Color.parseColor("#000000"));
@@ -264,11 +332,30 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
             _statusAppointment.setTextColor(Color.parseColor("#000000"));
         }
         else if(Config.USER_TYPE.equals("CLIENT")&&status.equalsIgnoreCase("Done")){
+            if (appointments.getRating().equalsIgnoreCase("")){
+                rateAppointment();
+            }
+            if (!appointments.getRating().equalsIgnoreCase("")){
+                    float rated=Float.parseFloat(appointments.getRating());
+                    layoutRating.setVisibility(View.VISIBLE);
+                    rating.setRating(rated);
+                    rating.setEnabled(false);
+                    LayerDrawable stars = (LayerDrawable) rating.getProgressDrawable();
+                    stars.getDrawable(2).setColorFilter(Color.parseColor("#0097a7"), PorterDuff.Mode.SRC_ATOP);
+                }
+            calenderAppointment.setEnabled(false);
+            selectTimeAppointment.setEnabled(false);
             _layoutStatusAppointment.setVisibility(View.VISIBLE);
             _layoutButtonApprove.setVisibility(View.GONE);
             _layoutButtonMakeAppointment.setVisibility(View.GONE);
             layoutUser.setVisibility(View.VISIBLE);
             labelUser.setText("Consultant");
+            topic.setText(intent.getStringExtra("topic"));
+            topic.setEnabled(false);
+            topic.setTextColor(Color.parseColor("#000000"));
+            title.setText(intent.getStringExtra("title"));
+            title.setEnabled(false);
+            title.setTextColor(Color.parseColor("#000000"));
             _user.setText(intent.getStringExtra("consultantName"));
             _user.setEnabled(false);
             _user.setTextColor(Color.parseColor("#000000"));
@@ -278,13 +365,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
             timeAppointment.setText(intent.getStringExtra("time"));
             timeAppointment.setEnabled(false);
             timeAppointment.setTextColor(Color.parseColor("#000000"));
-            detailAppointment.setText(intent.getStringExtra("detail"));
-            detailAppointment.setEnabled(false);
-            detailAppointment.setTextColor(Color.parseColor("#000000"));
-            titleAppointment.setText(intent.getStringExtra("title"));
-            titleAppointment.setEnabled(false);
-            titleAppointment.setTextColor(Color.parseColor("#000000"));
-            bookingCode.setText(intent.getStringExtra("bookingcode"));
+             bookingCode.setText(intent.getStringExtra("bookingcode"));
             bookingCode.setEnabled(false);
             bookingCode.setTextColor(Color.parseColor("#000000"));
             _statusAppointment.setText(intent.getStringExtra("status"));
@@ -297,14 +378,12 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
             bookingCode.setEnabled(false);
             bookingCode.setTextColor(Color.parseColor("#000000"));
         }
-
         selectTimeAppointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setTime();
             }
         });
-
         selectTimeNew.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -391,24 +470,32 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     @Override
     @OnClick(R.id.btnMakeAppointment)
     public void submit() {
-        Intent intent=getIntent();
-        Appointment appointment=new Appointment();
-        appointment.setClientId(intent.getStringExtra("clientId"));
-        appointment.setClientName(App.getInstance().getPrefManager().getUser().getName());
-        appointment.setClientPhone(App.getInstance().getPrefManager().getUser().getPhone());
-        appointment.setConsultantName("");
-        appointment.setConsultantAddress("");
-        appointment.setConsultantPhone("");
-        appointment.setConsultantId(intent.getStringExtra("consultantId"));
-        appointment.setQuestionsId(intent.getStringExtra("consultationId"));
-        appointment.setDateAppointment(dateAppointment.getText().toString());
-        appointment.setDetailAppointment(detailAppointment.getText().toString());
-        appointment.setTopic(mSpinnerTopic.getSelectedItem().toString());
-        appointment.setTitle(titleAppointment.getText().toString());
-        appointment.setBookingCode(bookingCode.getText().toString());
-        appointment.setTimeAppointment(timeAppointment.getText().toString());
-        appointment.setStatus("PENDING");
-        addAppointmentPresenter.submitAppointment(appointment,"PENDING");
+        if (dateAppointment.getText().toString().equalsIgnoreCase("")){
+            Toast.makeText(getApplicationContext(),"please input field date.",Toast.LENGTH_LONG).show();
+        }else if(timeAppointment.getText().toString().equalsIgnoreCase(""))
+        {
+            Toast.makeText(getApplicationContext(),"please input field time.",Toast.LENGTH_LONG).show();
+        }else {
+            Intent intent = getIntent();
+            Appointment appointment = new Appointment();
+            appointment.setClientId(intent.getStringExtra("clientId"));
+            appointment.setClientName(App.getInstance().getPrefManager().getUser().getName());
+            appointment.setClientPhone(App.getInstance().getPrefManager().getUser().getPhone());
+            appointment.setConsultantName("");
+            appointment.setConsultantAddress("");
+            appointment.setConsultantPhone("");
+            appointment.setRating("");
+            appointment.setReport("");
+            appointment.setConsultantId(intent.getStringExtra("consultantId"));
+            appointment.setQuestionsId(intent.getStringExtra("consultationId"));
+            appointment.setDateAppointment(dateAppointment.getText().toString());
+            appointment.setTitle(title.getText().toString());
+            appointment.setTopic(topic.getText().toString());
+            appointment.setBookingCode(bookingCode.getText().toString());
+            appointment.setTimeAppointment(timeAppointment.getText().toString());
+            appointment.setStatus("PENDING");
+            addAppointmentPresenter.submitAppointment(appointment, "PENDING");
+        }
     }
 
     @Override
@@ -434,6 +521,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     @Override
     @OnClick(R.id.btnRescheduleAppointment)
     public void reschedule() {
+        _layoutButtonApprove.setVisibility(View.GONE);
         _layoutReschedule.setVisibility(View.VISIBLE);
         _layoutRescheduleTIme.setVisibility(View.VISIBLE);
         _layoutPropose.setVisibility(View.VISIBLE);
@@ -445,7 +533,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     @Override
     @OnClick(R.id.btnPropose)
     public void propose() {
-        addAppointmentPresenter.proposeAppointment(appointments.getAppointmentId(),appointments.getClientId(),appointments.getConsultantId(),dateNewAppointment.getText().toString());
+        addAppointmentPresenter.proposeAppointment(appointments.getAppointmentId(),appointments.getClientId(),appointments.getConsultantId(),dateNewAppointment.getText().toString(),timeAppointmentNew.getText().toString());
 
     }
 
@@ -465,8 +553,6 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     public void clear() {
         dateAppointment.setText("");
         timeAppointment.setText("");
-        detailAppointment.setText("");
-        titleAppointment.setText("");
     }
 
     @Override
@@ -481,6 +567,46 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
         }else{
             Toast.makeText(getApplicationContext(),"update failed",Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void showData(Appointment appointment) {
+
+    }
+
+    @Override
+    public void sendReport() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(AddAppointmentActivity.this);
+        LayoutInflater inflater=AddAppointmentActivity.this.getLayoutInflater();
+        View layout=inflater.inflate(R.layout.report_appointment_layout,null);
+        alert.setView(layout);
+        final EditText report=(EditText)layout.findViewById(R.id.editTextInputReport);
+        final AppCompatButton btnSubmit= (AppCompatButton) layout.findViewById(R.id.btnSubmit);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addAppointmentPresenter.reportAppointment(appointments.getAppointmentId(),report.getText().toString());
+            }
+        });
+        alert.show();
+    }
+
+    @Override
+    public void rateAppointment() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(AddAppointmentActivity.this);
+        LayoutInflater inflater=AddAppointmentActivity.this.getLayoutInflater();
+        View layout=inflater.inflate(R.layout.rate_appointment_layout,null);
+        alert.setView(layout);
+        final RatingBar rate=(RatingBar) layout.findViewById(R.id.appointmentRate);
+        final AppCompatButton btnSubmit= (AppCompatButton) layout.findViewById(R.id.btnSubmit);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addAppointmentPresenter.rateConsultant(appointments.getAppointmentId(),String.valueOf(rate.getRating()));
+
+            }
+        });
+        alert.show();
     }
 
 }

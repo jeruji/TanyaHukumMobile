@@ -18,12 +18,17 @@ public interface AddAppointmentActivityInterface {
         void rate();
         void clear();
         void toAppointmentList(boolean result,String type);
+        void showData(Appointment appointment);
+        void sendReport();
+        void rateAppointment();
     }
     interface Presenter{
         void submitAppointment(Appointment appointment, String status);
-        void proposeAppointment(String appointmetId,String clientId,String consultantId,String date);
+        void proposeAppointment(String appointmetId,String clientId,String consultantId,String date,String appointment);
         void approveAppointment(String appointmentId,String clientId,String consultantId);
         void doneAppointment(String appointmentId,String questionsId,String clientId, String consultantId);
-        void rateConsultant(String appointmentId,String clientId,String consultantId);
+        void rateConsultant(String appointmentId,String rate);
+        void reportAppointment(String appointmentId,String report);
+        void getAppointmentById(String appointment);
     }
 }

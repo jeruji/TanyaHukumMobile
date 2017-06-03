@@ -9,6 +9,7 @@ public class HistoryConsultations {
     String questionsOld;
     String historyQuestionsId;
     String questionsDate;
+    String attachmentOld;
 
     public String getQuestionsDate() {
         return questionsDate;
@@ -16,6 +17,14 @@ public class HistoryConsultations {
 
     public void setQuestionsDate(String questionsDate) {
         this.questionsDate = questionsDate;
+    }
+
+    public String getAttachmentOld() {
+        return attachmentOld;
+    }
+
+    public void setAttachmentOld(String attachmentOld) {
+        this.attachmentOld = attachmentOld;
     }
 
     public String getAnswersDate() {

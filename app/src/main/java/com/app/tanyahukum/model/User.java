@@ -11,6 +11,15 @@ import java.util.ArrayList;
 public class User {
     String name;
     String imagePath;
+    int totalConsultation;
+
+    public int getTotalConsultation() {
+        return totalConsultation;
+    }
+
+    public void setTotalConsultation(int totalConsultation) {
+        this.totalConsultation = totalConsultation;
+    }
 
     public String getImagePath() {
         return imagePath;
@@ -32,7 +41,7 @@ public class User {
     public String getFirebaseToken() {
         return firebaseToken;
     }
-   private String lawFirm;
+    private String lawFirm;
     private String lawFirmCity;
 
     public String getLawFirm() {

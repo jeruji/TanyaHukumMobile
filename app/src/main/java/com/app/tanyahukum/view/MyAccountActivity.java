@@ -6,10 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.app.tanyahukum.App;
 import com.app.tanyahukum.R;
@@ -56,13 +58,15 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAct
     @BindView(R.id.edTextLawFirm)
     TextView _lawFirm;
     @BindView(R.id.edTextLawFirmCity)
-    TextView _lawFirmCity;
+    TextView _lawFirmCity;;
     @BindView(R.id.edTextLawFirmAddress)
     TextView _lawFirmAddress;
     @BindView(R.id.layoutLawFirm)
     RelativeLayout _layoutLawFirm;
     @BindView(R.id.imageDefault)
     ImageView imageProfile;
+    @BindView(R.id.edTextUserType)
+    TextView _userType;
     @BindView(R.id.imageProfile)
     CircleImageView _imageProfile;
     @BindView(R.id.progress)
@@ -87,7 +91,7 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAct
     }
     @Override
     public void showAccount(User user) {
-        String usertype=App.getInstance().getPrefManager().getUserType();
+        String usertype=user.getUsertype();
         if (usertype.equals("CLIENT")) {
             Log.d("name", user.getName());
             _name.setText(user.getName());
@@ -98,9 +102,11 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAct
             _province.setText(user.getProvince());
             _city.setText(user.getCity());
             _address.setText(user.getAddress());
+            _userType.setText(user.getUsertype());
+
         }else{
-            Log.d("law firm", user.getLawFirm());
             _layoutLawFirm.setVisibility(View.VISIBLE);
+            _userType.setText(user.getUsertype());
             _name.setText(user.getName());
             _email.setText(user.getEmail());
             _borndate.setText(user.getBornDate());
@@ -163,5 +169,11 @@ public class MyAccountActivity extends AppCompatActivity implements MyAccountAct
         Picasso.with(this)
                 .load(url)
                 .into(_imageProfile);
+    }
+
+    @Override
+    @OnClick(R.id.btnCancel)
+    public void cancel() {
+        super.onBackPressed();
     }
 }

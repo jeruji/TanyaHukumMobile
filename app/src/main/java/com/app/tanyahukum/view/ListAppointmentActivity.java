@@ -61,20 +61,11 @@ public class ListAppointmentActivity extends AppCompatActivity implements ListAp
                 .listAppointmnetActivityModule(new ListAppointmnetActivityModule(this, this))
                 .build().inject(this);
         setSupportActionBar(toolbarList);
+        getSupportActionBar().setTitle("List Appointment");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
         userid=App.getInstance().getPrefManager().getUserId();
-        Intent i=getIntent();
-        String type=i.getStringExtra("type");
-        if (type.equalsIgnoreCase("HISTORY")){
-            getSupportActionBar().setTitle("Appointment History");
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            listAppointmentPresenter.getAppointmentByUser(userid,"HISTORY");
-        }else{
-            getSupportActionBar().setTitle("Appointment List");
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowTitleEnabled(true);
-            listAppointmentPresenter.getAppointmentByUser(userid,"APPOINTMENT");
-        }
+        listAppointmentPresenter.getAppointmentByUser(userid);
         appointmentAdapter.setCallback(this);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(appointmentAdapter);
@@ -120,6 +111,8 @@ public class ListAppointmentActivity extends AppCompatActivity implements ListAp
             intent.putExtra("consultantName",appointment.getConsultantName());
             intent.putExtra("id",appointment.getAppointmentId());
             intent.putExtra("bookingcode",appointment.getBookingCode());
+            intent.putExtra("rate",appointment.getRating());
+            intent.putExtra("report",appointment.getReport());
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.setClassName(this, "com.app.tanyahukum.view.AddAppointmentActivity");
@@ -141,6 +134,8 @@ public class ListAppointmentActivity extends AppCompatActivity implements ListAp
             intent.putExtra("status", appointment.getStatus());
             intent.putExtra("id",appointment.getAppointmentId());
             intent.putExtra("bookingcode",appointment.getBookingCode());
+            intent.putExtra("rate",appointment.getRating());
+            intent.putExtra("report",appointment.getReport());
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.setClassName(this, "com.app.tanyahukum.view.AddAppointmentActivity");

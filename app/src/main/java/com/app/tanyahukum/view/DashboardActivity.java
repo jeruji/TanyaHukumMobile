@@ -97,6 +97,7 @@ public class DashboardActivity extends AppCompatActivity implements DashboardAct
                 this, drawerLayoutDashboard, toolbarDashboard, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayoutDashboard.setDrawerListener(toggle);
         toggle.syncState();
+        registerFirebaseId();
         navigationViewDashboard.setNavigationItemSelectedListener(this);
         if(App.getInstance().getPrefManager().getUser().getUsertype().equals("CONSULTANT")){
             navigationViewDashboard.getMenu().findItem(R.id.nav_add_consultation).setVisible(false);
@@ -253,8 +254,6 @@ public class DashboardActivity extends AppCompatActivity implements DashboardAct
         }
         else if (id == R.id.nav_my_account) {
             toMyAccountPage();
-        } else if (id == R.id.nav_appointment_history) {
-            toAppointmentListPage("HISTORY");
         } else if (id == R.id.nav_logout) {
             Intent intent = new Intent(this, DeleteTokenService.class);
             startService(intent);

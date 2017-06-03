@@ -65,6 +65,11 @@ public class ListConsultationActivity extends AppCompatActivity implements ListC
                 .netComponent(((App) getApplicationContext()).getNetComponent())
                 .listConsultationActivityModule(new ListConsultationActivityModule(this, this))
                 .build().inject(this);
+
+       load();
+    }
+
+    public void load(){
         userid=App.getInstance().getPrefManager().getUser().getId();
         listConsultationPresenter.getQuestionsByUser(userid);
         questionsAdapter.setCallback(this);
@@ -75,7 +80,6 @@ public class ListConsultationActivity extends AppCompatActivity implements ListC
             _fab.setVisibility(View.GONE);
         }
     }
-
     @Override
     @OnClick(R.id.fab)
     public void toConsultationForm() {

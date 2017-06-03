@@ -86,15 +86,22 @@ public class FCMHelper {
         return null;
     }
 
-    public void sendNotificationDeviceToDevice(String deviceToken,String message,String title) throws IOException {
+    public void sendNotificationDeviceToDevice(String deviceToken,String message,String title,String usertype, String questionsId,String clickAction,String fromId,String toId) throws IOException {
         OkHttpClient client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json");
         JSONObject obj = new JSONObject();
         try {
             JSONObject msgObject = new JSONObject();
+            JSONObject dataObject=new JSONObject();
             msgObject.put("body", message);
             msgObject.put("title", title);
+            msgObject.put("click_action",clickAction);
+            dataObject.put("usertype",usertype);
+            dataObject.put("questionsid",questionsId);
+            dataObject.put("fromId",fromId);
+            dataObject.put("toId",toId);
             obj.put("to", deviceToken);
+            obj.put("data",dataObject);
             obj.put("notification",msgObject);
         }catch (JSONException i){
             Log.d("exception : ",i.toString());
@@ -106,7 +113,7 @@ public class FCMHelper {
         Response response = client.newCall(request).execute();
         Log.d("response","Notification response >>>" +response.body().string());
     }
-    public void sendNotificationMultipleDevice(String statusQuestions,List deviceToken,String questionsId, String message, String title,String questions,String usertype) throws IOException {
+    public void sendNotificationMultipleDevice(String statusQuestions,List deviceToken,String consultationId, String message, String title,String questions,String usertype,String clickAction,String fromId, String toId) throws IOException {
         OkHttpClient client = new OkHttpClient();
         MediaType mediaType = MediaType.parse("application/json");
         JSONObject obj = new JSONObject();
@@ -121,13 +128,16 @@ public class FCMHelper {
             Log.d("device array : ",jsonArray.toString());
             msgObject.put("body",message);
             msgObject.put("title",questions);
+            msgObject.put("click_action",clickAction);
             dataObject.put("title",title);
             dataObject.put("message",message);
             dataObject.put("statusQuestions",statusQuestions);
             dataObject.put("timestamp","");
             dataObject.put("questions",questions);
             dataObject.put("usertype",usertype);
-            dataObject.put("questionsid",questionsId);
+            dataObject.put("consultationid",consultationId);
+            dataObject.put("fromId",fromId);
+            dataObject.put("toId",toId);
             obj.put("registration_ids",jsonArray);
             obj.put("notification",msgObject);
             obj.put("data",dataObject);
