@@ -6,52 +6,59 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    <TableLayout
-        android:id="@+id/tableRegistration"
-        android:layout_marginTop="50dp"
-        android:visibility="visible"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TableRow>
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="150dp"
-                android:src="@drawable/tanya_hukum_logo"/>
-        </TableRow>
-        <TableRow>
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/marginTopHeader"
+            android:layout_marginLeft="@dimen/marginGeneral"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo" />
 
+        <TableLayout
+            android:id="@+id/tableRegistration"
+            android:layout_marginTop="50dp"
+            android:layout_below="@+id/logo"
+            android:visibility="visible"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow>
+
+                <RelativeLayout android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelName"
+                        android:layout_marginLeft="30dp"
+                        android:text="Name"/>
+                    <EditText
+                        android:layout_below="@+id/labelName"
+                        android:hint=""
+                        android:padding="@dimen/padding"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:inputType="textNoSuggestions|textEmailAddress"
+                        android:id="@+id/edTextName"
+                        />
+                </RelativeLayout>
+
+            </TableRow>
+
+        <TableRow>
             <RelativeLayout android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/labelName"
-                    android:layout_marginLeft="30dp"
-                    android:text="Name"/>
-                <EditText
-                    android:layout_below="@+id/labelName"
-                    android:hint=""
-                    android:padding="@dimen/padding"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:inputType="textNoSuggestions|textEmailAddress"
-                    android:id="@+id/edTextName"
-                   />
-           </RelativeLayout>
-
-        </TableRow>
-        <TableRow>
-
-            <RelativeLayout android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginTopHeader"
                     android:id="@+id/labelEmail"
                     android:layout_marginLeft="30dp"
                     android:text="Email"/>
@@ -68,483 +75,605 @@
                     />
             </RelativeLayout>
         </TableRow>
-        <TableRow>
+            <TableRow>
 
-            <RelativeLayout android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/labelGender"
-                android:layout_marginLeft="30dp"
-                android:text="Select Gender"/>
-            <Spinner
-                android:layout_below="@+id/labelGender"
-                android:id="@+id/spinnerGender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:entries="@array/gender"
-                android:prompt="@string/gender_prompt"
-                android:layout_weight="1" />
-            </RelativeLayout>
-        </TableRow>
-
-        <TableRow>
-
-            <RelativeLayout android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/labelDoB"
-                android:layout_marginLeft="30dp"
-                android:text="Born date"/>
-        <EditText
-            android:layout_below="@+id/labelDoB"
-            android:id="@+id/edTextBornDate"
-            android:layout_width="match_parent"
-            android:padding="@dimen/padding"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_weight="1"
-            android:hint="" />
-            </RelativeLayout>
-
-            <ImageView
-                android:id="@+id/imgBornDate"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="0dp"
-                android:onClick="setDate"
-                android:src="@drawable/ic_calender" />
-
-        </TableRow>
-
-        <TableRow>
-
-            <RelativeLayout android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
+                <RelativeLayout android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/labelPassword"
-                    android:layout_marginLeft="30dp"
-                    android:text="Password"/>
-                <EditText
-                    android:layout_below="@+id/labelPassword"
-                    android:hint=""
-                    android:padding="@dimen/padding"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/marginTopHeader">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelGender"
+                        android:layout_marginLeft="30dp"
+                        android:text="Select Gender"/>
+                    <Spinner
+                        android:layout_below="@+id/labelGender"
+                        android:id="@+id/spinnerGender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:entries="@array/gender"
+                        android:prompt="@string/gender_prompt"
+                        android:layout_weight="1" />
+                </RelativeLayout>
+            </TableRow>
+
+            <TableRow>
+
+                <RelativeLayout android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginTopHeader">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelDoB"
+                        android:layout_marginLeft="30dp"
+                        android:text="Born date"/>
+
+                    <ImageView
+                        android:id="@+id/imgBornDate"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:onClick="setDate"
+                        android:src="@drawable/ic_calender" />
+
+                    <EditText
+                        android:id="@+id/edTextBornDate"
+                        android:layout_below="@+id/imgBornDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:hint="" />
+
+                </RelativeLayout>
+
+
+
+            </TableRow>
+
+            <TableRow>
+
+                <RelativeLayout android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginTopHeader">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelPassword"
+                        android:layout_marginLeft="30dp"
+                        android:text="Password"/>
+
+                    <ImageView
+                        android:id="@+id/visibility"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:src="@drawable/ic_visibility" />
+
+                    <ImageView
+                        android:id="@+id/invisibility"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:visibility="gone"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:src="@drawable/icon_show_password" />
+
+                    <EditText
+                        android:layout_below="@+id/labelPassword"
+                        android:hint=""
+                        android:padding="@dimen/padding"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textNoSuggestions|textPassword"
+                        android:id="@+id/edTextPassword"
+                        />
+
+                </RelativeLayout>
+
+            </TableRow>
+
+            <TableRow>
+
+                <RelativeLayout android:layout_weight="1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/marginTopHeader">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelProvince"
+                        android:layout_marginLeft="30dp"
+                        android:text="Province"/>
+                    <EditText
+                        android:layout_below="@+id/labelProvince"
+                        android:hint=""
+                        android:padding="@dimen/padding"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:inputType="textNoSuggestions|textEmailAddress"
+                        android:id="@+id/edTextProvince"
+                        />
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/selectProvince"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:inputType="textNoSuggestions|textPassword"
-                    android:id="@+id/edTextPassword"
-                    />
-            </RelativeLayout>
-            <ImageView
-                android:id="@+id/visibility"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="0dp"
-                android:src="@drawable/ic_visibility" />
+                    android:layout_marginTop="0dp"
+                    android:src="@drawable/expand_icon" />
 
-            <ImageView
-                android:id="@+id/invisibility"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:visibility="gone"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="0dp"
-                android:src="@drawable/icon_show_password" />
+            </TableRow>
 
+            <TableRow>
 
-
-        </TableRow>
-
-        <TableRow>
-
-            <RelativeLayout android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
+                <RelativeLayout android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/labelProvince"
-                    android:layout_marginLeft="30dp"
-                    android:text="Province"/>
-                <EditText
-                    android:layout_below="@+id/labelProvince"
-                    android:hint=""
-                    android:padding="@dimen/padding"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/marginTopHeader">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelCity"
+                        android:layout_marginLeft="30dp"
+                        android:text="City"/>
+                    <EditText
+                        android:layout_below="@+id/labelCity"
+                        android:hint=""
+                        android:padding="@dimen/padding"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:inputType="textNoSuggestions|textEmailAddress"
+                        android:id="@+id/edTextCity"
+                        />
+
+                </RelativeLayout>
+
+                <ImageView
+                    android:id="@+id/selectRegency"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:inputType="textNoSuggestions|textEmailAddress"
-                    android:id="@+id/edTextProvince"
-                    />
-           </RelativeLayout>
-            <ImageView
-                android:id="@+id/selectProvince"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="0dp"
-                android:src="@drawable/expand_icon" />
+                    android:layout_marginTop="0dp"
+                    android:src="@drawable/expand_icon" />
 
+            </TableRow>
 
-        </TableRow>
-
-        <TableRow>
-
-            <RelativeLayout android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
+            <TableRow>
+                <RelativeLayout android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/labelCity"
-                    android:layout_marginLeft="30dp"
-                    android:text="City"/>
-                <EditText
-                    android:layout_below="@+id/labelCity"
-                    android:hint=""
-                    android:padding="@dimen/padding"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:inputType="textNoSuggestions|textEmailAddress"
-                    android:id="@+id/edTextCity"
-                    />
-           </RelativeLayout>
-            <ImageView
-                android:id="@+id/selectRegency"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_marginTop="0dp"
-                android:src="@drawable/expand_icon" />
+                    android:layout_marginTop="@dimen/marginTopHeader">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelAddress"
+                        android:layout_marginLeft="30dp"
+                        android:text="Address"/>
+                    <EditText
+                        android:layout_below="@+id/labelAddress"
+                        android:hint=""
+                        android:padding="@dimen/padding"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:inputType="textNoSuggestions|textEmailAddress"
+                        android:id="@+id/edTextAddress"
+                        />
+                </RelativeLayout>
 
+            </TableRow>
 
-        </TableRow>
-
-        <TableRow>
-            <RelativeLayout android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
+            <TableRow>
+                <RelativeLayout android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/labelAddress"
-                    android:layout_marginLeft="30dp"
-                    android:text="Address"/>
-                <EditText
-                    android:layout_below="@+id/labelAddress"
-                    android:hint=""
-                    android:padding="@dimen/padding"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:inputType="textNoSuggestions|textEmailAddress"
-                    android:id="@+id/edTextAddress"
-                    />
-            </RelativeLayout>
+                    android:layout_marginTop="@dimen/marginTopHeader">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelPhone"
+                        android:layout_marginLeft="30dp"
+                        android:text="Phone Number"/>
+                    <EditText
+                        android:layout_below="@+id/labelPhone"
+                        android:hint=""
+                        android:padding="@dimen/padding"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:inputType="textNoSuggestions|textEmailAddress"
+                        android:id="@+id/edTextPhone"
+                        />
+                </RelativeLayout>
 
-        </TableRow>
-
-        <TableRow>
-            <RelativeLayout android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
+            </TableRow>
+            <TableRow>
+                <RelativeLayout android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/labelPhone"
-                    android:layout_marginLeft="30dp"
-                    android:text="Phone Number"/>
-                <EditText
-                    android:layout_below="@+id/labelPhone"
-                    android:hint=""
-                    android:padding="@dimen/padding"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:inputType="textNoSuggestions|textEmailAddress"
-                    android:id="@+id/edTextPhone"
-                    />
-           </RelativeLayout>
-
-        </TableRow>
-        <TableRow>
-            <RelativeLayout android:layout_weight="1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/labelUserType"
-                android:layout_marginLeft="30dp"
-                android:text="User Type"/>
-            <Spinner
-                android:layout_below="@+id/labelUserType"
-                android:id="@+id/spinnerUserType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_horizontal_margin"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:entries="@array/user"
-                android:prompt="@string/user_type"
-                android:layout_weight="1" />
-            </RelativeLayout>
-        </TableRow>
-        <TableRow>
-            <RelativeLayout
-                android:id="@+id/formConsultant"
-                android:layout_weight="1"
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/labelFirm"
+                    android:layout_marginTop="@dimen/marginTopHeader">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelUserType"
+                        android:layout_marginLeft="30dp"
+                        android:text="User Type"/>
+                    <Spinner
+                        android:layout_below="@+id/labelUserType"
+                        android:id="@+id/spinnerUserType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/activity_horizontal_margin"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:entries="@array/user"
+                        android:prompt="@string/user_type"
+                        android:layout_weight="1" />
+                </RelativeLayout>
+            </TableRow>
+            <TableRow>
+                <RelativeLayout
+                    android:id="@+id/formConsultant"
+                    android:layout_weight="1"
+                    android:visibility="gone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:textSize="13sp"
-                    android:text="Law Firm Detail(Leave blank if you are not joined to a law firm)"/>
+                    android:layout_marginTop="@dimen/marginTopHeader">
+                    <TextView
+                        android:id="@+id/labelFirm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
+                        android:textSize="13sp"
+                        android:text="Law Firm Detail(Leave blank if you are not joined to a law firm)"/>
 
                     <RelativeLayout android:layout_weight="1"
                         android:layout_width="wrap_content"
                         android:id="@+id/input_layout_law_firm"
                         android:layout_below="@+id/labelFirm"
                         android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/labelLawFirm"
+                            android:layout_marginLeft="30dp"
+                            android:text="Law Firm"/>
+                        <EditText
+                            android:layout_below="@+id/labelLawFirm"
+                            android:hint=""
+                            android:padding="@dimen/padding"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:inputType="textNoSuggestions|textEmailAddress"
+                            android:id="@+id/edTextLawFirm"
+                            />
+                    </RelativeLayout>
                     <TextView
+                        android:id="@+id/labelSpecialization"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/labelLawFirm"
-                        android:layout_marginLeft="30dp"
-                        android:text="Law Firm"/>
-                <EditText
-                    android:layout_below="@+id/labelLawFirm"
-                    android:hint=""
-                    android:padding="@dimen/padding"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:inputType="textNoSuggestions|textEmailAddress"
-                    android:id="@+id/edTextLawFirm"
-                    />
-                </RelativeLayout>
-                <TextView
-                    android:id="@+id/labelSpecialization"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/input_layout_law_firm"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingTop="10dp"
-                    android:textSize="13sp"
-                    android:text="Specialization"/>
-                <com.app.tanyahukum.util.MultiSpinner
-                    android:id="@+id/SpinnerSpecialization"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/labelSpecialization"
-                    android:prompt="@string/specialization_prompt"
-                    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1" />
-                <TextView
-                    android:id="@+id/labelLawAddress"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/SpinnerSpecialization"
-                    android:paddingLeft="20dp"
-                    android:paddingRight="20dp"
-                    android:paddingTop="10dp"
-                    android:textSize="13sp"
-                    android:text="Law Firm Address"/>
-                <RelativeLayout android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:id="@+id/input_layout_law_firm_city"
-                    android:layout_below="@+id/labelLawAddress"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_below="@+id/input_layout_law_firm"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="10dp"
+                        android:textSize="13sp"
+                        android:text="Specialization"/>
+                    <com.app.tanyahukum.util.MultiSpinner
+                        android:id="@+id/SpinnerSpecialization"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/labelLawFirmCity"
-                        android:layout_marginLeft="30dp"
-                        android:text="City"/>
-                    <EditText
-                        android:layout_below="@+id/labelLawFirmCity"
-                        android:hint=""
-                        android:padding="@dimen/padding"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_below="@+id/labelSpecialization"
+                        android:prompt="@string/specialization_prompt"
                         android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:inputType="textNoSuggestions|textEmailAddress"
-                        android:id="@+id/edTextLawFirmCity"
-                        />
-                    <ImageView
-                        android:id="@+id/selectCity"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_toRightOf="@+id/edTextLawFirmCity"
-                        android:src="@drawable/expand_icon" />
+                        android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginTop="10dp"
+                        android:layout_weight="1" />
+                    <TextView
+                        android:id="@+id/labelLawAddress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/SpinnerSpecialization"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="20dp"
+                        android:paddingTop="10dp"
+                        android:textSize="13sp"
+                        android:text="Law Firm Address"/>
+                    <RelativeLayout android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/input_layout_law_firm_city"
+                        android:paddingTop="10dp"
+                        android:layout_below="@+id/labelLawAddress"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/labelLawFirmCity"
+                            android:layout_marginLeft="30dp"
+                            android:text="City"/>
+                        <EditText
+                            android:layout_below="@+id/labelLawFirmCity"
+                            android:hint=""
+                            android:padding="@dimen/padding"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:inputType="textNoSuggestions|textEmailAddress"
+                            android:id="@+id/edTextLawFirmCity"
+                            />
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/input_layout_law_firm_address"
+                        android:layout_below="@+id/input_layout_law_firm_city"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/labelLawFirmAddress"
+                            android:layout_marginLeft="30dp"
+                            android:text="Address"/>
+                        <EditText
+                            android:layout_below="@+id/labelLawFirmAddress"
+                            android:hint=""
+                            android:padding="@dimen/padding"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:inputType="textNoSuggestions|textEmailAddress"
+                            android:id="@+id/edTextLawFirmAddress"
+                            />
+                    </RelativeLayout>
+                    <RelativeLayout android:layout_weight="1"
+                        android:layout_width="wrap_content"
+                        android:id="@+id/input_layout_law_firm_phone"
+                        android:layout_below="@+id/input_layout_law_firm_address"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/labelLawFirmPhone"
+                            android:layout_marginLeft="30dp"
+                            android:text="Phone"/>
+                        <EditText
+                            android:layout_below="@+id/labelLawFirmPhone"
+                            android:hint=""
+                            android:padding="@dimen/padding"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:inputType="textNoSuggestions|textEmailAddress"
+                            android:id="@+id/edTextLawFirmPhone"
+                            />
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/national_id_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/input_layout_law_firm_phone">
 
-                </RelativeLayout>
-                <RelativeLayout android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:id="@+id/input_layout_law_firm_address"
-                    android:layout_below="@+id/input_layout_law_firm_city"
-                    android:layout_height="wrap_content">
-                    <TextView
+                        <TextView
+                            android:id="@+id/attachID"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:text="@string/national_id"/>
+                        <ImageButton
+                            android:id="@+id/btnNationalID"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:background="@drawable/id_card"/>
+                        <EditText
+                            android:id="@+id/nationalIDFile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:layout_below="@+id/attachID"
+                            android:enabled="false"/>
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/ijazah_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/labelLawFirmAddress"
-                        android:layout_marginLeft="30dp"
-                        android:text="Address"/>
-                    <EditText
-                        android:layout_below="@+id/labelLawFirmAddress"
-                        android:hint=""
-                        android:padding="@dimen/padding"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:inputType="textNoSuggestions|textEmailAddress"
-                        android:id="@+id/edTextLawFirmAddress"
-                        />
-                </RelativeLayout>
-                <RelativeLayout android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:id="@+id/input_layout_law_firm_phone"
-                    android:layout_below="@+id/input_layout_law_firm_address"
-                    android:layout_height="wrap_content">
-                    <TextView
+                        android:layout_below="@+id/national_id_layout">
+
+                        <TextView
+                            android:id="@+id/attachIjazah"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:text="@string/ijazah_file"/>
+                        <ImageButton
+                            android:id="@+id/btnIjazah"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:background="@drawable/certificate"/>
+                        <EditText
+                            android:id="@+id/ijazahFile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:layout_below="@+id/attachIjazah"
+                            android:enabled="false"/>
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/sertifikat_layout"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/labelLawFirmPhone"
-                        android:layout_marginLeft="30dp"
-                        android:text="Phone"/>
-                    <EditText
-                        android:layout_below="@+id/labelLawFirmPhone"
-                        android:hint=""
-                        android:padding="@dimen/padding"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:inputType="textNoSuggestions|textEmailAddress"
-                        android:id="@+id/edTextLawFirmPhone"
-                        />
-               </RelativeLayout>
-            </RelativeLayout>
-        </TableRow>
-        <TableRow>
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:layout_height="wrap_content">
-                <ProgressBar
-                    android:id="@+id/progress"
-                    android:layout_marginTop="10dp"
-                    style="?android:attr/progressBarStyleLarge"
+                        android:layout_below="@+id/ijazah_layout">
+
+                        <TextView
+                            android:id="@+id/attachSertifikat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:text="@string/sertifikat_file"/>
+                        <ImageButton
+                            android:id="@+id/btnSertifikat"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:background="@drawable/medal"/>
+                        <EditText
+                            android:id="@+id/sertifikatFile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:layout_below="@+id/attachSertifikat"
+                            android:enabled="false"/>
+
+                    </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/bank_account_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/sertifikat_layout">
+
+                        <TextView
+                            android:id="@+id/attachBank"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="30dp"
+                            android:text="@string/bank_file"/>
+                        <ImageButton
+                            android:id="@+id/btnBank"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:background="@drawable/buku_tabungan"/>
+                        <EditText
+                            android:id="@+id/bankFile"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                            android:layout_marginRight="@dimen/activity_horizontal_margin"
+                            android:layout_below="@+id/attachBank"
+                            android:enabled="false"/>
+
+                    </RelativeLayout>
+                </RelativeLayout>
+            </TableRow>
+            <TableRow>
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:indeterminateTint="@color/colorPrimaryDark"
-                    android:indeterminateTintMode="src_in"
-                    android:visibility="gone"
-                    />
-                <TextView
-                    android:id="@+id/titleProgress"
-                    android:layout_below="@+id/progress"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
-                    android:visibility="gone"/>
-            </RelativeLayout>
-        </TableRow>
-        <TableRow>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:id="@+id/linearLayoutClear"
-                    android:layout_width="0dp"
-                    android:layout_margin="10dp"
-                    android:layout_weight="0.5"
                     android:layout_height="wrap_content">
-                    <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/btnClear"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="CLEAR"
-                        android:textColor="@color/colorPrimary"
-                        android:background="@color/md_grey_200"/>
-                </LinearLayout>
+                    <ProgressBar
+                        android:id="@+id/progress"
+                        android:layout_marginTop="10dp"
+                        style="?android:attr/progressBarStyleLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:indeterminateTint="@color/colorPrimaryDark"
+                        android:indeterminateTintMode="src_in"
+                        android:visibility="gone"
+                        />
+                    <TextView
+                        android:id="@+id/titleProgress"
+                        android:layout_below="@+id/progress"
+                        android:layout_width="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:visibility="gone"/>
+                </RelativeLayout>
+            </TableRow>
+            <TableRow>
                 <LinearLayout
-                    android:id="@+id/linearLayoutSignUp"
-                    android:layout_margin="10dp"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.5">
-                    <android.support.v7.widget.AppCompatButton
-                        android:id="@+id/btnSignUp"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:text="SUBMIT"
-                        android:textColor="@color/md_grey_200"
-                        android:background="@color/colorPrimary"/>
+                    android:layout_marginTop="@dimen/marginTopHeader">
+                    <LinearLayout
+                        android:id="@+id/linearLayoutClear"
+                        android:layout_width="0dp"
+                        android:layout_margin="10dp"
+                        android:layout_weight="0.5"
+                        android:layout_height="wrap_content">
+                        <android.support.v7.widget.AppCompatButton
+                            android:id="@+id/btnClear"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:text="CLEAR"
+                            android:textColor="@color/colorPrimary"
+                            android:background="@color/md_grey_200"/>
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/linearLayoutSignUp"
+                        android:layout_margin="10dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.5">
+                        <android.support.v7.widget.AppCompatButton
+                            android:id="@+id/btnSignUp"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:text="SUBMIT"
+                            android:textColor="@color/md_grey_200"
+                            android:background="@color/colorPrimary"/>
+                    </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
 
-        </TableRow>
-        <TableRow>
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:id="@+id/btnLoginPage"
+            </TableRow>
+            <TableRow>
+                <RelativeLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Already Account?login here."
-                    android:textColor="@color/colorAccent"
-                    android:layout_weight="1"
-                    android:layout_marginTop="10dp"
-                    android:gravity="center"
-                    android:layout_marginBottom="@dimen/activity_horizontal_margin"
-                    android:layout_centerHorizontal="true"/>
-            </RelativeLayout>
-        </TableRow>
-    </TableLayout>
+                    android:layout_marginTop="@dimen/marginTopHeader">
+                    <TextView
+                        android:id="@+id/btnLoginPage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Already Have Account?login here."
+                        android:textColor="@color/colorAccent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_marginBottom="@dimen/activity_horizontal_margin"
+                        android:layout_centerHorizontal="true"/>
+                </RelativeLayout>
+            </TableRow>
+        </TableLayout>
     </RelativeLayout>
 </ScrollView>

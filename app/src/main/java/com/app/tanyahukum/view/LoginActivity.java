@@ -268,7 +268,7 @@ public class LoginActivity extends AppCompatActivity implements LoginActivityInt
         intent.putExtra("userId","userid");
         intent.putExtra("name","");
         intent.putExtra("email","");
-        intent.setClassName(this, "com.app.tanyahukum.view.RegistrationActivity");
+        intent.setClassName(this, "com.app.tanyahukum.view.TermsAndConditionActivity");
         startActivity(intent);
     }
 
