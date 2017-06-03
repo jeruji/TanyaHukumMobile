@@ -19,11 +19,6 @@
             android:id="@+id/nav_appointment_list"
             android:icon="@drawable/icon_appointment"
             android:title="Appointment List" />
-        <item
-            android:id="@+id/nav_appointment_history"
-            android:icon="@drawable/icon_appointment_history"
-            android:title="Appointment History" />
-
             <item
                 android:id="@+id/nav_logout"
                 android:icon="@drawable/icon_logout"

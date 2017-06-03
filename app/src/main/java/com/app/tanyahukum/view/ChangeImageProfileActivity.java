@@ -19,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,10 +55,15 @@ public class ChangeImageProfileActivity extends AppCompatActivity implements Cha
     TextView _imagePath;
     @BindView(R.id.progress)
     ProgressBar mProgress;
+
+    @BindView(R.id.titleProgress)
+    TextView titleProgress;
     @BindView(R.id.imageDefault)
     ImageView imageProfile;
     @BindView(R.id.imageProfile)
     CircleImageView _imageProfile;
+    @BindView(R.id.linearLayoutEdit)
+    LinearLayout layoutButtonChange;
     @Inject
     ChangeImageProfilePresenter changeImageProfilePresenter;
     File imgFile;
@@ -85,11 +91,13 @@ public class ChangeImageProfileActivity extends AppCompatActivity implements Cha
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 1);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            layoutButtonChange.setVisibility(View.VISIBLE);
             imgFile = getBitmapFile(data);
             _imagePath.setText(imgFile.getPath().toString());
             bitmap=ShrinkBitmap(imgFile.getPath().toString(),1000,1000);
@@ -165,8 +173,10 @@ public class ChangeImageProfileActivity extends AppCompatActivity implements Cha
     public void showProgress(boolean show) {
         if (show) {
             mProgress.setVisibility(View.VISIBLE);
+            titleProgress.setVisibility(View.VISIBLE);
         } else {
             mProgress.setVisibility(View.GONE);
+            titleProgress.setVisibility(View.GONE);
         }
     }
 

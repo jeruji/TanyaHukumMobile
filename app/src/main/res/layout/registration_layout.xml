@@ -196,6 +196,15 @@
                     android:id="@+id/edTextProvince"
                     />
            </RelativeLayout>
+            <ImageView
+                android:id="@+id/selectProvince"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="0dp"
+                android:src="@drawable/expand_icon" />
+
 
         </TableRow>
 
@@ -222,6 +231,15 @@
                     android:id="@+id/edTextCity"
                     />
            </RelativeLayout>
+            <ImageView
+                android:id="@+id/selectRegency"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="0dp"
+                android:src="@drawable/expand_icon" />
+
 
         </TableRow>
 
@@ -383,13 +401,20 @@
                         android:layout_below="@+id/labelLawFirmCity"
                         android:hint=""
                         android:padding="@dimen/padding"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:layout_marginRight="@dimen/activity_horizontal_margin"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:inputType="textNoSuggestions|textEmailAddress"
                         android:id="@+id/edTextLawFirmCity"
                         />
+                    <ImageView
+                        android:id="@+id/selectCity"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_toRightOf="@+id/edTextLawFirmCity"
+                        android:src="@drawable/expand_icon" />
+
                 </RelativeLayout>
                 <RelativeLayout android:layout_weight="1"
                     android:layout_width="wrap_content"

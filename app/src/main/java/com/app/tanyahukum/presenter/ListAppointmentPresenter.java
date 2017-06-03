@@ -43,7 +43,7 @@ public class ListAppointmentPresenter implements ListAppointmentActivityInterfac
 
     }
     @Override
-    public void getAppointmentByUser(String userId, final String type) {
+    public void getAppointmentByUser(String userId) {
         mView.showAppointmentProgress(true);
         Query userQuery;
         if(Config.USER_TYPE.equalsIgnoreCase("CLIENT")){
@@ -54,33 +54,19 @@ public class ListAppointmentPresenter implements ListAppointmentActivityInterfac
         userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 Log.d("data consult : ", dataSnapshot.toString());
                 List<Appointment> appointmentList=new ArrayList<Appointment>();
                 Appointment appointment=null;
-                if (type.equalsIgnoreCase("HISTORY")) {
                     for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
                         appointment = singleSnapshot.getValue(Appointment.class);
-                        if (appointment.getStatus().equalsIgnoreCase("Done")){
                             appointmentList.add(appointment);
-                        }
                     }
-                }else{
-                    for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                    appointment = singleSnapshot.getValue(Appointment.class);
-                    if (!appointment.getStatus().equalsIgnoreCase("Done")){
-                        appointmentList.add(appointment);
-                    }
-                }
-
-                }
                 if (appointmentList.size()>0) {
                     mView.showAppointmentProgress(false);
                     mView.showAppointment(appointmentList);
                 }else {
                     mView.showAppointmentProgress(false);
                     mView.showEmptyMessage();
-
                 }
             }
             @Override

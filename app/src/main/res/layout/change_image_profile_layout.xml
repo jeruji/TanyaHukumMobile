@@ -3,12 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
         <include layout="@layout/toolbar"/>
-    <ProgressBar
-        android:id="@+id/progress"
-        android:visibility="gone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+
     <RelativeLayout
         android:layout_marginTop="60dp"
         android:id="@+id/layoutImage"
@@ -39,11 +34,30 @@
             android:src="@drawable/icon_account"
             />
     </RelativeLayout>
+    <ProgressBar
+        android:id="@+id/progress"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/layoutImage"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"/>
     <TextView
+        android:visibility="invisible"
+        android:id="@+id/titleProgress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="please wait.."
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/progress"
+        android:textColor="@color/black"/>
+    <TextView
+        android:visibility="invisible"
         android:id="@+id/imagePath"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="image path"
+        android:text=""
         android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:layout_below="@+id/layoutImage"
@@ -74,6 +88,7 @@
                     android:background="@color/colorPrimary"/>
             </LinearLayout>
             <LinearLayout
+                android:visibility="invisible"
                 android:id="@+id/linearLayoutEdit"
                 android:layout_margin="10dp"
                 android:layout_width="0dp"

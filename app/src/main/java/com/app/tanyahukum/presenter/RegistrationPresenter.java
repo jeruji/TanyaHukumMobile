@@ -7,6 +7,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.app.tanyahukum.App;
+import com.app.tanyahukum.model.Appointment;
+import com.app.tanyahukum.model.Province;
+import com.app.tanyahukum.model.Regency;
 import com.app.tanyahukum.model.User;
 import com.app.tanyahukum.util.Config;
 import com.app.tanyahukum.view.RegistrationActivityInterface;
@@ -23,9 +26,13 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.inject.Inject;
@@ -39,6 +46,7 @@ public class RegistrationPresenter implements RegistrationActivityInterface.Pres
     RegistrationActivityInterface.View view;
     FirebaseAuth firebaseAuth;
     DatabaseReference dbRef;
+    DatabaseReference countryRef;
     Context context;
 
 
@@ -49,6 +57,7 @@ public class RegistrationPresenter implements RegistrationActivityInterface.Pres
         this.view = view;
         firebaseAuth = FirebaseAuth.getInstance();
         dbRef = this.firebase.getReference("users");
+        countryRef = this.firebase.getReference("country");
         this.context = context;
 
     }
@@ -123,5 +132,71 @@ public class RegistrationPresenter implements RegistrationActivityInterface.Pres
                 view.detailRegistrationResult(false);
             }
         });
+    }
+
+    @Override
+    public void getProvince() {
+        Log.d("masuk","masuk");
+        Query userQuery;
+            userQuery = countryRef.child("provincies");
+        userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+               Log.d("data consult : ", dataSnapshot.toString());
+                List<Province> provinceList=new ArrayList<>();
+                Province province=null;
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    Log.d("single snapshot: ",singleSnapshot.toString());
+                    for (DataSnapshot data : singleSnapshot.getChildren()) {
+                        province = singleSnapshot.getValue(Province.class);
+                    }
+                    provinceList.add(province);
+                }
+                view.showSpinnerProvince(provinceList);
+                provinceList.clear();
+
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void getRegencies(final Long provinceId, final String tipe) {
+        Query userQuery;
+        userQuery = countryRef.child("Regencies");
+        userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.d("prov id : ",String.valueOf(provinceId));
+                Log.d("data consult : ", dataSnapshot.toString());
+                List<Regency> regencyList=new ArrayList<>();
+                Regency regency=null;
+                for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                    Log.d("single snapshot: ",singleSnapshot.toString());
+                    for (DataSnapshot data : singleSnapshot.getChildren()) {
+                        Log.d("data snapshot: ",data.getValue().toString());
+                        regency = singleSnapshot.getValue(Regency.class);
+                        Log.d("nama prov : ",String.valueOf(regency.getProv_id()));
+
+                    }
+                    if (regency.getProv_id()==provinceId) {
+                        regencyList.add(regency);
+                    }
+                }
+                view.showSpinnerRegency(regencyList,tipe);
+
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }

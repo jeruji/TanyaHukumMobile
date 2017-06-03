@@ -17,6 +17,7 @@
                <TextView
                    android:layout_marginTop="50dp"
                    android:text="Make Appointment"
+                   android:textStyle="bold"
                    android:textColor="@color/md_grey_500"
                    android:layout_margin="20dp"/>
            </TableRow>
@@ -169,56 +170,56 @@
                 </RelativeLayout>
 
             </TableRow>
-            <TableRow>
 
-                <RelativeLayout android:layout_weight="1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/labelDetails"
-                        android:layout_marginLeft="30dp"
-                        android:text="Detail"/>
-                    <EditText
-                        android:layout_below="@+id/labelDetails"
-                        android:hint=""
-                        android:padding="@dimen/padding"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:inputType="textNoSuggestions|textMultiLine"
-                        android:id="@+id/edTextDetail"
-                        />
-                </RelativeLayout>
-
-            </TableRow>
             <TableRow>
                 <RelativeLayout
                     android:id="@+id/layoutTopic"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin"
                     android:layout_weight="1">
                     <TextView
-                        android:layout_marginTop="10dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/labelDetails"
+                        android:layout_marginLeft="10dp"
+                        android:textStyle="bold"
+                        android:text="Detail"/>
+                    <TextView
                         android:id="@+id/tvTopic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:text="Choose Topic"/>
-                    <Spinner
-                        android:id="@+id/spinnerTopic"
+                        android:layout_below="@+id/labelDetails"
+                        android:layout_marginTop="10dp"
+                        android:text="Topic"/>
+                    <RelativeLayout
+                        android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
-                        android:layout_below="@+id/tvTopic"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/activity_horizontal_margin"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:layout_marginRight="@dimen/activity_horizontal_margin"
-                        android:entries="@array/consultation"
-                        android:prompt="@string/consultation_type"
-                        android:layout_weight="1" />
+                        android:background="@color/md_grey_200"
+                        android:layout_below="@+id/tvTopic">
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/input_layout_topic"
+                            android:layout_width="match_parent"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content">
+                            <EditText
+                                android:padding="@dimen/padding"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="10dp"
+                                android:paddingLeft="10dp"
+                                android:paddingEnd="10dp"
+                                android:inputType="textNoSuggestions|textEmailAddress|textMultiLine"
+                                android:id="@+id/edTextTopic"
+                                />
+                        </android.support.design.widget.TextInputLayout>
+                    </RelativeLayout>
+
                 </RelativeLayout>
             </TableRow>
             <TableRow>
@@ -238,7 +239,7 @@
                     <RelativeLayout
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
-                        android:layout_height="150dp"
+                        android:layout_height="wrap_content"
                         android:background="@color/md_grey_200"
                         android:layout_below="@+id/tvTitle">
                         <android.support.design.widget.TextInputLayout
@@ -340,21 +341,22 @@
                 <LinearLayout
                     android:id="@+id/linearLayoutHistory"
                     android:layout_width="0dp"
-                    android:layout_margin="10dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="0.5"
                     android:layout_height="wrap_content">
                     <android.support.v7.widget.AppCompatButton
                         android:id="@+id/btnMakeAppointment"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginLeft="20dp"
                         android:text="Make Appointment"
                         android:textColor="@color/white"
                         android:background="@color/md_green_400"/>
                 </LinearLayout>
                 <LinearLayout
                     android:id="@+id/linearLayoutAnswers"
-                    android:layout_margin="10dp"
+                    android:layout_marginRight="50dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5">
@@ -362,7 +364,6 @@
                         android:id="@+id/btnClear"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:layout_marginRight="20dp"
                         android:text="CLEAR"
                         android:textColor="@color/md_green_400"
                         android:background="@color/md_grey_200"/>
@@ -382,7 +383,8 @@
                     <LinearLayout
                         android:id="@+id/linearLayoutApprove"
                         android:layout_width="0dp"
-                        android:layout_margin="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="10dp"
                         android:layout_weight="0.5"
                         android:layout_height="wrap_content">
                         <android.support.v7.widget.AppCompatButton
@@ -395,7 +397,8 @@
                     </LinearLayout>
                     <LinearLayout
                         android:id="@+id/linearLayoutReschedule"
-                        android:layout_margin="10dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5">
@@ -424,7 +427,8 @@
                     <LinearLayout
                         android:id="@+id/linearLayoutDone"
                         android:layout_width="0dp"
-                        android:layout_margin="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_weight="0.5"
                         android:layout_height="wrap_content">
                         <android.support.v7.widget.AppCompatButton
@@ -437,7 +441,8 @@
                     </LinearLayout>
                     <LinearLayout
                         android:id="@+id/linearLayoutReport"
-                        android:layout_margin="10dp"
+                        android:layout_marginRight="30dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5">
@@ -554,6 +559,31 @@
 
 
                 </LinearLayout>
+            </TableRow>
+            <TableRow>
+                <RelativeLayout
+                    android:id="@+id/rating"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="30dp">
+                    <TextView
+                        android:id="@+id/labelInputReport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Rate Appointment"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginLeft="30dp"/>
+
+                    <RatingBar
+                        android:theme="@style/RatingBar"
+                        android:layout_below="@+id/labelInputReport"
+                        android:id="@+id/appointmentRate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:numStars="5" />
+                </RelativeLayout>
             </TableRow>
         </TableLayout>
         </RelativeLayout>

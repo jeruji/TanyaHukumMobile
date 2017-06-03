@@ -261,13 +261,53 @@
                 android:layout_marginRight="10dp"
                 android:layout_below="@+id/status"
                 android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/md_grey_300"></LinearLayout>
+            <TextView
+                android:layout_below="@+id/line6"
+                android:layout_alignParentLeft="true"
+                android:id="@+id/labelAttachment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="attachment"
+                android:textSize="11dp"
+                android:textColor="@color/colorPrimary"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="10dp"
+                />
+            <TextView
+                android:id="@+id/attachment"
+                android:layout_below="@+id/labelAttachment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:layout_marginLeft="30dp"
+                android:textColor="@color/md_grey_600"
+                android:padding="10dp"
+                />
+            <ImageView
+                android:id="@+id/downloadAttachment"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/icon_download"
+                android:layout_below="@+id/labelAttachment"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"/>
+            <LinearLayout
+                android:id="@+id/line7"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_below="@+id/attachment"
+                android:layout_width="match_parent"
                 android:layout_marginBottom="50dp"
                 android:layout_height="1dp"
                 android:background="@color/md_grey_300"></LinearLayout>
 
 
                 <LinearLayout
-                    android:layout_below="@+id/line6"
+                    android:layout_below="@+id/line7"
                     android:layout_width="match_parent"
                     android:id="@+id/layoutButton"
                     android:layout_height="wrap_content">

@@ -1,7 +1,9 @@
 package com.app.tanyahukum.view;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.design.widget.TextInputLayout;
@@ -26,8 +28,10 @@ import com.app.tanyahukum.model.Consultations;
 import com.app.tanyahukum.presenter.AddConsultationPresenter;
 import com.app.tanyahukum.presenter.ListConsultationPresenter;
 import com.app.tanyahukum.util.Config;
+import com.app.tanyahukum.util.FileUtils;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,8 +59,6 @@ public class AddConsultationActivity extends AppCompatActivity implements AddCon
     EditText questions;
     @BindView(R.id.spinnerConsultationType)
     Spinner consultationsType;
-    @BindView(R.id.spinnerExpertRecomendation)
-    Spinner expertRecomendations;
     @BindView(R.id.edTextTitle)
     EditText title;
     @BindView(R.id.toolbar)
@@ -65,8 +67,8 @@ public class AddConsultationActivity extends AppCompatActivity implements AddCon
     RelativeLayout answersLayout;
     @BindView(R.id.edTextanswers)
     EditText answers;
-    @BindView(R.id.layoutSpinnerExpert)
-    RelativeLayout spinnerLayout;
+    @BindView(R.id.edTextAttachment)
+    EditText attachmentPath;
     @BindView(R.id.layoutUpdateForm)
     RelativeLayout _layoutUpdateForm;
     @BindView(R.id.layoutConsultantType)
@@ -82,12 +84,16 @@ public class AddConsultationActivity extends AppCompatActivity implements AddCon
     @Inject
     AddConsultationPresenter addConsultationPresenter;
     String statusConsultation="";
+    ProgressDialog progressDialog ;
+    String clientId,filePath;
+    private static final int FILE_SELECT_CODE = 0;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
         setContentView(R.layout.add_consultation_layout);
         ButterKnife.bind(this);
+        progressDialog= new ProgressDialog(this);
         setSupportActionBar(toolbarForm);
         Log.d("user type: ",Config.USER_TYPE);
         userid=Config.USER_ID;
@@ -101,7 +107,6 @@ public class AddConsultationActivity extends AppCompatActivity implements AddCon
                 _layoutUpdateForm.setVisibility(View.VISIBLE);
                 _layoutConsultantType.setVisibility(View.GONE);
                 _layoutTitle.setVisibility(View.GONE);
-                spinnerLayout.setVisibility(View.GONE);
                 questionsOld.setText(i.getStringExtra("questions"));
                 answersOld.setText(i.getStringExtra("answers"));
             }
@@ -112,8 +117,9 @@ public class AddConsultationActivity extends AppCompatActivity implements AddCon
         }else if(Config.USER_TYPE.equalsIgnoreCase("CONSULTANT")){
             getSupportActionBar().setTitle("Add Answers");
             answersLayout.setVisibility(View.VISIBLE);
-            spinnerLayout.setVisibility(View.GONE);
             Intent i=getIntent();
+            clientId=getIntent().getStringExtra("clientId");
+            Toast.makeText(getApplicationContext(),""+clientId,Toast.LENGTH_LONG).show();
             consultations=new Consultations();
             consultations.setTitle(i.getStringExtra("title"));
             consultations.setConsultationsDate(i.getStringExtra("date"));
@@ -147,6 +153,48 @@ public class AddConsultationActivity extends AppCompatActivity implements AddCon
         addConsultationPresenter.getConsultant("CONSULTANT","KRIMINAL");
 
     }
+    @OnClick(R.id.attachment)
+    public void showFileChooser() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        try {
+            startActivityForResult(
+                    Intent.createChooser(intent, "Select a File to Upload"),
+                    FILE_SELECT_CODE);
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(this, "Please install a File Manager.",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case FILE_SELECT_CODE:
+                if (resultCode == RESULT_OK) {
+                    // Get the Uri of the selected file
+                    try {
+                        Uri uri = data.getData();
+                        Log.d( "File Uri: " , uri.toString());
+                        String path = null;
+                        filePath = FileUtils.getPath(this, uri);
+                        Log.d( "File Path: " , filePath);
+                        attachmentPath.setText(filePath);
+
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+
+                    // Get the file instance
+                    // File file = new File(path);
+                    // Initiate the upload
+                }
+                break;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     @OnClick(R.id.btnAddConsultation)
@@ -165,18 +213,22 @@ public class AddConsultationActivity extends AppCompatActivity implements AddCon
                     cons.setConsultationsType(consultationsType.getSelectedItem().toString());
                     cons.setTitle(title.getText().toString());
                     cons.setQuestions(questions.getText().toString());
-                    cons.setExpertRecomendations(expertRecomendations.getSelectedItem().toString());
                     cons.setClientId(userid);
                     cons.setClientName(clientName);
                     cons.setStatus("new");
                     cons.setStatusAppointment("false");
+                    cons.setClientCity(App.getInstance().getPrefManager().getUser().getCity());
                     Date date = Calendar.getInstance().getTime();
-                    DateFormat formatter = new SimpleDateFormat("dd/MMM/yyyy HH:mm ");
+                    DateFormat formatter = new SimpleDateFormat("dd MMM yyyy HH:mm ");
+                    Long tsLong = System.currentTimeMillis()/1000;
+                    String timestamp = tsLong.toString();
                     String today = formatter.format(date);
                     System.out.println("Today : " + today);
                     cons.setConsultationsDate(today);
+                    cons.setLastUpdateDate(timestamp);
+                    System.out.println("Timestamp : " + timestamp);
                     String statusQuestions = "NEW";
-                    addConsultationPresenter.submitConsultation(cons, statusQuestions);
+                    addConsultationPresenter.submitConsultation(cons, statusQuestions,filePath);
                 } else if(statusConsultation.equals("UPDATE")){
                     Intent intent = getIntent();
                     Consultations cons = new Consultations();
@@ -192,12 +244,12 @@ public class AddConsultationActivity extends AppCompatActivity implements AddCon
                     cons.setStatus("new");
                     cons.setStatusAppointment("false");
                     Date date = Calendar.getInstance().getTime();
-                    DateFormat formatter = new SimpleDateFormat("dd/MMM/yyyy HH:mm ");
+                    DateFormat formatter = new SimpleDateFormat("dd MMM yyyy HH:mm ");
                     String today = formatter.format(date);
                     System.out.println("Today : " + today);
                     cons.setConsultationsDate(today);
                     String statusQuestions = "UPDATE";
-                    addConsultationPresenter.submitConsultation(cons, statusQuestions);
+                    addConsultationPresenter.submitConsultation(cons, statusQuestions,filePath);
                 }
                 else{
                     Intent intent = getIntent();
@@ -215,30 +267,41 @@ public class AddConsultationActivity extends AppCompatActivity implements AddCon
                     cons.setStatus("new");
                     cons.setStatusAppointment("false");
                     Date date = Calendar.getInstance().getTime();
-                    DateFormat formatter = new SimpleDateFormat("dd/MMM/yyyy HH:mm ");
+                    DateFormat formatter = new SimpleDateFormat("dd MMM yyyy HH:mm ");
                     String today = formatter.format(date);
                     System.out.println("Today : " + today);
                     cons.setConsultationsDate(today);
                     String statusQuestions = "PENDING";
                     Log.d("COnsId : ",intent.getStringExtra("consultationId"));
-                    addConsultationPresenter.submitConsultation(cons, statusQuestions);
+                    addConsultationPresenter.submitConsultation(cons, statusQuestions,filePath);
                 }
             } else {
-                String _answers = answers.getText().toString();
-                addConsultationPresenter.answers(consultations.getConsultationId(), consultations.getHistoryId(),consultations.getClientId(), _answers);
+                if (answers.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "please fill answers field..", Toast.LENGTH_LONG).show();
+                } else {
+                    String _answers = answers.getText().toString();
+                    addConsultationPresenter.answers(consultations.getConsultationId(), consultations.getHistoryId(), clientId, _answers,filePath);
+                }
             }
         }
     }
 
     @Override
-    public void detailConsultationResult(boolean result) {
+    public void detailConsultationResult(boolean result,String consultationId) {
         if (result){
-            Toast.makeText(getApplicationContext(),"data created",Toast.LENGTH_LONG).show();
+            /*Toast.makeText(getApplicationContext(),"data created",Toast.LENGTH_LONG).show();
             Intent intent = new Intent();
             intent.putExtra("userid",userid);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.setClassName(this, "com.app.tanyahukum.view.ListConsultationActivity");
+            startActivity(intent);
+            */
+            Intent intent = new Intent();
+            intent.putExtra("consultationId",consultationId);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setClassName(this, "com.app.tanyahukum.view.QuestionsDetailActivity");
             startActivity(intent);
         }else{
             Toast.makeText(getApplicationContext(),"failed create consultations",Toast.LENGTH_LONG).show();
@@ -254,6 +317,19 @@ public class AddConsultationActivity extends AppCompatActivity implements AddCon
         int duration = Toast.LENGTH_SHORT;
         Toast toast = Toast.makeText(getApplicationContext(), msg, duration);
         toast.show();
+    }
+
+    @Override
+    public void showProgressDialog(boolean status) {
+        if(status){
+            progressDialog.setTitle("Search Consultant");
+            progressDialog.setMessage("please wait we are finding consultant..");
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+        }else{
+            progressDialog.dismiss();
+        }
     }
 
     @Override
