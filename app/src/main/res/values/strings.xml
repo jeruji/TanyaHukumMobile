@@ -59,5 +59,9 @@
     <string name="validate_wrong_email">Please correct your email address</string>
     <string name="continue_tag">Continue</string>
     <string name="agree_tag">Setuju</string>
+    <string name="national_id">National ID Card / KTP</string>
+    <string name="ijazah_file">University Certificate / Ijazah</string>
+    <string name="sertifikat_file">Profesional Certificate / Sertifikat</string>
+    <string name="bank_file">Scan Halaman 1 Buku Tabungan</string>
     <string name="terms_and_condition">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 </resources>
