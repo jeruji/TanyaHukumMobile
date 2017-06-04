@@ -27,7 +27,7 @@ public interface AddAppointmentActivityInterface {
         void proposeAppointment(String appointmetId,String clientId,String consultantId,String date,String appointment);
         void approveAppointment(String appointmentId,String clientId,String consultantId);
         void doneAppointment(String appointmentId,String questionsId,String clientId, String consultantId);
-        void rateConsultant(String appointmentId,String rate);
+        void rateConsultant(String appointmentId,String rate,String report);
         void reportAppointment(String appointmentId,String report);
         void getAppointmentById(String appointment);
     }

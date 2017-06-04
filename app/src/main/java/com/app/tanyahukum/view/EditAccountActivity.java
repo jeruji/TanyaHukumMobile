@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -89,6 +90,18 @@ public class EditAccountActivity extends AppCompatActivity implements EditAccoun
     TextView _lawFirmProvince;
     @BindView(R.id.progress)
     ProgressBar mProgress;
+    @BindView(R.id.tableRowSpecialization)
+    TableRow tableRowSpecialization;
+    @BindView(R.id.tableRowLawFirm)
+    TableRow tableRowLawFirm;
+    @BindView(R.id.tableRowCity)
+    TableRow tableRowCity;
+    @BindView(R.id.tableRowProvince)
+    TableRow tableRowProvince;
+    @BindView(R.id.tableRowAddress)
+    TableRow tableRowAddress;
+    @BindView(R.id.tableRowPhone)
+    TableRow tableRowPhone;
     @Inject
     EditAccountPresenter editAccountPresenter;
     RecyclerView _rcylerViewDialog;
@@ -118,9 +131,20 @@ public class EditAccountActivity extends AppCompatActivity implements EditAccoun
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String user=userType.getSelectedItem().toString();
                 if (user.equals("Client")){
-                    //layoutFormConsultant.setVisibility(View.GONE);
+                    tableRowSpecialization.setVisibility(View.GONE);
+                    tableRowLawFirm.setVisibility(View.GONE);
+                    tableRowProvince.setVisibility(View.GONE);
+                    tableRowCity.setVisibility(View.GONE);
+                    tableRowAddress.setVisibility(View.GONE);
+                    tableRowPhone.setVisibility(View.GONE);
+
                 }else if(user.equals("Consultant")){
-                    //layoutFormConsultant.setVisibility(View.VISIBLE);
+                    tableRowSpecialization.setVisibility(View.VISIBLE);
+                    tableRowLawFirm.setVisibility(View.VISIBLE);
+                    tableRowProvince.setVisibility(View.VISIBLE);
+                    tableRowCity.setVisibility(View.VISIBLE);
+                    tableRowAddress.setVisibility(View.VISIBLE);
+                    tableRowPhone.setVisibility(View.VISIBLE);
                 }
             }
             @Override
@@ -137,25 +161,32 @@ public class EditAccountActivity extends AppCompatActivity implements EditAccoun
             _name.setText(user.getName());
             _email.setText(user.getEmail());
             _borndate.setText(user.getBornDate());
-            //_gender.setText(user.getGender());
+
             _phone.setText(user.getPhone());
             _province.setText(user.getProvince());
             _city.setText(user.getCity());
             _address.setText(user.getAddress());
-            //_layoutLawFirm.setVisibility(View.VISIBLE);
+
             _name.setText(user.getName());
             _email.setText(user.getEmail());
             _borndate.setText(user.getBornDate());
-           // _gender.setText(user.getGender());
+
             _phone.setText(user.getPhone());
             _province.setText(user.getProvince());
             _city.setText(user.getCity());
             _address.setText(user.getAddress());
+        if (user.getGender().equalsIgnoreCase("FEMALE"))
+            gender.setSelection(1);
+        if (user.getUsertype().equalsIgnoreCase("CONSULTANT")){
+            userType.setSelection(1);
             _lawFirm.setText(user.getLawFirm());
+            _lawFirmProvince.setText(user.getLawFirmProvince());
             _lawFirmCity.setText(user.getLawFirmCity());
             _lawFirmAddress.setText(user.getLawFirmAddress());
             _lawFirmPhone.setText(user.getLawFirmPhone());
-            firebaseToken=user.getFirebaseToken();
+        }
+
+        firebaseToken=user.getFirebaseToken();
             userId=user.getId();
     }
 
@@ -199,6 +230,7 @@ public class EditAccountActivity extends AppCompatActivity implements EditAccoun
 
         }
         users.setLawFirm(_lawFirm.getText().toString());
+        users.setLawFirmProvince(_lawFirmProvince.getText().toString());
         users.setLawFirmCity(_lawFirmCity.getText().toString());
         users.setLawFirmAddress(_lawFirmAddress.getText().toString());
         users.setLawFirmPhone(_lawFirmPhone.getText().toString());
@@ -244,9 +276,12 @@ public class EditAccountActivity extends AppCompatActivity implements EditAccoun
                 prov_id=prov.getId();
                 if (tipe.equalsIgnoreCase("FIRM")){
                     _lawFirmProvince.setText(prov.getNama());
+                    _lawFirmCity.setText("");
                 }else {
+                    _city.setText("");
                     _province.setText(prov.getNama());
                 }
+
                 dialog.dismiss();
             }
             @Override

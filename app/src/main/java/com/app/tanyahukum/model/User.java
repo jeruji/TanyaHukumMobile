@@ -43,6 +43,15 @@ public class User {
     }
     private String lawFirm;
     private String lawFirmCity;
+    private String lawFirmProvince;
+
+    public String getLawFirmProvince() {
+        return lawFirmProvince;
+    }
+
+    public void setLawFirmProvince(String lawFirmProvince) {
+        this.lawFirmProvince = lawFirmProvince;
+    }
 
     public String getLawFirm() {
         return lawFirm;

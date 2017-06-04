@@ -373,7 +373,6 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
                 public void onDataChange(DataSnapshot tasksSnapshot) {
                     try {
                         appointmentRef.child(appointmentId).child("status").setValue("Done");
-                       // view.sendReport();
                         view.toAppointmentList(true,"HISTORY");
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -423,9 +422,7 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
                 public void onDataChange(DataSnapshot tasksSnapshot) {
                     try {
                           appointmentRef.child(appointmentId).child("status").setValue("Done");
-                       // view.toAppointmentList(true,"HISTORY");
-                        view.sendReport();
-                        Log.d("success update : ", "true");
+                          view.toAppointmentList(true,"HISTORY");
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -456,12 +453,13 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
     }
 
     @Override
-    public void rateConsultant(final String appointmentId, final String rate) {
+    public void rateConsultant(final String appointmentId, final String rate,final String report) {
         appointmentRef.child(appointmentId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot tasksSnapshot) {
                 try {
                     appointmentRef.child(appointmentId).child("rating").setValue(rate);
+                    appointmentRef.child(appointmentId).child("report").setValue(report);
                     view.toAppointmentList(true,"");
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -483,7 +481,6 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
             public void onDataChange(DataSnapshot tasksSnapshot) {
                 try {
                     appointmentRef.child(appointmentId).child("report").setValue(report);
-                    view.toAppointmentList(true,"");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

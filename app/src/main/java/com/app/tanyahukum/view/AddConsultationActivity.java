@@ -119,7 +119,6 @@ public class AddConsultationActivity extends AppCompatActivity implements AddCon
             answersLayout.setVisibility(View.VISIBLE);
             Intent i=getIntent();
             clientId=getIntent().getStringExtra("clientId");
-            Toast.makeText(getApplicationContext(),""+clientId,Toast.LENGTH_LONG).show();
             consultations=new Consultations();
             consultations.setTitle(i.getStringExtra("title"));
             consultations.setConsultationsDate(i.getStringExtra("date"));
