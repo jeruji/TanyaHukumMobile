@@ -562,6 +562,32 @@
             </TableRow>
             <TableRow>
                 <RelativeLayout
+                    android:id="@+id/layoutReport"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/labelReport"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Report"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginLeft="30dp"/>
+
+                    <EditText
+                        android:layout_below="@+id/labelReport"
+                        android:id="@+id/edTextReport"
+                        android:layout_width="match_parent"
+                        android:padding="@dimen/padding"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                        android:layout_weight="1"
+                        android:hint="" />
+                </RelativeLayout>
+            </TableRow>
+
+            <TableRow>
+                <RelativeLayout
                     android:id="@+id/rating"
                     android:visibility="gone"
                     android:layout_width="match_parent"

@@ -120,18 +120,6 @@ public class AddConsultationPresenter implements AddConsultationActivityInterfac
                                                             if (user.getCity().equalsIgnoreCase(consultations.getClientCity())) {
                                                                 List<Integer> totalAnswers = new ArrayList<Integer>();
                                                                 totalAnswers.add(user.getTotalConsultation());
-
-                                                               /* int min = totalAnswers.get(0);
-                                                                for (int counter = 1; counter < totalAnswers.size(); counter++)
-                                                                {
-                                                                    if (totalAnswers.get(counter) < min)
-                                                                    {
-                                                                        min = totalAnswers.get(counter);
-                                                                    }
-                                                                    if ()
-                                                                }
-                                                                System.out.println("The minimum number is: " + min);
-                                                              */
                                                                 int totalAnswersMin = Collections.min(totalAnswers);
                                                                 Log.d("total answers:", String.valueOf(totalAnswersMin));
                                                                 if (totalAnswersMin == user.getTotalConsultation()) {
@@ -161,12 +149,18 @@ public class AddConsultationPresenter implements AddConsultationActivityInterfac
                                                     @Override
                                                     public void onDataChange(DataSnapshot tasksSnapshot) {
                                                         try {
-                                                            dbRef.child(consultations.getConsultationId()).child("consultantId").setValue(consultantId);
-                                                            dbRef.child(consultations.getConsultationId()).child("consultantName").setValue(consultantName);
-                                                            dbRef.child(consultations.getConsultationId()).child("status").setValue("Accepted");
-                                                            stop=false;
-                                                            view.showProgressDialog(false);
-                                                            view.detailConsultationResult(true,consultations.getConsultationId());
+                                                            if (consultantId==null){
+                                                                view.showProgressDialog(false);
+                                                                dbRef.child(consultations.getConsultationId()).removeValue();
+                                                                view.infoDialog("Consultant is not available");
+                                                            }else {
+                                                                dbRef.child(consultations.getConsultationId()).child("consultantId").setValue(consultantId);
+                                                                dbRef.child(consultations.getConsultationId()).child("consultantName").setValue(consultantName);
+                                                                dbRef.child(consultations.getConsultationId()).child("status").setValue("Accepted");
+                                                                stop = false;
+                                                                view.showProgressDialog(false);
+                                                                view.detailConsultationResult(true, consultations.getConsultationId());
+                                                            }
                                                         } catch (Exception e) {
                                                             e.printStackTrace();
                                                         }
@@ -176,29 +170,33 @@ public class AddConsultationPresenter implements AddConsultationActivityInterfac
 
                                                     }
                                                 });
-                                                userRef.child(consultantId).addListenerForSingleValueEvent(new ValueEventListener() {
-                                                    @Override
-                                                    public void onDataChange(DataSnapshot tasksSnapshot) {
-                                                        try {
-                                                            userRef.child(consultantId).child("totalConsultation").setValue(totalAnswerValue+1);
-                                                            stop=false;
-                                                            view.showProgressDialog(false);
-                                                            view.detailConsultationResult(true,consultations.getConsultationId());
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
+                                                if (consultantId!=null) {
+                                                    userRef.child(consultantId).addListenerForSingleValueEvent(new ValueEventListener() {
+                                                        @Override
+                                                        public void onDataChange(DataSnapshot tasksSnapshot) {
+                                                            try {
+                                                                userRef.child(consultantId).child("totalConsultation").setValue(totalAnswerValue + 1);
+                                                                stop = false;
+                                                                view.showProgressDialog(false);
+                                                                view.detailConsultationResult(true, consultations.getConsultationId());
+                                                            } catch (Exception e) {
+                                                                e.printStackTrace();
+                                                            }
                                                         }
-                                                    }
-                                                    @Override
-                                                    public void onCancelled(DatabaseError databaseError) {
 
-                                                    }
-                                                });
+                                                        @Override
+                                                        public void onCancelled(DatabaseError databaseError) {
+
+                                                        }
+                                                    });
+                                                }
                                             }
                                             @Override
                                             public void onCancelled(DatabaseError databaseError) {
 
                                             }
                                         });
+
                                     }else{
                                         stop=false;
                                         Log.d("status else",consultationsStatus.getStatus());

@@ -349,7 +349,11 @@
                         android:layout_weight="1" />
                 </RelativeLayout>
             </TableRow>
-            <TableRow>
+            <TableRow
+                android:id="@+id/tableRowSpecialization"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
                 <RelativeLayout android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_marginTop="10dp"
@@ -378,7 +382,11 @@
                 </RelativeLayout>
             </TableRow>
 
-            <TableRow>
+            <TableRow
+            android:id="@+id/tableRowLawFirm"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
                 <RelativeLayout android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_marginTop="10dp"
@@ -414,8 +422,13 @@
                 </RelativeLayout>
 
             </TableRow>
-            <TableRow>
-                <RelativeLayout android:layout_weight="1"
+            <TableRow
+                android:id="@+id/tableRowProvince"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            <RelativeLayout android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_height="wrap_content"
@@ -459,7 +472,12 @@
                     android:src="@drawable/expand_icon" />
 
             </TableRow>
-            <TableRow>
+
+            <TableRow
+                android:id="@+id/tableRowCity"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
                 <RelativeLayout android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_marginTop="10dp"
@@ -504,7 +522,11 @@
                     android:src="@drawable/expand_icon" />
 
             </TableRow>
-            <TableRow>
+            <TableRow
+                android:id="@+id/tableRowAddress"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
                 <RelativeLayout android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_marginTop="10dp"
@@ -540,7 +562,11 @@
                 </RelativeLayout>
 
             </TableRow>
-            <TableRow>
+            <TableRow
+                android:id="@+id/tableRowPhone"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
                 <RelativeLayout android:layout_weight="1"
                     android:layout_width="wrap_content"
                     android:layout_marginTop="10dp"

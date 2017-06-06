@@ -94,7 +94,8 @@ public class EditAccountPresenter implements EditAccountInterface.Presenter {
                     userRef.child(userId).child("lawFirm").setValue(user.getLawFirm());
                     userRef.child(userId).child("lawFirmAddress:").setValue(user.getLawFirmAddress());
                     userRef.child(userId).child("lawFirmCity").setValue(user.getLawFirmCity());
-                    userRef.child(userId).child("lawFirmAddress").setValue(user.getLawFirmAddress());
+                    userRef.child(userId).child("lawFirmPhone").setValue(user.getLawFirmPhone());
+                    userRef.child(userId).child("lawFirmProvince").setValue(user.getLawFirmProvince());
                     view.showProgress(false);
                     view.toMyAccountPage(true);
                 } catch (Exception e) {

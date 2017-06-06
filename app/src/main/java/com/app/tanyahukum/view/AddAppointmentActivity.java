@@ -121,6 +121,10 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     RelativeLayout layoutRating;
     @BindView(R.id.appointmentRate)
     RatingBar rating;
+    @BindView(R.id.layoutReport)
+    RelativeLayout layoutReport;
+    @BindView(R.id.edTextReport)
+    EditText report;
     @Inject
     AddAppointmentPresenter addAppointmentPresenter;
     Appointment appointments;
@@ -202,6 +206,10 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                     rating.setEnabled(false);
                     LayerDrawable stars = (LayerDrawable) rating.getProgressDrawable();
                     stars.getDrawable(2).setColorFilter(Color.parseColor("#0097a7"), PorterDuff.Mode.SRC_ATOP);
+                    layoutReport.setVisibility(View.VISIBLE);
+                    report.setText(appointments.getReport());
+                    report.setEnabled(false);
+                    report.setTextColor(Color.parseColor("#000000"));
                 }
 
 
@@ -342,7 +350,11 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
                     rating.setEnabled(false);
                     LayerDrawable stars = (LayerDrawable) rating.getProgressDrawable();
                     stars.getDrawable(2).setColorFilter(Color.parseColor("#0097a7"), PorterDuff.Mode.SRC_ATOP);
-                }
+                layoutReport.setVisibility(View.VISIBLE);
+                report.setText(appointments.getReport());
+                report.setEnabled(false);
+                report.setTextColor(Color.parseColor("#000000"));
+            }
             calenderAppointment.setEnabled(false);
             selectTimeAppointment.setEnabled(false);
             _layoutStatusAppointment.setVisibility(View.VISIBLE);
@@ -598,13 +610,12 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
         View layout=inflater.inflate(R.layout.rate_appointment_layout,null);
         alert.setView(layout);
         final RatingBar rate=(RatingBar) layout.findViewById(R.id.appointmentRate);
+        final EditText report= (EditText) layout.findViewById(R.id.editTextInputReport);
         final AppCompatButton btnSubmit= (AppCompatButton) layout.findViewById(R.id.btnSubmit);
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addAppointmentPresenter.rateConsultant(appointments.getAppointmentId(),String.valueOf(rate.getRating()));
-
-            }
+                addAppointmentPresenter.rateConsultant(appointments.getAppointmentId(),String.valueOf(rate.getRating()),report.getText().toString());       }
         });
         alert.show();
     }

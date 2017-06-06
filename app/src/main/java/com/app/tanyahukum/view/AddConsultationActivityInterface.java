@@ -12,6 +12,7 @@ public interface AddConsultationActivityInterface {
         void detailConsultationResult(boolean result,String consultationId);
         void toastShedule(String msg);
         void showProgressDialog(boolean status);
+        void infoDialog(String message);
     }
     interface Presenter{
         void submitConsultation(Consultations consultations,String status,String path);

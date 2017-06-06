@@ -4,7 +4,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/labelInputReport"
+        android:id="@+id/labelInputRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Rate Appointment"
@@ -12,22 +12,39 @@
         android:layout_marginLeft="30dp"/>
 
     <RatingBar
-        android:layout_below="@+id/labelInputReport"
+        android:layout_below="@+id/labelInputRate"
         android:id="@+id/appointmentRate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:numStars="5" />
+    <TextView
+        android:id="@+id/labelInputReport"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Input Report"
+        android:layout_below="@+id/appointmentRate"
+        android:layout_marginLeft="30dp"/>
+
+    <EditText
+        android:layout_below="@+id/labelInputReport"
+        android:id="@+id/editTextInputReport"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        />
+
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/btnSubmit"
         android:layout_width="100dp"
         android:layout_height="40dp"
-        android:layout_marginTop="10dp"
         android:layout_marginBottom="20dp"
         android:text="Rate"
         android:textColor="@color/white"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/appointmentRate"
+        android:layout_below="@+id/editTextInputReport"
         android:layout_marginRight="20dp"
         android:backgroundTint="@color/colorPrimaryDark"/>
 </RelativeLayout>
