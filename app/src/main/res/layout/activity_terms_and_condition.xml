@@ -5,25 +5,44 @@
     android:layout_height="match_parent"
     tools:context="com.app.tanyahukum.view.TermsAndConditionActivity">
 
-    <ImageView
-        android:id="@+id/logo"
+    <LinearLayout
+        android:id="@+id/linImage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/marginTopHeader"
-        android:layout_marginLeft="@dimen/marginGeneral"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/logo" />
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+            android:src="@drawable/logo_medium" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="horizontal" >
+        </LinearLayout>
+    </LinearLayout>
 
     <WebView
         android:id="@+id/containerTermsAndCondition"
-        android:layout_below="@+id/logo"
+        android:layout_below="@+id/linImage"
         android:layout_marginTop="@dimen/marginTopHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/logo"
-        android:layout_alignRight="@+id/logo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/marginGeneral"
+        android:layout_marginRight="@dimen/marginGeneral"
         android:verticalScrollbarPosition="right" />
 
 
@@ -42,8 +61,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/checkTermsAndCondition"
         android:layout_marginTop="@dimen/marginTopHeader"
-        android:layout_alignLeft="@+id/logo"
-        android:layout_alignRight="@+id/logo"
+        android:layout_alignLeft="@+id/containerTermsAndCondition"
+        android:layout_alignRight="@+id/containerTermsAndCondition"
         android:text="@string/continue_tag"
         android:textColor="@color/white"
         android:backgroundTint="@color/colorPrimary"

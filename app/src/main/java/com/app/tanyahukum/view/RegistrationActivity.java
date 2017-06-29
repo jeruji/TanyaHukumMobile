@@ -1,18 +1,26 @@
 package com.app.tanyahukum.view;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -25,7 +33,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,10 +46,10 @@ import com.app.tanyahukum.model.Province;
 import com.app.tanyahukum.model.Regency;
 import com.app.tanyahukum.model.User;
 import com.app.tanyahukum.presenter.RegistrationPresenter;
-import com.app.tanyahukum.util.Config;
 import com.app.tanyahukum.util.MultiSpinner;
 import com.app.tanyahukum.util.MultiSpinnerListener;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -98,6 +105,15 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     ImageView _showPassword;
     @BindView(R.id.invisibility)
     ImageView _hidePassword;
+    @BindView(R.id.attachID)
+    TextView nationalIdText;
+    @BindView(R.id.attachIjazah)
+    TextView ijazahText;
+    @BindView(R.id.attachSertifikat)
+    TextView sertifikatText;
+    @BindView(R.id.attachBank)
+    TextView bankText;
+
     @Inject
     RegistrationPresenter registrationPresenter;
     ArrayList<String> selectedSpecialization;
@@ -110,6 +126,9 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     ArrayList<Regency> regencyArrayList;
     private ProvinceAdapter provinceAdapter;
     private RegencyAdapter regencyAdapter;
+
+    File nationalIdFile, ijazahFile, sertifikatFile, bankFile;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registration_layout);
@@ -119,6 +138,10 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
                 .registrationActivityModule(new RegistrationActivityModule(this, this))
                 .build().inject(this);
 
+
+        Resources res = getResources();
+        ArrayAdapter<String > gender_adapter = new ArrayAdapter<String> (this, R.layout.spinner_style, res.getStringArray(R.array.gender));
+        gender.setAdapter(gender_adapter);
         regencyArrayList =new ArrayList<>();
          Intent i=getIntent();
         loginType=i.getStringExtra("loginType");
@@ -129,10 +152,16 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
                 name.setText(nameStr);
                 email.setText(emailStr);
             }
-            province.setEnabled(false);
-            province.setTextColor(Color.parseColor("#000000"));
+
+        province.setEnabled(false);
+        province.setTextColor(Color.parseColor("#000000"));
+
         city.setEnabled(false);
         city.setTextColor(Color.parseColor("#000000"));
+
+        lawFirmCity.setEnabled(false);
+        lawFirmCity.setTextColor(Color.parseColor("#000000"));
+
         List<String> specialization = Arrays.asList(getResources().getStringArray(R.array.specialization));
         specializationSpinner.setItems(specialization, "Select Specialization", this);
         selectedSpecialization = new ArrayList<>();
@@ -182,22 +211,33 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     @Override
     @OnClick(R.id.btnSignUp)
     public void submit() {
-        String nameStr=name.getText().toString();
+        String nameStr = name.getText().toString();
         String genderStr = gender.getSelectedItem().toString();
         String emailStr = email.getText().toString();
         String passwordStr = password.getText().toString();
-        String bornDateStr= bornDate.getText().toString();
-        String provinceStr=
-               // "";
-                province.getText().toString();
-        String cityStr=
-                "";
-                city.getText().toString();
-        String addressStr=address.getText().toString();
-        String phoneStr=phone.getText().toString();
-        String userTypeStr=userType.getSelectedItem().toString();
-        int statusValidation=registrationPresenter.checkValidation( nameStr,  genderStr,  bornDateStr,  emailStr,  passwordStr,  provinceStr,  cityStr,  addressStr,  phoneStr,  userTypeStr);
-        if(statusValidation==1) {
+        String bornDateStr = bornDate.getText().toString();
+        String provinceStr = province.getText().toString();
+        String cityStr = city.getText().toString();
+        String addressStr = address.getText().toString();
+        String phoneStr = phone.getText().toString();
+        String userTypeStr = userType.getSelectedItem().toString();
+        String IdCardStr = nationalIdText.getText().toString();
+        String ijazahStr = ijazahText.getText().toString();
+        String sertifikatStr = sertifikatText.getText().toString();
+        String bankStr = bankText.getText().toString();
+        String spesializationStr = specializationSpinner.getSelectedItem().toString();
+
+
+        int statusValidation = 0;
+
+        if(userTypeStr.equals("Consultant")){
+            statusValidation=registrationPresenter.checkValidation( nameStr,  genderStr,  bornDateStr,  emailStr,  passwordStr,  provinceStr,  cityStr,  addressStr,  phoneStr,  userTypeStr, spesializationStr, IdCardStr, ijazahStr, sertifikatStr, bankStr);
+        }
+        else{
+            statusValidation=registrationPresenter.checkValidation( nameStr,  genderStr,  bornDateStr,  emailStr,  passwordStr,  provinceStr,  cityStr,  addressStr,  phoneStr,  userTypeStr);
+        }
+
+        if(statusValidation==1||statusValidation==2) {
             name.setError("Name is invalid, minimal 3 characters");
         }
         else
@@ -217,10 +257,49 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         }
         else
         if(statusValidation==6) {
-            phone.setError("phone number is not empty");
+            phone.setError("Phone Number Cannot be Empty");
         }
         else
-        registrationPresenter.submitRegistration(loginType,userId,nameStr,genderStr,bornDateStr,emailStr,passwordStr, provinceStr, cityStr,addressStr,phoneStr,userTypeStr);
+        if(statusValidation==7) {
+            bornDate.setError("Born Date Cannot be Empty");
+        }
+        else
+        if(statusValidation==8) {
+            province.setError("Please Select Your Current Province");
+        }
+        else
+        if(statusValidation==9) {
+            city.setError("Please Select Your Current City");
+        }
+        else
+        if(statusValidation==10) {
+            address.setError("Address Cannot be Empty");
+        }
+        else
+        if(statusValidation==11) {
+            nationalIdText.setError("Please Attach Your National ID Card");
+        }
+        else
+        if(statusValidation==12) {
+            ijazahText.setError("Please Attach Your University Certificate");
+        }
+        else
+        if(statusValidation==13) {
+            sertifikatText.setError("Please Attach Your Professional Certificate");
+        }
+        else
+        if(statusValidation==14) {
+            bankText.setError("Please Attach Your Bank Account First Page");
+        }
+        else
+        if(statusValidation==15) {
+            TextView errorText = (TextView)specializationSpinner.getSelectedView();
+            errorText.setError("");
+            errorText.setTextColor(Color.RED);
+            errorText.setText("Please Choose Your Spesialization");
+        }
+        else
+            registrationPresenter.submitRegistration(loginType, userId, nameStr, genderStr, bornDateStr, emailStr, passwordStr, provinceStr, cityStr, addressStr, phoneStr, userTypeStr);
     }
 
     @Override
@@ -231,8 +310,6 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         address.setText("");
         password.setText("");
         bornDate.setText("");
-        //province.setSe("");
-        //city.setText("");
         lawFirm.setText("");
         lawFirmCity.setText("");
         lawFirmAddress.setText("");
@@ -240,6 +317,87 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
         phone.setText("");
     }
 
+    @OnClick(R.id.btnNationalID)
+    public void uploadIdCard(){
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(intent, 1);
+    }
+
+    @OnClick(R.id.btnIjazah)
+    public void uploadIjazah(){
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(intent, 2);
+    }
+
+    @OnClick(R.id.btnSertifikat)
+    public void uploadSertifikat(){
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(intent, 3);
+    }
+
+    @OnClick(R.id.btnBank)
+    public void uploadBank(){
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(intent, 4);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            nationalIdFile = getBitmapFile(data);
+            nationalIdText.setText(nationalIdFile.getPath().toString());
+        }
+        else if(requestCode == 2 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            ijazahFile = getBitmapFile(data);
+            ijazahText.setText(ijazahFile.getPath().toString());
+        }
+        else if(requestCode == 3 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            sertifikatFile = getBitmapFile(data);
+            sertifikatText.setText(sertifikatFile.getPath().toString());
+        }
+        else if(requestCode == 4 && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            bankFile = getBitmapFile(data);
+            bankText.setText(bankFile.getPath().toString());
+        }
+    }
+
+    public File getBitmapFile(Intent data) {
+
+        isStoragePermissionGranted();
+
+        Uri selectedImage = data.getData();
+        Cursor cursor = getContentResolver().query(selectedImage, new String[] { android.provider.MediaStore.Images.Media.DATA }, null, null, null);
+        cursor.moveToFirst();
+
+        int idx = cursor.getColumnIndex(MediaStore.Images.Media.DATA);
+        String selectedImagePath = cursor.getString(idx);
+        cursor.close();
+
+        return new File(selectedImagePath);
+    }
+
+    public  boolean isStoragePermissionGranted() {
+        if (Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    == PackageManager.PERMISSION_GRANTED) {
+                return true;
+            } else {
+
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                return false;
+            }
+        }
+        else {
+            return true;
+        }
+    }
 
     @Override
     public void registrationResult(String result, boolean status) {
@@ -283,10 +441,29 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
             if (loginType.equals("FACEBOOK")||loginType.equals("GMAIL")){
                 user.setId(userId);
                 App.getInstance().getPrefManager().storeUser(user);
-                registrationPresenter.submitUserDetail(user);
+
+                if(userStr.equals("Consultant")) {
+                    File[] fileArr = new File[4];
+                    fileArr[0] = nationalIdFile;
+                    fileArr[1] = ijazahFile;
+                    fileArr[2] = sertifikatFile;
+                    fileArr[3] = bankFile;
+                    registrationPresenter.submitUserDetail(user, fileArr);
+                }
+                else
+                    registrationPresenter.submitUserDetail(user);
             }else {
                 user.setId(result);
-                registrationPresenter.submitUserDetail(user);
+                if(userStr.equals("Consultant")) {
+                    File[] fileArr = new File[4];
+                    fileArr[0] = nationalIdFile;
+                    fileArr[1] = ijazahFile;
+                    fileArr[2] = sertifikatFile;
+                    fileArr[3] = bankFile;
+                    registrationPresenter.submitUserDetail(user, fileArr);
+                }
+                else
+                    registrationPresenter.submitUserDetail(user);
             }
         }
         else
@@ -297,6 +474,19 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
     @Override
     public void detailRegistrationResult(boolean status) {
         if(status){
+
+            AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+            dlgAlert.setMessage("Registration Success, Please Login");
+            dlgAlert.setTitle("Success");
+            dlgAlert.setPositiveButton("OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            return;
+                        }
+                    });
+            dlgAlert.setCancelable(false);
+            dlgAlert.create().show();
+
             if (loginType.equals("FACEBOOK")||loginType.equals("GMAIL")){
                 Intent intent = new Intent();
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -311,9 +501,19 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
                 startActivity(intent);
             }
         }
-        else
-            Toast.makeText(this, "false", Toast.LENGTH_LONG).show();
-
+        else {
+            AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+            dlgAlert.setMessage("Registration Failed, Please Retry");
+            dlgAlert.setTitle("Failed");
+            dlgAlert.setPositiveButton("OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            return;
+                        }
+                    });
+            dlgAlert.setCancelable(false);
+            dlgAlert.create().show();
+        }
 
     }
 
@@ -359,6 +559,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
 
     @Override
     public void showSpinnerProvince(List<Province> provList) {
+        //noinspection RestrictedApi
         final Dialog dialog=new Dialog(new ContextThemeWrapper(this,R.style.AppCompatAlertDialogStyle));
         LayoutInflater factory=LayoutInflater.from(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -394,6 +595,7 @@ public class RegistrationActivity extends AppCompatActivity implements Registrat
 
     @Override
     public void showSpinnerRegency(List<Regency> regencyList, final String tipe) {
+        //noinspection RestrictedApi
         final Dialog dialog=new Dialog(new ContextThemeWrapper(this,R.style.AppCompatAlertDialogStyle));
       LayoutInflater factory=LayoutInflater.from(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
