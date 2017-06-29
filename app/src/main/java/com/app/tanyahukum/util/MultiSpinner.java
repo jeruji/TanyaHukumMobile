@@ -5,18 +5,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
+import android.support.v7.widget.AppCompatSpinner;
 import android.util.AttributeSet;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 
 import com.app.tanyahukum.R;
+
 import java.util.List;
 
 /**
  * Created by echosimanjuntak on 1/14/17.
  */
 
-public class MultiSpinner extends Spinner implements OnMultiChoiceClickListener, OnCancelListener {
+public class MultiSpinner extends AppCompatSpinner implements OnMultiChoiceClickListener, OnCancelListener {
 
     private List<String> items;
     private boolean[] selected;
@@ -48,13 +49,13 @@ public class MultiSpinner extends Spinner implements OnMultiChoiceClickListener,
             }
         }
         String spinnerText;
-        if (someUnselected) {
-            spinnerText = spinnerBuffer.toString();
-            if (spinnerText.length() > 2)
-                spinnerText = spinnerText.substring(0, spinnerText.length() - 2);
-        } else {
+
+        spinnerText = spinnerBuffer.toString();
+        if (spinnerText.length() > 2)
+            spinnerText = spinnerText.substring(0, spinnerText.length() - 2);
+        else
             spinnerText = defaultText;
-        }
+
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_item,
                 new String[] { spinnerText });

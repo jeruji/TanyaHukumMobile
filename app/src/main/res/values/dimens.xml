@@ -9,4 +9,5 @@
     <dimen name="marginTopHeader">20dp</dimen>
     <dimen name="marginGeneral">30dp</dimen>
     <dimen name="marginVisiblePass">10dp</dimen>
+    <dimen name="spinner_horizontal_margin">70dp</dimen>
 </resources>

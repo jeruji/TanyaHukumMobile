@@ -4,7 +4,7 @@ import com.app.tanyahukum.model.Province;
 import com.app.tanyahukum.model.Regency;
 import com.app.tanyahukum.model.User;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -29,9 +29,11 @@ public interface RegistrationActivityInterface {
     }
 
     interface Presenter{
-        int checkValidation(String name,String gender,String bornDate,String email, String password,String province, String city,String address,String phone,String usertType );
+        int checkValidation(String name,String gender,String bornDate,String email, String password,String province, String city,String address,String phone,String usertType);
+        int checkValidation(String name,String gender,String bornDate,String email, String password, String province, String city, String address, String phone, String usertType, String spesializationStr, String IdCardStr, String ijazahStr, String sertifikatStr, String bankStr);
         void submitRegistration(String loginType,String userId,String name,String gender,String bornDate,String email, String password,String province, String city,String address,String phone,String usertType );
         void submitUserDetail(User user);
+        void submitUserDetail(User user, File[] fileArr);
         void getProvince();
         void getRegencies(Long provinceId,String tipe);
     }

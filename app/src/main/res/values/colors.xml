@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#00bcd4</color>
+    <color name="colorPrimary">#103f60</color>
     <color name="colorPrimaryDark">#0097a7</color>
     <color name="colorAccent">#0097a7</color>
     <color name="textColorPrimary">#90000000</color>
@@ -9,6 +9,8 @@
     <color name="bgEmail">#C62828</color>
     <color name="bgFacebook">#01579B</color>
     <color name="bgLogin">#4b576a</color>
+    <color name="colorText">#162d51</color>
+    <color name="bgSpinner">#3c83b3</color>
 
     <color name="colorAccentDark">#dedfe4</color>
     <color name="black">#000000</color>

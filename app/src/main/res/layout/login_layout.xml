@@ -4,23 +4,41 @@
     android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/logo"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_med">
+        
+        <LinearLayout
+            android:id="@+id/linImage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/marginTopHeader"
-            android:layout_marginLeft="@dimen/marginGeneral"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/logo" />
+            android:orientation="horizontal">
+            
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/logo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="5"
+                android:src="@drawable/logo_medium" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="horizontal" >
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/logo"
+            android:layout_below="@+id/linImage"
             android:layout_marginTop="@dimen/marginGeneral"
             android:id="@+id/labelEmail"
             android:layout_marginLeft="@dimen/marginGeneral"
@@ -116,10 +134,9 @@
             android:background="@android:color/transparent"
             android:contentDescription="@string/facebook_sign_in"
             android:layout_toRightOf="@+id/btnGmail"
-            android:layout_marginRight="@dimen/marginGeneral"
             android:layout_marginTop="@dimen/marginTopHeader"
             android:scaleType="fitEnd"
-            android:layout_alignRight="@+id/logo"
+            android:layout_alignRight="@+id/btnLogin"
             />
 
         <TextView
@@ -145,7 +162,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/disclimerNoAccount"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorText"
             android:layout_marginTop="@dimen/marginTopHeader"
             android:gravity="center"
             android:layout_below="@+id/loginGmail"
