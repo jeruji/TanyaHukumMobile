@@ -8,8 +8,6 @@ import android.util.Log;
 
 import com.app.tanyahukum.App;
 import com.app.tanyahukum.view.DashboardActivityInterface;
-import com.app.tanyahukum.view.LoginActivityInterface;
-import com.firebase.client.FirebaseError;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -17,7 +15,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -50,10 +47,6 @@ public class DashboardPresenter implements DashboardActivityInterface.Presenter 
         storage= FirebaseStorage.getInstance();
         storageReference=storage.getReferenceFromUrl("gs://tanyahukum-9d16f.appspot.com");
     }
-    @Override
-    public void showProfile() {
-
-    }
 
     @Override
     public void updateFirebaseToken(final String token) {
@@ -75,24 +68,27 @@ public class DashboardPresenter implements DashboardActivityInterface.Presenter 
             }
         });
     }
+
+    @Override
+    public void signOutUser() {
+        App.getInstance().getPrefManager().clear();
+        view.toLoginPage();
+    }
+
     public void getImageProfile(String userId){
         String filePath="profile/"+userId+".jpg";
         storageReference.child(filePath).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Log.d("uri",uri.toString());
+                Log.v("uri",uri.toString());
                 view.showImage(uri.toString());
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle any errors
+                Log.v("error profile image", exception.getStackTrace().toString());
             }
         });
-    }
-    @Override
-    public void signOutUser() {
-        App.getInstance().getPrefManager().clear();
-        view.toLoginPage();
     }
 }

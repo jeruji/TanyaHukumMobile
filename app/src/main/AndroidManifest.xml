@@ -31,7 +31,6 @@
             android:name=".services.MyFirebaseMessagingService"
             android:exported="false">
             <intent-filter>
-
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
@@ -55,23 +54,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".view.RegistrationActivity"
-            android:theme="@style/AppTheme.NoActionBar" android:windowSoftInputMode="stateAlwaysHidden"/>
-
-        <activity android:name=".view.AcceptQuestionsActivity"
+        <activity
+            android:name=".view.RegistrationActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".view.AcceptQuestionsActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="acceptConsultation" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.QuestionsDetailActivity"
+        <activity
+            android:name=".view.QuestionsDetailActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="detailConsultation" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.ListConsultationActivity" />
@@ -86,9 +90,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.DashboardActivity" />
         </activity>
-
-        <activity android:name=".view.AddConsultationActivity"
-            android:theme="@style/AppTheme.NoActionBar" android:windowSoftInputMode="stateAlwaysHidden">
+        <activity
+            android:name=".view.AddConsultationActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.ListConsultationActivity" />
@@ -100,9 +105,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.ListConsultationActivity" />
         </activity>
-
-        <activity android:name=".view.AddAppointmentActivity"
-            android:theme="@style/AppTheme.NoActionBar" android:windowSoftInputMode="stateAlwaysHidden">
+        <activity
+            android:name=".view.AddAppointmentActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.ListConsultationActivity" />
@@ -112,8 +118,10 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="appointmentPage" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.DashboardActivity" />
@@ -125,9 +133,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.DashboardActivity" />
         </activity>
-
-        <activity android:name=".view.EditAccountActivity"
-            android:theme="@style/AppTheme.NoActionBar" android:windowSoftInputMode="stateAlwaysHidden">
+        <activity
+            android:name=".view.EditAccountActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateAlwaysHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.MyAccountActivity" />
@@ -139,7 +148,23 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".view.MyAccountActivity" />
         </activity>
-        <activity android:name=".view.TermsAndConditionActivity"></activity>
+        <activity
+            android:name=".view.TermsAndConditionActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".view.AboutActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.DashboardActivity" />
+        </activity>
+        <activity
+            android:name=".view.BalanceActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".view.DashboardActivity" />
+        </activity>
     </application>
 
 </manifest>

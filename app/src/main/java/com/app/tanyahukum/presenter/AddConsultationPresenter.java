@@ -5,16 +5,14 @@ import android.net.Uri;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.app.tanyahukum.App;
 import com.app.tanyahukum.fcm.FCMHelper;
+import com.app.tanyahukum.model.ConsultationType;
 import com.app.tanyahukum.model.Consultations;
 import com.app.tanyahukum.model.HistoryConsultations;
 import com.app.tanyahukum.model.User;
 import com.app.tanyahukum.util.Config;
 import com.app.tanyahukum.view.AddConsultationActivityInterface;
-import com.app.tanyahukum.view.ListConsultationInterface;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,7 +31,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -43,10 +40,6 @@ import java.util.TimerTask;
 
 import javax.inject.Inject;
 
-/**
- * Created by emerio on 4/9/17.
- */
-
 public class AddConsultationPresenter implements AddConsultationActivityInterface.Presenter {
     FirebaseDatabase firebase;
     AddConsultationActivityInterface.View view;
@@ -54,6 +47,7 @@ public class AddConsultationPresenter implements AddConsultationActivityInterfac
     DatabaseReference dbRef;
     DatabaseReference userRef;
     DatabaseReference historyRef;
+    DatabaseReference consultationTypeRef;
     FirebaseStorage storage;
     StorageReference storageReference ;
     Context context;
@@ -61,8 +55,6 @@ public class AddConsultationPresenter implements AddConsultationActivityInterfac
     TimerTask timerTask;
     final Handler handler = new Handler();
     boolean stop=true;
-    boolean check=true;
-    String status;
     Date date = Calendar.getInstance().getTime();
     DateFormat formatter = new SimpleDateFormat("dd MMM yyyy HH:mm ");
     String today = formatter.format(date);
@@ -72,7 +64,9 @@ public class AddConsultationPresenter implements AddConsultationActivityInterfac
     final List<String> consultantIdList=new ArrayList<>();
     final List<String> consultantNameList=new ArrayList<>();
     final List<Integer> totalAnswerList=new ArrayList<>();
-    String fileName="";
+    ArrayList<String> fileName = new ArrayList<>();
+    int indexAttach = 0;
+
     @Inject
     public AddConsultationPresenter(FirebaseDatabase firebase, AddConsultationActivityInterface.View view, Context context) {
         this.firebase = firebase;
@@ -81,6 +75,7 @@ public class AddConsultationPresenter implements AddConsultationActivityInterfac
         dbRef = this.firebase.getReference("questions");
         historyRef = this.firebase.getReference("historyQuestions");
         userRef = this.firebase.getReference("users");
+        consultationTypeRef = this.firebase.getReference("consultationType");
         storage= FirebaseStorage.getInstance();
         storageReference=storage.getReferenceFromUrl("gs://tanyahukum-9d16f.appspot.com");
         this.context = context;
@@ -216,7 +211,7 @@ public class AddConsultationPresenter implements AddConsultationActivityInterfac
     void startTimer(Consultations consultation){
         timer = new Timer();
         initializeTimerTask(consultation);
-        timer.schedule(timerTask, 10000, 10000);
+        timer.schedule(timerTask, 300000, 300000);
     }
     void startTimerCheck(String id){
         timer = new Timer();
@@ -259,24 +254,20 @@ public class AddConsultationPresenter implements AddConsultationActivityInterfac
         };
     }
     @Override
-    public void submitConsultation(final Consultations consultations,final String status,final  String path) {
+    public void submitConsultation(final Consultations consultations,final String status,final  ArrayList<String> path) {
         if (status.equals("NEW")){
+
             view.showProgressDialog(true);
             String id=dbRef.push().getKey();
+
             attachmentFileUpload(path);
-            String fileName="";
-            if (path==null){
-                fileName="";
-            }else {
-                 fileName = path.substring(path.lastIndexOf('/') + 1);
-            }
-            Log.d("file name : ",fileName);
+
             final String historyQuestionsId=historyRef.push().getKey();
             Query userQuery = userRef.orderByChild("usertype").equalTo("CONSULTANT");
             userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                     User user=null;
+                    User user=null;
                     for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                         user = singleSnapshot.getValue(User.class);
                         Log.d("user",user.getFirebaseToken());
@@ -288,11 +279,23 @@ public class AddConsultationPresenter implements AddConsultationActivityInterfac
                                     deviceToken.add(user.getFirebaseToken());
                                 }
                             }
-                            else{
-                                Log.d("false","false");
+                        }
+                    }
+
+                    if(deviceToken.size()==0){
+                        for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
+                            user = singleSnapshot.getValue(User.class);
+                            Log.d("user", user.getFirebaseToken());
+                            for (int i = 0; i < user.getSpecialization().size(); i++) {
+                                String spesialization = user.getSpecialization().get(i);
+                                if (consultations.getConsultationsType().equalsIgnoreCase(spesialization)) {
+                                    Log.d("masuk status :", "trus");
+                                    deviceToken.add(user.getFirebaseToken());
+                                }
                             }
                         }
                     }
+
                     System.out.println("device token list : "+deviceToken);
                     try {
                         FCMHelper.getInstance().sendNotificationMultipleDevice(status,deviceToken,consultations.getConsultationId(),"questions from "+ Config.USER_NAME,consultations.getTitle(),consultations.getQuestions(),Config.USER_TYPE,"acceptConsultation",Config.USER_ID,"");
@@ -349,15 +352,11 @@ public class AddConsultationPresenter implements AddConsultationActivityInterfac
 
         }
         else if (status.equals("UPDATE")){
+
             attachmentFileUpload(path);
-            if (path==null){
-                fileName="";
-            }else {
-                fileName = path.substring(path.lastIndexOf('/') + 1);
-            }
+
             final String consultId=consultations.getConsultantId();
             Log.d("consultant id : ",consultId);
-            Log.d("path update : ",fileName);
 
             final String historyQuestionsId=historyRef.push().getKey();
             final List<String> deviceToken = new ArrayList<>();
@@ -445,13 +444,6 @@ public class AddConsultationPresenter implements AddConsultationActivityInterfac
                                     deviceToken.add(user.getFirebaseToken());
                                 }
 
-                               /* System.out.println("device token list : "+deviceToken);
-                                try {
-                                    FCMHelper.getInstance().sendNotificationMultipleDevice("RESEND",deviceToken,consultations.getConsultationId(),"questions from "+ Config.USER_NAME,consultations.getTitle(),consultations.getQuestions(),Config.USER_TYPE);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                */
                             }
                             @Override
                             public void onCancelled(DatabaseError databaseError) {
@@ -473,16 +465,12 @@ public class AddConsultationPresenter implements AddConsultationActivityInterfac
     }
 
     @Override
-    public void answers(final String questionId,final String historyId, final String clientId, final String answers,final String attachmentFile) {
+    public void answers(final String questionId,final String historyId, final String clientId, final String answers,final ArrayList<String> attachmentFile) {
         final List<String> deviceToken = new ArrayList<>();
-        Log.d("cleint id: ",clientId);
+        Log.d("client id: ",clientId);
+
         attachmentFileUpload(attachmentFile);
-        if (attachmentFile==null){
-            fileName="";
-        }else {
-            fileName = attachmentFile.substring(attachmentFile.lastIndexOf('/') + 1);
-        }
-        Log.d("file name : ",fileName);
+
         Query userQuery = userRef.orderByChild("id").equalTo(clientId);
         userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -542,17 +530,48 @@ public class AddConsultationPresenter implements AddConsultationActivityInterfac
     }
 
     @Override
-    public void getConsultant(String usertype, String specialization) {
-        Query userQuery = userRef.orderByChild("usertype").equalTo("CONSULTANT");
-        userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+    public void attachmentFileUpload(ArrayList<String> path) {
+        if (path==null){
+             Log.d("path null","kosong");
+        }else{
+
+            Uri file = null;
+
+            for(int index=0;index<path.size();index++){
+
+                file = Uri.fromFile(renameFile(path.get(index)));
+                StorageReference attachRef = storageReference.child("doc/" + file.getLastPathSegment());
+                UploadTask uploadTask = attachRef.putFile(file);
+                uploadTask.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("failed upload ;", "fail");
+                    }
+                }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("sukses upload", "sukses");
+
+                    }
+                });
+            }
+        }
+
+
+    }
+
+    @Override
+    public void getConsultationType() {
+        consultationTypeRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Log.d("data snapshot : ", dataSnapshot.toString());
-                User user=null;
+                ConsultationType consultationType=null;
+                ArrayList<String> consultationTypeList = new ArrayList<>();
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
-                    user = singleSnapshot.getValue(User.class);
+                    consultationType = singleSnapshot.getValue(ConsultationType.class);
+                    consultationTypeList.add(consultationType.getType());
                 }
-               // view.toDashboardPage(user,loginType);
+                view.constructConsultationType(consultationTypeList);
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -561,30 +580,27 @@ public class AddConsultationPresenter implements AddConsultationActivityInterfac
         });
     }
 
-    @Override
-    public void attachmentFileUpload(String path) {
-        if (path==null){
-             Log.d("path null","kosong");
-        }else{
-            Uri file = Uri.fromFile(new File(path));
-            StorageReference attachRef = storageReference.child("doc/" + file.getLastPathSegment());
-            UploadTask uploadTask = attachRef.putFile(file);
-            uploadTask.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Log.d("failed upload ;", "fail");
-                }
-            }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Log.d("sukses upload", "sukses");
+    public File renameFile(String path){
+        indexAttach++;
+        String filename = path.substring(path.lastIndexOf('/')+1);
+        String extension = filename.substring(filename.lastIndexOf('.')+1);
+        String filepath = path.substring(0,path.lastIndexOf('/')+1)+dateNow()+"-"+indexAttach+"-"+Config.USER_ID+"."+extension;
+        File from = new File(path);
+        File to = new File(filepath);
 
-                }
-            });
-        }
+        from.renameTo(to);
 
+        fileName.add(filepath.substring(filepath.lastIndexOf('/')+1));
 
+        return to;
     }
 
+    public String dateNow(){
+        Date date = Calendar.getInstance().getTime();
+        DateFormat formatter = new SimpleDateFormat("dd-MM-yyyy_HH:mm");
+        String today = formatter.format(date);
+
+        return today;
+    }
 
 }

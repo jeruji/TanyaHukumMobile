@@ -16,14 +16,10 @@ import com.app.tanyahukum.App;
 import com.app.tanyahukum.R;
 import com.app.tanyahukum.adapter.QuestionsAdapter;
 import com.app.tanyahukum.data.component.DaggerListConsultationActivityComponent;
-import com.app.tanyahukum.data.component.DaggerLoginActivityComponent;
 import com.app.tanyahukum.data.module.ListConsultationActivityModule;
-import com.app.tanyahukum.data.module.LoginActivityModule;
 import com.app.tanyahukum.model.Consultations;
 import com.app.tanyahukum.presenter.ListConsultationPresenter;
-import com.app.tanyahukum.presenter.LoginPresenter;
 import com.app.tanyahukum.util.Config;
-import com.facebook.FacebookSdk;
 
 import java.util.List;
 
@@ -57,10 +53,12 @@ public class ListConsultationActivity extends AppCompatActivity implements ListC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.list_consultation_layout);
         ButterKnife.bind(this);
+
         setSupportActionBar(toolbarList);
         getSupportActionBar().setTitle("Consultation");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+
         DaggerListConsultationActivityComponent.builder()
                 .netComponent(((App) getApplicationContext()).getNetComponent())
                 .listConsultationActivityModule(new ListConsultationActivityModule(this, this))
@@ -163,9 +161,9 @@ public class ListConsultationActivity extends AppCompatActivity implements ListC
     }
     @Override
     public void onBackPressed() {
-        Intent a = new Intent(Intent.ACTION_MAIN);
-        a.addCategory(Intent.CATEGORY_HOME);
-        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(a);
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 }

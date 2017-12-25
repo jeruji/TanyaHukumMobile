@@ -39,7 +39,7 @@
         android:layout_marginLeft="@dimen/activity_horizontal_margin"
         android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:layout_alignParentBottom="true"
-        android:backgroundTint="@color/md_green_600"
+        android:backgroundTint="@color/colorPrimary"
         android:textColor="@color/white"
         android:layout_marginBottom="30dp"/>
 </RelativeLayout>

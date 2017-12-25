@@ -1,108 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/toolbar"/>
+
+<ScrollView
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <include layout="@layout/toolbar"/>
-    <TableLayout
-        android:id="@+id/tableForm"
-        android:layout_marginTop="60dp"
-        android:visibility="visible"
-        android:layout_width="match_parent"
+
+    <FrameLayout
+        android:id="@+id/frameConsultationAndOld"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
-        <TableRow>
-            <RelativeLayout android:id="@+id/layoutUpdateForm"
-                android:visibility="gone"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/tvQuestionsOld"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Questions"/>
-                <TextView
-                    android:layout_below="@+id/tvQuestionsOld"
-                    android:id="@+id/questionsOld"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Test"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="10dp"
-                    android:textSize="17dp"/>
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:id="@+id/lineQuestionsOld"
-                    android:layout_below="@+id/questionsOld"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="10dp"
-                    android:background="@color/md_grey_400"></LinearLayout>
-                <TextView
-                    android:layout_below="@+id/lineQuestionsOld"
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/tvAnswersOld"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Answers"/>
-                <TextView
-                    android:layout_below="@+id/tvAnswersOld"
-                    android:id="@+id/answersOld"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Test 2"
-                    android:textColor="@color/black"
-                    android:layout_marginTop="10dp"
-                    android:textSize="17dp"/>
-                <LinearLayout
-                    android:layout_below="@+id/answersOld"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_margin="10dp"
-                    android:background="@color/md_grey_400"></LinearLayout>
-
-            </RelativeLayout>
-        </TableRow>
-    <TableRow>
         <RelativeLayout
             android:id="@+id/layoutConsultantType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_weight="1">
-        <TextView
-            android:layout_marginTop="10dp"
-            android:id="@+id/tvConsultationType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="Consultation Type"/>
-        <Spinner
+            android:layout_marginLeft="@dimen/activity_horizontal_margin">
 
-            android:id="@+id/spinnerConsultationType"
-            android:layout_width="match_parent"
-            android:layout_below="@+id/tvConsultationType"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
-            android:entries="@array/consultation"
-            android:prompt="@string/consultation_type"
-            android:layout_weight="1" />
+            <TextView
+                android:layout_marginTop="@dimen/margin_top_homebutton"
+                android:id="@+id/tvConsultationType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:text="Consultation Type"/>
+
+            <Spinner
+                android:id="@+id/spinnerConsultationType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:spinnerMode="dialog"
+                android:layout_below="@+id/tvConsultationType"
+                android:prompt="@string/consultation_type" />
+
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_consult_type"
                 android:layout_below="@+id/tvConsultationType"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
                 android:visibility="gone"
                 android:layout_height="wrap_content">
                 <EditText
@@ -113,177 +59,254 @@
                     android:layout_marginRight="10dp"
                     android:paddingLeft="10dp"
                     android:paddingEnd="10dp"
-                    android:inputType="textNoSuggestions|textEmailAddress|textMultiLine"
+                    android:paddingRight="10dp"
+                    android:inputType="textNoSuggestions|textMultiLine"
                     android:id="@+id/edTextConsultType"
                     />
             </android.support.design.widget.TextInputLayout>
+
         </RelativeLayout>
-    </TableRow>
 
-        <TableRow>
-            <RelativeLayout
-                android:id="@+id/layoutTitle"
+        <RelativeLayout
+            android:id="@+id/layoutUpdateForm"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_height="wrap_content">
+
+            <TextView
                 android:layout_marginTop="10dp"
+                android:id="@+id/tvQuestionsOld"
                 android:layout_width="wrap_content"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin">
-                <TextView
-                    android:id="@+id/tvTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Title"/>
-                <android.support.design.widget.TextInputLayout
-                    android:layout_below="@+id/tvTitle"
-                    android:id="@+id/input_layout_title"
-                    android:layout_width="match_parent"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content">
-                    <EditText
-                        android:padding="@dimen/padding"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:inputType="textNoSuggestions|textEmailAddress"
-                        android:id="@+id/edTextTitle"
-                        />
-                </android.support.design.widget.TextInputLayout>
-            </RelativeLayout>
-
-        </TableRow>
-        <TableRow>
-            <RelativeLayout
+                android:layout_marginLeft="10dp"
+                android:text="Questions"/>
+            <TextView
+                android:layout_below="@+id/tvQuestionsOld"
+                android:id="@+id/questionsOld"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Test"
+                android:textColor="@color/black"
                 android:layout_marginTop="10dp"
+                android:textSize="17dp"/>
+            <LinearLayout
+                android:orientation="horizontal"
+                android:id="@+id/lineQuestionsOld"
+                android:layout_below="@+id/questionsOld"
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin">
-                <TextView
-                    android:id="@+id/tvQuestion"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="Questions"/>
-                <RelativeLayout
-                    android:layout_marginTop="10dp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/md_grey_200"
-                    android:layout_below="@+id/tvQuestion">
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_question"
-                        android:layout_width="match_parent"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content">
-                        <EditText
-                            android:padding="@dimen/padding"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:paddingLeft="10dp"
-                            android:paddingEnd="10dp"
-                            android:inputType="textNoSuggestions|textEmailAddress|textMultiLine"
-                            android:id="@+id/edTextQuestions"
-                            />
-                    </android.support.design.widget.TextInputLayout>
-                </RelativeLayout>
-
-            </RelativeLayout>
-        </TableRow>
-
-        <TableRow>
-            <RelativeLayout
-                android:id="@+id/layoutAnswers"
+                android:layout_height="1dp"
+                android:layout_margin="10dp"
+                android:background="@color/md_grey_400"></LinearLayout>
+            <TextView
+                android:layout_below="@+id/lineQuestionsOld"
                 android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
-                android:layout_weight="1"
+                android:id="@+id/tvAnswersOld"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Answers"/>
+            <TextView
+                android:layout_below="@+id/tvAnswersOld"
+                android:id="@+id/answersOld"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Test 2"
+                android:textColor="@color/black"
+                android:layout_marginTop="10dp"
+                android:textSize="17dp"/>
+            <LinearLayout
+                android:layout_below="@+id/answersOld"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="10dp"
+                android:background="@color/md_grey_400"></LinearLayout>
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/layoutTitle"
+        android:layout_marginTop="@dimen/activity_horizontal_margin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_below="@+id/frameConsultationAndOld">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:text="Title"/>
+        <android.support.design.widget.TextInputLayout
+            android:layout_below="@+id/tvTitle"
+            android:id="@+id/input_layout_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <EditText
+                android:padding="@dimen/padding"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
                 android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                android:layout_marginRight="@dimen/activity_horizontal_margin">
-                <TextView
-                    android:id="@+id/tvAnswers"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:text="Answers"/>
-                <RelativeLayout
-                    android:layout_marginTop="10dp"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:inputType="textNoSuggestions"
+                android:id="@+id/edTextTitle"
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/tvChronology"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin_double"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_below="@+id/layoutTitle"
+            android:text="Chronology"/>
+        <RelativeLayout
+            android:id="@+id/layoutChronology"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvChronology">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_chronology"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:padding="@dimen/padding"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorPrimaryDark"
-                    android:layout_below="@+id/tvAnswers">
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/input_layout_answers"
-                        android:layout_width="match_parent"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content">
-                        <EditText
-                            android:padding="@dimen/padding"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
-                            android:layout_marginRight="10dp"
-                            android:textColor="@color/white"
-                            android:paddingLeft="10dp"
-                            android:paddingEnd="10dp"
-                            android:inputType="textNoSuggestions|textEmailAddress|textMultiLine"
-                            android:id="@+id/edTextanswers"
-                            />
-                    </android.support.design.widget.TextInputLayout>
-                </RelativeLayout>
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_double"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin_double"
+                    android:paddingLeft="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingRight="10dp"
+                    android:inputType="textNoSuggestions|textMultiLine"
+                    android:id="@+id/edTextChronology"
+                    />
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
 
-            </RelativeLayout>
-        </TableRow>
-        <TableRow>
-                <RelativeLayout android:layout_weight="1"
-                    android:layout_marginTop="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/labelDoB"
-                        android:layout_marginLeft="30dp"
-                        android:text="Attachment"/>
-                    <EditText
-                        android:layout_below="@+id/labelDoB"
-                        android:id="@+id/edTextAttachment"
-                        android:layout_width="match_parent"
-                        android:padding="@dimen/padding"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-                        android:layout_weight="1"
-                        android:hint="" />
-                </RelativeLayout>
+        <TextView
+            android:id="@+id/tvQuestion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin_double"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_below="@+id/layoutChronology"
+            android:text="Questions"/>
+        <RelativeLayout
+            android:id="@+id/layoutQuestion"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvQuestion">
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <EditText
+                    android:padding="@dimen/padding"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_double"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin_double"
+                    android:paddingLeft="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingRight="10dp"
+                    android:inputType="textNoSuggestions|textMultiLine"
+                    android:id="@+id/edTextQuestions"
+                    />
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
 
-                <ImageView
-                    android:id="@+id/attachment"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="20dp"
-                    android:src="@drawable/icon_attachment" />
+        <RelativeLayout
+            android:id="@+id/layoutAnswers"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layoutQuestion">
 
+            <TextView
+                android:id="@+id/tvAnswers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin_double"
+                android:text="Answers"/>
 
-        </TableRow>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_answers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin">
+
+                <EditText
+                    android:id="@+id/edTextanswers"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_horizontal_margin_double"
+                    android:layout_marginRight="@dimen/activity_horizontal_margin_double"
+                    android:inputType="textNoSuggestions|textMultiLine"
+                    android:padding="@dimen/padding"
+                    android:paddingEnd="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:selectAllOnFocus="true" />
+            </android.support.design.widget.TextInputLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/labelAttachment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layoutAnswers"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin_double"
+            android:text="Attachment"/>
+
+        <ImageView
+            android:id="@+id/attachment"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="@dimen/activity_horizontal_margin_double"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_below="@+id/layoutAnswers"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/icon_attachment" />
+
+        <RelativeLayout
+            android:id="@+id/attachmentLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/attachment"
+            android:layout_alignLeft="@+id/labelAttachment"
+            android:layout_alignRight="@+id/attachment">
+
+        </RelativeLayout>
+
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btnAddConsultation"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
+            android:layout_width="@dimen/com_facebook_profilepictureview_preset_size_large"
             android:layout_height="50dp"
-            android:layout_below="@+id/input_layout_phone"
+            android:layout_below="@+id/attachmentLayout"
             android:layout_marginTop="50dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_centerHorizontal="true"
             android:text="Submit"
             android:layout_marginBottom="30dp"
             android:textColor="@color/white"
             android:backgroundTint="@color/colorPrimary"/>
-    </TableLayout>
-      </RelativeLayout>
+
+    </RelativeLayout>
 
 </ScrollView>
+</LinearLayout>

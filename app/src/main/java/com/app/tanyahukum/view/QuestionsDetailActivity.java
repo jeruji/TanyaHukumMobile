@@ -1,44 +1,36 @@
 package com.app.tanyahukum.view;
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
-import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.tanyahukum.App;
 import com.app.tanyahukum.R;
-import com.app.tanyahukum.data.component.DaggerAcceptQuestionsActivityComponent;
-import com.app.tanyahukum.data.component.DaggerAddConsultationActivityComponent;
 import com.app.tanyahukum.data.component.DaggerQuestionsDetailActivityComponent;
-import com.app.tanyahukum.data.module.AcceptQuestionsActivityModule;
-import com.app.tanyahukum.data.module.AddConsultationActivityModule;
 import com.app.tanyahukum.data.module.QuestionsActivityModule;
 import com.app.tanyahukum.model.Consultations;
 import com.app.tanyahukum.model.HistoryConsultations;
-import com.app.tanyahukum.presenter.AddConsultationPresenter;
 import com.app.tanyahukum.presenter.QuestionDetailPresenter;
 import com.app.tanyahukum.util.Config;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -53,6 +45,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class QuestionsDetailActivity extends AppCompatActivity implements QuestionsDetailActivityInterface.View {
+
     @BindView(R.id.imageUser)
     CircleImageView imageUser;
     @BindView(R.id.user)
@@ -73,8 +66,8 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
     TextView consultationType;
     @BindView(R.id.status)
     TextView status_;
-    @BindView(R.id.attachment)
-    TextView attachment_;
+    @BindView(R.id.attachmentLayout)
+    RelativeLayout attachmentLayout;
     @BindView(R.id.linearLayoutHistory)
     LinearLayout layoutButtonHistory;
     @BindView(R.id.linearLayoutAnswers)
@@ -90,31 +83,52 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
     @BindView(R.id.badgeAnswers)
     TextView badgeAnswers_;
 
+    int indexAttachment = 88;
+    int indexImgDownload = 30;
+    float densityVar;
+
     ProgressDialog progressDialog ;
+
     @Inject
     QuestionDetailPresenter questionDetailPresenter;
     Consultations consultations;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.questions_detail_layout);
         ButterKnife.bind(this);
+
         setSupportActionBar(toolbar_);
-        getSupportActionBar().setTitle("Detail Questions");
+        getSupportActionBar().setTitle("Question Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+
         DaggerQuestionsDetailActivityComponent.builder()
                 .netComponent(((App)getApplicationContext()).getNetComponent())
                 .questionsActivityModule((new QuestionsActivityModule(this,this)))
                 .build().inject(this);
-        progressDialog= new ProgressDialog(this);
-        Intent startingIntent = getIntent();
-        String consultationId;
-        if (startingIntent != null) {
-             consultationId= startingIntent.getStringExtra("consultationId"); // Retrieve the id
-             questionDetailPresenter.getConsultationDetailById(consultationId);
-        }
+
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
+
+        initializeQuestionsDetailActivityProperties();
 
     }
+
+    public void initializeQuestionsDetailActivityProperties(){
+        densityVar = this.getResources().getDisplayMetrics().density;
+
+        progressDialog= new ProgressDialog(this);
+
+        Intent startingIntent = getIntent();
+
+        String consultationId;
+        if (startingIntent != null) {
+            consultationId= startingIntent.getStringExtra("consultationId"); // Retrieve the id
+            questionDetailPresenter.getConsultationDetailById(consultationId);
+        }
+    }
+
     @Override
     public void onBackPressed() {
         Intent a = new Intent(Intent.ACTION_MAIN);
@@ -135,6 +149,7 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
         intent.putExtra("status",consultations.getStatus());
         intent.putExtra("historyId",consultations.getHistoryId());
         intent.putExtra("clientId",consultations.getClientId());
+        intent.putExtra("chronology",consultations.getChronology());
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.setClassName(this, "com.app.tanyahukum.view.AddConsultationActivity");
@@ -166,6 +181,7 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
         intent.putExtra("date",consultations.getConsultationsDate());
         intent.putExtra("status",consultations.getStatus());
         intent.putExtra("answers",consultations.getAnswers());
+        intent.putExtra("chronology", consultations.getChronology());
         intent.putExtra("statusConsultation","UPDATE");
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -222,7 +238,67 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
         answers_.setText(consultations.getAnswers());
         consultationType.setText(consultations.getConsultationsType());
         status_.setText(consultations.getStatus());
-        attachment_.setText(consultations.getAttachment());
+
+        if(consultations.getAttachment()!=null) {
+            ArrayList<String> attachmentList = consultations.getAttachment();
+
+            for(int index=0;index<attachmentList.size();index++){
+
+                TextView tvFilePath = new TextView(this);
+                tvFilePath.setText(attachmentList.get(index).substring(0,20));
+                tvFilePath.setId(indexAttachment+1);
+                RelativeLayout.LayoutParams paramsAttachment = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                paramsAttachment.topMargin = (int)(20 * densityVar);
+
+                if(indexAttachment>88){
+
+                    for(int indexAttachmentRule=indexAttachment;indexAttachmentRule>88;indexAttachmentRule--) {
+                        if (this.findViewById(indexAttachmentRule) != null) {
+                            paramsAttachment.addRule(RelativeLayout.BELOW, indexAttachmentRule);
+                            break;
+                        }
+                    }
+                }
+
+                tvFilePath.setLayoutParams(paramsAttachment);
+
+                attachmentLayout.addView(tvFilePath);
+
+                ImageView imgDownload = new ImageView(this);
+                imgDownload.setImageResource(R.drawable.icon_download);
+                imgDownload.setId(indexImgDownload+1);
+                RelativeLayout.LayoutParams params=new RelativeLayout.LayoutParams((int)(25 * densityVar), (int)(25 * densityVar));
+                params.topMargin = (int)(16 * densityVar);
+                params.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
+                if(indexImgDownload>30){
+                    for(int indexImgDownloadRule=indexImgDownload;indexImgDownloadRule>30;indexImgDownloadRule--) {
+                        if (this.findViewById(indexImgDownloadRule) != null) {
+                            params.addRule(RelativeLayout.BELOW, indexImgDownloadRule);
+                            break;
+                        }
+                    }
+                }
+
+                imgDownload.setLayoutParams(params);
+                imgDownload.setScaleType(ImageView.ScaleType.FIT_CENTER);
+
+                final String attachmentName = attachmentList.get(index);
+
+                imgDownload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        questionDetailPresenter.downloadAttachment(attachmentName);
+                    }
+                });
+
+                attachmentLayout.addView(imgDownload);
+
+                indexAttachment += 1;
+                indexImgDownload += 1;
+            }
+        }
+
         if (Config.USER_TYPE.equals("CLIENT")){
             consultations.setClientId(Config.USER_ID);
             labelUser.setText("consultant");
@@ -265,20 +341,10 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
             }else {
                 layoutButtonAnswers.setVisibility(View.VISIBLE);
                 answers_.setText("please answer the question..!");
-                answers_.setTextColor(Color.parseColor("#8BC34A"));
+                answers_.setTextColor(Color.parseColor("#FF1744"));
                 badgeQuestions_.setVisibility(View.VISIBLE);
             }
 
-        }
-    }
-
-    @Override
-    @OnClick(R.id.downloadAttachment)
-    public void downloadAttachment() {
-        if (attachment_.getText().toString().equalsIgnoreCase("")){
-             Toast.makeText(getApplicationContext(),"attachment is empty",Toast.LENGTH_LONG).show();
-        }else {
-            questionDetailPresenter.downloadAttachment(consultations.getAttachment());
         }
     }
 

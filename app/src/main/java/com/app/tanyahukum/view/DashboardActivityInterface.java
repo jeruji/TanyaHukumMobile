@@ -1,7 +1,5 @@
 package com.app.tanyahukum.view;
 
-import android.content.Intent;
-
 /**
  * Created by emerio on 4/9/17.
  */
@@ -14,11 +12,10 @@ public interface DashboardActivityInterface {
         void toLoginPage();
         void toAppointmentListPage(String type);
         void toMyAccountPage();
-        void showImage(String url);
         void checkUserTypeLogin();
+        void showImage(String url);
     }
     interface Presenter{
-        void showProfile();
         void updateFirebaseToken(String token);
         void signOutUser();
     }

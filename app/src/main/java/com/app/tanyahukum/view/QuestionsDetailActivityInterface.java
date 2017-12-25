@@ -18,7 +18,6 @@ public interface QuestionsDetailActivityInterface {
         void makeAppointment();
         void showImage(String url);
         void showData(Consultations consultations);
-        void downloadAttachment();
         void openFileAttachment(String filepath);
         void showProgressDialog(boolean status);
         void infoDialog(String message);
