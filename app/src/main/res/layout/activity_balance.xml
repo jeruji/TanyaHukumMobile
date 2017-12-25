@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.app.tanyahukum.view.BalanceActivity">
+    <include layout="@layout/toolbar"/>
+    <TextView
+        android:id="@+id/headerBalance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/com_facebook_profilepictureview_preset_size_normal"
+        android:text="@string/balance_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/nominal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/headerBalance"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/marginTopHeader"
+        android:text="Rp. 100.000"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/topUpLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nominal"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/margin_top_homebutton"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/topupBtn"
+            android:layout_width="90dp"
+            android:layout_height="80dp"
+            android:background="@drawable/icon_top_up" />
+
+        <TextView
+            android:id="@+id/topupTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Top Up"
+            android:textColor="@color/balance_text_icon" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nominal"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/margin_top_homebutton"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/receiveBtn"
+            android:layout_width="90dp"
+            android:layout_height="80dp"
+            android:background="@drawable/icon_receive" />
+
+        <TextView
+            android:id="@+id/receiveTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Receive"
+            android:textColor="@color/balance_text_icon" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nominal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_top_homebutton"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/transferBtn"
+            android:layout_width="90dp"
+            android:layout_height="80dp"
+            android:background="@drawable/icon_transfer" />
+
+        <TextView
+            android:id="@+id/transferTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Transfer"
+            android:textColor="@color/balance_text_icon" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/topUpLayout"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/margin_top_homebutton"
+        android:orientation="vertical">
+
+        <ImageButton
+            android:id="@+id/voucherBtn"
+            android:layout_width="90dp"
+            android:layout_height="80dp"
+            android:background="@drawable/icon_voucher" />
+
+        <TextView
+            android:id="@+id/voucherTag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Voucher"
+            android:textColor="@color/balance_text_icon" />
+    </LinearLayout>
+
+</RelativeLayout>
