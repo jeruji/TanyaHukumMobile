@@ -5,9 +5,7 @@ import android.util.Log;
 
 import com.app.tanyahukum.App;
 import com.app.tanyahukum.model.Consultations;
-import com.app.tanyahukum.model.User;
 import com.app.tanyahukum.view.AcceptQuestionsActivityInterface;
-import com.app.tanyahukum.view.AddConsultationActivityInterface;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -23,6 +21,7 @@ import javax.inject.Inject;
  */
 
 public class AcceptQuestionsPresenter implements AcceptQuestionsActivityInterface.Presenter {
+
     FirebaseDatabase firebase;
     AcceptQuestionsActivityInterface.View view;
     FirebaseAuth firebaseAuth;
@@ -30,7 +29,7 @@ public class AcceptQuestionsPresenter implements AcceptQuestionsActivityInterfac
     Context context;
     String consultantId=App.getInstance().getPrefManager().getUserId();
     String consultantName=App.getInstance().getPrefManager().getUser().getName();
-    String totalConsultation;
+
     @Inject
     public AcceptQuestionsPresenter(FirebaseDatabase firebase, AcceptQuestionsActivityInterface.View view, Context context) {
         this.firebase = firebase;
@@ -48,8 +47,12 @@ public class AcceptQuestionsPresenter implements AcceptQuestionsActivityInterfac
 
     @Override
     public void updateQuestions(final String questionsId) {
+
         Query statusQuery = dbRef.orderByChild("consultationId").equalTo(questionsId);
         statusQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+
+            String checkConsultant = "";
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Consultations consultations=null;
@@ -57,28 +60,14 @@ public class AcceptQuestionsPresenter implements AcceptQuestionsActivityInterfac
                     consultations = singleSnapshot.getValue(Consultations.class);
                     Log.d("cons",consultations.getConsultantId());
                 }
-                 String checkConsultant=consultations.getConsultantId();
+
+                if(consultations!=null){
+                    checkConsultant=consultations.getConsultantId();
+                }
+
                 if (!checkConsultant.equalsIgnoreCase("")){
                     view.infoDialog();
                 }else{
-                    //Query statusQuery = dbRef.orderByChild("consultationId").equalTo(questionsId);
-                    /*
-                    Query userQuery = userRef.child(consultantId);
-                    userQuery.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            User user = null;
-                            for (DataSnapshot singleSnapshot : dataSnapshot.getChildren()) {
-                                user = singleSnapshot.getValue(User.class);
-                            }
-                             totalConsultation=String.valueOf(user.getTotalConsultation());
-                            }
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-
-                            }
-                        });
-                */
 
                     Log.d("string id : ", questionsId);
                     dbRef.child(questionsId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -90,24 +79,6 @@ public class AcceptQuestionsPresenter implements AcceptQuestionsActivityInterfac
                                 dbRef.child(questionsId).child("consultantName").setValue(consultantName);
                                 dbRef.child(questionsId).child("status").setValue("Accepted");
                                 view.toDashboard();
-
-                               /* userRef.child(consultantId).addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot tasksSnapshot) {
-                                        try {
-                                            int total=(Integer.parseInt(totalConsultation)+1);
-                                            userRef.child(consultantId).child("totalConsultation").setValue(String.valueOf(total));
-                                            view.toDashboard();
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
-                                */
 
                             } catch (Exception e) {
                                 e.printStackTrace();

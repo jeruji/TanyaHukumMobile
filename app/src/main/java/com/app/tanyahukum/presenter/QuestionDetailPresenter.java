@@ -8,11 +8,9 @@ import android.util.Log;
 
 import com.app.tanyahukum.model.Consultations;
 import com.app.tanyahukum.model.HistoryConsultations;
-import com.app.tanyahukum.view.ListConsultationInterface;
 import com.app.tanyahukum.view.QuestionsDetailActivityInterface;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -110,15 +108,15 @@ public class QuestionDetailPresenter implements QuestionsDetailActivityInterface
     @Override
     public void downloadAttachment(String filename) {
         view.showProgressDialog(true);
+        String filePath="doc/"+filename;
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://tanyahukum-9d16f.appspot.com/doc/");
-        StorageReference  docRef = storageRef.child(filename);
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://tanyahukum-9d16f.appspot.com/doc/").child(filename);
         File rootPath = new File(Environment.getExternalStorageDirectory(), "doc");
         if(!rootPath.exists()) {
             rootPath.mkdirs();
         }
         final File localFile = new File(rootPath,filename);
-        docRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+        storageRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                 view.showProgressDialog(false);

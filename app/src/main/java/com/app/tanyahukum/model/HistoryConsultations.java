@@ -1,5 +1,7 @@
 package com.app.tanyahukum.model;
 
+import java.util.ArrayList;
+
 /**
  * Created by emerio on 4/18/17.
  */
@@ -9,7 +11,7 @@ public class HistoryConsultations {
     String questionsOld;
     String historyQuestionsId;
     String questionsDate;
-    String attachmentOld;
+    ArrayList<String> attachmentOld;
 
     public String getQuestionsDate() {
         return questionsDate;
@@ -19,11 +21,11 @@ public class HistoryConsultations {
         this.questionsDate = questionsDate;
     }
 
-    public String getAttachmentOld() {
+    public ArrayList<String> getAttachmentOld() {
         return attachmentOld;
     }
 
-    public void setAttachmentOld(String attachmentOld) {
+    public void setAttachmentOld(ArrayList<String> attachmentOld) {
         this.attachmentOld = attachmentOld;
     }
 

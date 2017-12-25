@@ -76,7 +76,7 @@ public class TermsAndConditionActivity extends AppCompatActivity implements Term
     @Override
     public void setWebViewContent() {
 
-        String termsAndConditionContent = "<body style=\"text-align:justify;color:gray;background-color:black;\">\n" +
+        String termsAndConditionContent = "<body style=\"text-align:justify;color:#37474F;background-color:#FAFAFA;\">\n" +
                 "  Lorem ipsum dolor sit amet, consectetur \n" +
                 "  adipiscing elit. Nunc pellentesque, urna\n" +
                 "  nec hendrerit pellentesque, risus massa\n" +

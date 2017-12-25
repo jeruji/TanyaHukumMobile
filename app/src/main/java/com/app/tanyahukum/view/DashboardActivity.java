@@ -3,7 +3,6 @@ package com.app.tanyahukum.view;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -22,28 +21,22 @@ import android.widget.Toast;
 import com.app.tanyahukum.App;
 import com.app.tanyahukum.R;
 import com.app.tanyahukum.data.component.DaggerDashboardActivityComponent;
-import com.app.tanyahukum.data.component.DaggerRegistrationActivityComponent;
 import com.app.tanyahukum.data.module.DashboardActivityModule;
-import com.app.tanyahukum.data.module.RegistrationActivityModule;
 import com.app.tanyahukum.model.User;
 import com.app.tanyahukum.presenter.DashboardPresenter;
-import com.app.tanyahukum.presenter.RegistrationPresenter;
 import com.app.tanyahukum.services.DeleteTokenService;
 import com.app.tanyahukum.services.MyFirebaseInstanceIDService;
 import com.app.tanyahukum.util.Config;
+import com.app.tanyahukum.util.RoundedCornersTransform;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by emerio on 4/9/17.
@@ -60,21 +53,7 @@ public class DashboardActivity extends AppCompatActivity implements DashboardAct
     TextView tvName;
     @BindView(R.id.email)
     TextView tvEmail;
-    @BindView(R.id.imageDefault)
-    ImageView imageProfile;
-    @BindView(R.id.imageProfile)
-    CircleImageView _imageProfile;
-    /*@BindView(R.id.name)
-    TextView tvName;
-    @BindView(R.id.email)
-    TextView tvEmail;
-    @BindView(R.id.phone)
-    TextView tvPhone;
-    @BindView(R.id.borndate)
-    TextView tvBorn;
-    @BindView(R.id.address)
-    TextView tvAddress;
-    */
+
     String name,userid,email;
     @Inject
     DashboardPresenter dashboardPresenter;
@@ -107,9 +86,11 @@ public class DashboardActivity extends AppCompatActivity implements DashboardAct
         regId = App.getInstance().getPrefManager().getFirebaseToken();
         userId=App.getInstance().getPrefManager().getUserId();
         dashboardPresenter.getImageProfile(userId);
+
         Intent i=getIntent();
         String loginType="";
         loginType=i.getStringExtra("loginType");
+
         if (loginType!=null)
         if(regId!=null) {
             dashboardPresenter.updateFirebaseToken(regId);
@@ -219,14 +200,6 @@ public class DashboardActivity extends AppCompatActivity implements DashboardAct
     }
 
     @Override
-    public void showImage(String url) {
-        imageProfile.setVisibility(View.GONE);
-        _imageProfile.setVisibility(View.VISIBLE);
-        Picasso.with(this)
-                .load(url)
-                .into(_imageProfile);
-    }
-    @Override
     public void checkUserTypeLogin() {
         String userType=App.getInstance().getPrefManager().getUserType();
         if (userType.equals("Client")){
@@ -262,5 +235,34 @@ public class DashboardActivity extends AppCompatActivity implements DashboardAct
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @OnClick(R.id.aboutBtn)
+    public void callAboutActivity(){
+        Intent intent = new Intent();
+        intent.setClassName(this, "com.app.tanyahukum.view.AboutActivity");
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.balanceBtn)
+    public void callBalanceActivity(){
+        Intent intent = new Intent();
+        intent.setClassName(this, "com.app.tanyahukum.view.BalanceActivity");
+        startActivity(intent);
+    }
+
+    @Override
+    public void showImage(String url) {
+        View headerView = navigationViewDashboard.getHeaderView(0);
+        ImageView profilePic = (ImageView)headerView.findViewById(R.id.profilePic);
+        TextView profileName = (TextView)headerView.findViewById(R.id.txtUserName);
+        profileName.setText(tvName.getText());
+
+        profilePic.setVisibility(View.GONE);
+        profilePic.setVisibility(View.VISIBLE);
+        Picasso.with(this)
+                .load(url)
+                .transform(new RoundedCornersTransform())
+                .into(profilePic);
     }
 }

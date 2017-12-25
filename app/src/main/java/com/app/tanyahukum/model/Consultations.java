@@ -1,6 +1,6 @@
 package com.app.tanyahukum.model;
 
-import java.util.Date;
+import java.util.ArrayList;
 
 /**
  * Created by emerio on 4/9/17.
@@ -16,6 +16,15 @@ public class Consultations {
     private String consultantName;
     private String clientName;
     private String clientCity;
+    private ArrayList<String> attachment;
+    private String statusAppointment;
+    private String questions;
+    private String consultationsType;
+    private String expertRecomendations;
+    private String lastUpdateDate;
+    private String consultationsDate;
+    private String consultantId;
+    private String chronology;
 
     public String getClientCity() {
         return clientCity;
@@ -25,15 +34,22 @@ public class Consultations {
         this.clientCity = clientCity;
     }
 
-    public String getAttachment() {
+    public String getChronology() {
+        return chronology;
+    }
+
+    public void setChronology(String chronology) {
+        this.chronology = chronology;
+    }
+
+    public ArrayList<String> getAttachment() {
         return attachment;
     }
 
-    public void setAttachment(String attachment) {
+    public void setAttachment(ArrayList<String> attachment) {
         this.attachment = attachment;
     }
 
-    private String attachment;
     public String getConsultantName() {
         return consultantName;
     }
@@ -54,9 +70,6 @@ public class Consultations {
     public void setStatusAppointment(String statusAppointment) {
         this.statusAppointment = statusAppointment;
     }
-
-    private String statusAppointment;
-
 
     public String getHistoryId() {
         return historyId;
@@ -82,10 +95,6 @@ public class Consultations {
         this.consultationId = consultationId;
     }
 
-    private String questions;
-    private String consultationsType;
-    private String expertRecomendations;
-
     public String getLastUpdateDate() {
         return lastUpdateDate;
     }
@@ -94,11 +103,8 @@ public class Consultations {
         this.lastUpdateDate = lastUpdateDate;
     }
 
-    private String lastUpdateDate;
     public Consultations() {
     }
-
-    private String consultationsDate;
 
     public String getClientId() {
         return clientId;
@@ -164,5 +170,4 @@ public class Consultations {
         this.consultantId = consultantId;
     }
 
-    private String consultantId;
 }
