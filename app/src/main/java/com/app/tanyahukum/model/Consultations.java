@@ -25,6 +25,15 @@ public class Consultations {
     private String consultationsDate;
     private String consultantId;
     private String chronology;
+    private String publish;
+
+    public String getPublish() {
+        return publish;
+    }
+
+    public void setPublish(String publish) {
+        this.publish = publish;
+    }
 
     public String getClientCity() {
         return clientCity;

@@ -15,6 +15,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -52,13 +54,16 @@ public class ListConsultationPresenter  implements ListConsultationInterface.Pre
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.d("data consult : ", dataSnapshot.toString());
-                List<Consultations> consultationsList=new ArrayList<Consultations>();
+                List<Consultations> consultationsList=new ArrayList<>();
                 Consultations consultations=null;
                 for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
                     consultations = singleSnapshot.getValue(Consultations.class);
-                    consultationsList.add(consultations);
+                    if(consultations.getPublish().equals("true")) {
+                        consultationsList.add(consultations);
+                    }
                 }
                 if (consultationsList.size()>0) {
+                    sortingConsultationList(consultationsList);
                     view.showQuestionsProgress(false);
                     view.showQuestions(consultationsList);
                 }else {
@@ -70,6 +75,22 @@ public class ListConsultationPresenter  implements ListConsultationInterface.Pre
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+    }
+
+    @Override
+    public void deleteConsultationById(String consultationId) {
+        view.showQuestionsProgress(true);
+        dbRef.child(consultationId).child("publish").setValue("false");
+        view.showQuestionsProgress(false);
+    }
+
+    public void sortingConsultationList(List<Consultations> consultationsList){
+        Collections.sort(consultationsList, new Comparator<Consultations>() {
+            @Override
+            public int compare(Consultations o1, Consultations o2) {
+                return o2.getConsultationsDate().compareTo(o1.getConsultationsDate());
             }
         });
     }

@@ -1,8 +1,10 @@
 package com.app.tanyahukum.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -94,7 +96,7 @@ public class ListConsultationActivity extends AppCompatActivity implements ListC
     public void showQuestions(List<Consultations> questions) {
         mTextNoQuestions.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
-        questionsAdapter.setMovies(questions);
+        questionsAdapter.setQuestions(questions);
         questionsAdapter.notifyDataSetChanged();
     }
 
@@ -112,6 +114,34 @@ public class ListConsultationActivity extends AppCompatActivity implements ListC
     public void showEmptyMessage() {
         mTextNoQuestions.setVisibility(View.VISIBLE);
         mRecyclerView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void deleteWarningMessage(final String consultationId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you sure to delete this consultation?");
+
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+            public void onClick(DialogInterface dialog, int which) {
+                listConsultationPresenter.deleteConsultationById(consultationId);
+                dialog.dismiss();
+                recreate();
+            }
+        });
+
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     @Override
@@ -159,6 +189,12 @@ public class ListConsultationActivity extends AppCompatActivity implements ListC
             startActivity(intent);
         }
     }
+
+    @Override
+    public void onDeleteConsultationClicked(String consultationId) {
+        deleteWarningMessage(consultationId);
+    }
+
     @Override
     public void onBackPressed() {
         Intent intent = new Intent(Intent.ACTION_MAIN);

@@ -374,6 +374,7 @@ public class AddConsultationActivity extends AppCompatActivity implements AddCon
                     cons.setStatusAppointment("false");
                     cons.setClientCity(App.getInstance().getPrefManager().getUser().getCity());
                     cons.setChronology(textChronology.getText().toString());
+                    cons.setPublish("true");
 
                     Date date = Calendar.getInstance().getTime();
                     DateFormat formatter = new SimpleDateFormat("dd MMM yyyy HH:mm ");
@@ -406,6 +407,7 @@ public class AddConsultationActivity extends AppCompatActivity implements AddCon
                     cons.setClientName(clientName);
                     cons.setStatus("new");
                     cons.setStatusAppointment("false");
+                    cons.setPublish("true");
 
                     Date date = Calendar.getInstance().getTime();
                     DateFormat formatter = new SimpleDateFormat("dd MMM yyyy HH:mm ");
@@ -434,6 +436,7 @@ public class AddConsultationActivity extends AppCompatActivity implements AddCon
                     cons.setClientName(clientName);
                     cons.setStatus("new");
                     cons.setStatusAppointment("false");
+                    cons.setPublish("true");
 
                     Date date = Calendar.getInstance().getTime();
                     DateFormat formatter = new SimpleDateFormat("dd MMM yyyy HH:mm ");

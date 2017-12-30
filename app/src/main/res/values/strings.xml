@@ -47,6 +47,7 @@
     <string name="btn_sign_in">SIGN IN</string>
     <string name="btn_sign_by_email">Login with Email</string>
     <string name="google_sign_in">Sign in With Google</string>
+    <string name="delete_question">Delete This Consultation</string>
     <string name="btn_sign_by_facebook">Login with Facebook</string>
     <string name="facebook_sign_in">Sign in With Facebook</string>
     <string name="btn_clear">CLEAR</string>

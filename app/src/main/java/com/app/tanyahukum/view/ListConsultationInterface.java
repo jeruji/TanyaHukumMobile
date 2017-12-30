@@ -14,8 +14,10 @@ public interface ListConsultationInterface {
         void showQuestions(List<Consultations> questions);
         void showQuestionsProgress(boolean show);
         void showEmptyMessage();
+        void deleteWarningMessage(final String consultationId);
     }
     interface Presenter{
       void getQuestionsByUser(String userId);
+      void deleteConsultationById(String consultationId);
     }
 }

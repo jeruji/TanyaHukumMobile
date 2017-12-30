@@ -50,7 +50,7 @@
                 android:id="@+id/titleConsultations"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="COBA"
+                android:text="COBA LAGI LAH INI YA KAN"
                 android:textSize="18dp"
                 android:textStyle="bold"
                 android:padding="@dimen/activity_horizontal_margin"
@@ -63,6 +63,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/labelStatus"
                 android:layout_width="wrap_content"
@@ -70,9 +71,8 @@
                 android:text="Status"
                 android:textSize="10sp"
                 android:layout_marginRight="10dp"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:textColor="@color/white"
                 />
             <TextView
@@ -81,13 +81,25 @@
                 android:layout_height="wrap_content"
                 android:textSize="11sp"
                 android:layout_below="@+id/labelStatus"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="5dp"
                 android:text="new"
                 android:textColor="@color/white" />
+
         </RelativeLayout>
 
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/viewStatus"
+            android:layout_alignBaseline="@+id/viewTitle"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            android:contentDescription="@string/delete_question"
+            android:src="@drawable/icon_delete" />
 
     </RelativeLayout>
 
