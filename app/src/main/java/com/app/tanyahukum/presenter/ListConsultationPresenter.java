@@ -4,10 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import com.app.tanyahukum.model.Consultations;
-import com.app.tanyahukum.model.User;
 import com.app.tanyahukum.util.Config;
 import com.app.tanyahukum.view.ListConsultationInterface;
-import com.app.tanyahukum.view.RegistrationActivityInterface;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

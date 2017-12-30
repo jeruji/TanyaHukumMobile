@@ -368,7 +368,7 @@
                         android:id="@+id/makeAppointment"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:text="MAKE APPOINTNMENT"
+                        android:text="MAKE APPOINTMENT"
                         android:textColor="@color/white"
                         android:background="@color/md_green_400"/>
                 </LinearLayout>

@@ -191,15 +191,7 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
 
     @Override
     public void checkConsultation(List<HistoryConsultations> questions) {
-        if(questions.size()==5&&consultations.getStatusAppointment().equals("false")){
-            infoDialog("Your consultation exceeds the limit. Please make an Appointment.");
-            layoutButtonMakeAppointment.setVisibility(View.VISIBLE);
-            layoutButtonNext.setVisibility(View.GONE);
-        }else if(questions.size()==5&&consultations.getStatusAppointment().equals("true")){
-            layoutButtonMakeAppointment.setVisibility(View.GONE);
-            layoutButtonNext.setVisibility(View.GONE);
-        }
-
+        layoutButtonMakeAppointment.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -317,7 +309,15 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
             }
             else if(consultations.getStatus().equals("Done")){
                 layoutButtonNext.setVisibility(View.GONE);
-            }else {
+            }
+            else if(consultations.getStatus().equals("appointment")){
+                layoutButtonNext.setVisibility(View.GONE);
+                badgeQuestions_.setVisibility(View.GONE);
+                answers_.setText("you have an appointment with consultant..!");
+                answers_.setTextColor(Color.parseColor("#FF1744"));
+                badgeAnswers_.setVisibility(View.GONE);
+            }
+            else {
                 layoutButtonNext.setVisibility(View.GONE);
                 badgeQuestions_.setVisibility(View.VISIBLE);
                 answers_.setText("waiting answers from consultant..!");
@@ -327,7 +327,6 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
         }else{
             labelUser.setText("client");
             user.setText(consultations.getClientName());
-           // consultations.setClientId(i.getStringExtra("clientId"));
             questionDetailPresenter.getImageProfile(consultations.getClientId());
             if (answers_.getText().toString().equals("")){
                 badgeQuestions_.setVisibility(View.VISIBLE);
