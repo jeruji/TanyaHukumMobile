@@ -4,30 +4,20 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.app.tanyahukum.R;
-import com.app.tanyahukum.util.Config;
 import com.app.tanyahukum.util.ConvertStringToJson;
 import com.app.tanyahukum.util.NotificationUtils;
-import com.app.tanyahukum.view.AcceptQuestionsActivity;
-import com.app.tanyahukum.view.DashboardActivity;
-import com.app.tanyahukum.view.ListAppointmentActivity;
-import com.app.tanyahukum.view.ListConsultationActivity;
-import com.app.tanyahukum.view.MyAccountActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Map;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = MyFirebaseMessagingService.class.getSimpleName();
@@ -80,7 +70,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentText(message)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setLights(Color.RED, 3000, 3000)
+                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000 });
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, notificationBuilder.build());
     }
