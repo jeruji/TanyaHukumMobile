@@ -1,5 +1,7 @@
 package com.app.tanyahukum.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -178,7 +180,20 @@ public class DashboardActivity extends AppCompatActivity implements DashboardAct
         if (drawerLayoutDashboard.isDrawerOpen(GravityCompat.START)) {
             drawerLayoutDashboard.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Exit Application")
+                .setMessage("Are you sure you want to exit from TanyaHukum?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show();
         }
     }
     @Override
