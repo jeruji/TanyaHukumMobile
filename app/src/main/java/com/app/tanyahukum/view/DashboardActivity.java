@@ -1,7 +1,5 @@
 package com.app.tanyahukum.view;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,12 +9,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.app.tanyahukum.App;
 import com.app.tanyahukum.R;
@@ -26,10 +22,7 @@ import com.app.tanyahukum.model.User;
 import com.app.tanyahukum.presenter.DashboardPresenter;
 import com.app.tanyahukum.services.DeleteTokenService;
 import com.app.tanyahukum.services.MyFirebaseInstanceIDService;
-import com.app.tanyahukum.util.Config;
 import com.app.tanyahukum.util.RoundedCornersTransform;
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -43,6 +36,7 @@ import butterknife.OnClick;
  */
 
 public class DashboardActivity extends AppCompatActivity implements DashboardActivityInterface.View, NavigationView.OnNavigationItemSelectedListener {
+
     @BindView(R.id.toolbar)
     Toolbar toolbarDashboard;
     @BindView(R.id.nav_view)
@@ -53,36 +47,43 @@ public class DashboardActivity extends AppCompatActivity implements DashboardAct
     TextView tvName;
     @BindView(R.id.email)
     TextView tvEmail;
+    @BindView(R.id.newAnswer)
+    ImageView newAnswer;
 
-    String name,userid,email;
+    String userid;
+
     @Inject
     DashboardPresenter dashboardPresenter;
-    private BroadcastReceiver mRegistrationBroadcastReceiver;
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     String regId;
     String userId;
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         ButterKnife.bind(this);
         setSupportActionBar(toolbarDashboard);
         getSupportActionBar().setTitle("Home");
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+
         DaggerDashboardActivityComponent.builder()
                 .netComponent(((App)getApplicationContext()).getNetComponent())
                 .dashboardActivityModule((new DashboardActivityModule(this,this)))
                 .build().inject(this);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayoutDashboard, toolbarDashboard, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayoutDashboard.setDrawerListener(toggle);
+        drawerLayoutDashboard.addDrawerListener(toggle);
+
         toggle.syncState();
         registerFirebaseId();
+
         navigationViewDashboard.setNavigationItemSelectedListener(this);
+
         if(App.getInstance().getPrefManager().getUser().getUsertype().equals("CONSULTANT")){
             navigationViewDashboard.getMenu().findItem(R.id.nav_add_consultation).setVisible(false);
         }else{
             navigationViewDashboard.getMenu().findItem(R.id.nav_add_consultation).setVisible(true);
         }
+
         regId = App.getInstance().getPrefManager().getFirebaseToken();
         userId=App.getInstance().getPrefManager().getUserId();
         dashboardPresenter.getImageProfile(userId);
@@ -101,7 +102,6 @@ public class DashboardActivity extends AppCompatActivity implements DashboardAct
             for (String key : getIntent().getExtras().keySet()) {
                 String value = getIntent().getExtras().getString(key);
                 if (key.equals("AnotherActivity") && value.equals("True")) {
-                    Log.d("masuk from notif","yeayyyy");
                     Intent intent = new Intent(this, AcceptQuestionsActivity.class);
                     intent.putExtra("value", value);
                     startActivity(intent);
@@ -110,40 +110,14 @@ public class DashboardActivity extends AppCompatActivity implements DashboardAct
             }
         }
         showProfile();
+        checkNewAnswer();
     }
 
     private void registerFirebaseId() {
         Intent intent = new Intent(this, MyFirebaseInstanceIDService.class);
         startService(intent);
     }
-     public void handleMessaging(){
-         mRegistrationBroadcastReceiver = new BroadcastReceiver() {
-             @Override
-             public void onReceive(Context context, Intent intent) {
-                 if (intent.getAction().equals(Config.REGISTRATION_COMPLETE)) {
-                 } else if (intent.getAction().equals(Config.SENT_TOKEN_TO_SERVER)) {
-                     dashboardPresenter.updateFirebaseToken(regId);
-                 } else if (intent.getAction().equals(Config.PUSH_NOTIFICATION)) {
-                     String message = intent.getStringExtra("message");
-                 }
-             }
-         };
-     }
-    private boolean checkPlayServices() {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
-            } else {
-                 Toast.makeText(getApplicationContext(), "This device is not supported. Google Play Services not installed!", Toast.LENGTH_LONG).show();
-                finish();
-            }
-            return false;
-        }
-        return true;
-    }
+
     @Override
     public void showProfile() {
          User user=App.getInstance().getPrefManager().getUser();
@@ -200,13 +174,6 @@ public class DashboardActivity extends AppCompatActivity implements DashboardAct
     }
 
     @Override
-    public void checkUserTypeLogin() {
-        String userType=App.getInstance().getPrefManager().getUserType();
-        if (userType.equals("Client")){
-        }else{
-        }
-    }
-    @Override
     public void onBackPressed() {
         if (drawerLayoutDashboard.isDrawerOpen(GravityCompat.START)) {
             drawerLayoutDashboard.closeDrawer(GravityCompat.START);
@@ -251,6 +218,13 @@ public class DashboardActivity extends AppCompatActivity implements DashboardAct
         startActivity(intent);
     }
 
+    @OnClick(R.id.questionBtn)
+    public void callListConsultationActivity(){
+        Intent intent = new Intent();
+        intent.setClassName(this, "com.app.tanyahukum.view.ListConsultationActivity");
+        startActivity(intent);
+    }
+
     @Override
     public void showImage(String url) {
         View headerView = navigationViewDashboard.getHeaderView(0);
@@ -264,5 +238,19 @@ public class DashboardActivity extends AppCompatActivity implements DashboardAct
                 .load(url)
                 .transform(new RoundedCornersTransform())
                 .into(profilePic);
+    }
+
+    @Override
+    public void checkNewAnswer() {
+        String userType=App.getInstance().getPrefManager().getUserType();
+
+        if (userType.equals("CLIENT")){
+            dashboardPresenter.queryNewAnswer(userId);
+        }
+    }
+
+    @Override
+    public void appearNewNotification() {
+        newAnswer.setVisibility(View.VISIBLE);
     }
 }

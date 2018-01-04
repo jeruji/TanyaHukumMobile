@@ -12,11 +12,13 @@ public interface DashboardActivityInterface {
         void toLoginPage();
         void toAppointmentListPage(String type);
         void toMyAccountPage();
-        void checkUserTypeLogin();
         void showImage(String url);
+        void checkNewAnswer();
+        void appearNewNotification();
     }
     interface Presenter{
         void updateFirebaseToken(String token);
         void signOutUser();
+        void queryNewAnswer(String userId);
     }
 }

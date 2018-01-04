@@ -70,23 +70,39 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/email"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginTop="@dimen/margin_top_homebutton"
-            android:orientation="vertical">
+            android:layout_marginLeft="16dp"
+            android:orientation="vertical"
+            android:layout_alignTop="@+id/balanceLayout"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="16dp">
 
-            <ImageButton
-                android:id="@+id/questionBtn"
-                android:layout_width="80dp"
-                android:layout_height="60dp"
-                android:background="@drawable/icon_my_question" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/newAnswer"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignRight="@+id/questionBtn"
+                    android:background="@drawable/new_answer"
+                    android:visibility="invisible"/>
+
+                <ImageButton
+                    android:id="@+id/questionBtn"
+                    android:layout_width="80dp"
+                    android:layout_height="60dp"
+                    android:background="@drawable/icon_my_consultation" />
+
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/questionTag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="My Question"
+                android:text="My Consultation"
                 android:textColor="@color/colorText" />
         </LinearLayout>
 
