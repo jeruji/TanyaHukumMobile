@@ -1,12 +1,12 @@
 package com.app.tanyahukum.presenter;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.app.tanyahukum.App;
+import com.app.tanyahukum.model.Consultations;
 import com.app.tanyahukum.view.DashboardActivityInterface;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -15,6 +15,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -30,9 +31,7 @@ public class DashboardPresenter implements DashboardActivityInterface.Presenter 
     FirebaseDatabase firebase;
     Context context;
     FirebaseAuth firebaseAuth;
-    FirebaseAuth.AuthStateListener mAuthListener;
     DatabaseReference dbRef;
-    private BroadcastReceiver mRegistrationBroadcastReceiver;
     FirebaseStorage storage;
     StorageReference storageReference ;
 
@@ -73,6 +72,37 @@ public class DashboardPresenter implements DashboardActivityInterface.Presenter 
     public void signOutUser() {
         App.getInstance().getPrefManager().clear();
         view.toLoginPage();
+    }
+
+    @Override
+    public void queryNewAnswer(String userId) {
+        DatabaseReference consultationRef = firebase.getReference("questions");
+        Query consultationQuery = consultationRef.orderByChild("clientId").equalTo(userId);
+        consultationQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                Consultations consultations=null;
+                boolean isNew = false;
+
+                for(DataSnapshot singleSnapshot : dataSnapshot.getChildren()){
+                    consultations = singleSnapshot.getValue(Consultations.class);
+                    if(!consultations.getAnswers().equals("")&&consultations.getStatus().equals("Answered")){
+                        isNew = true;
+                        break;
+                    }
+                }
+
+                if(isNew){
+                    view.appearNewNotification();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void getImageProfile(String userId){
