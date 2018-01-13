@@ -14,6 +14,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -88,9 +91,14 @@ public class ListConsultationPresenter  implements ListConsultationInterface.Pre
 
     public void sortingConsultationList(List<Consultations> consultationsList){
         Collections.sort(consultationsList, new Comparator<Consultations>() {
+            DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy HH:mm");
             @Override
             public int compare(Consultations o1, Consultations o2) {
-                return o2.getConsultationsDate().compareTo(o1.getConsultationsDate());
+                try {
+                    return dateFormat.parse(o2.getConsultationsDate()).compareTo(dateFormat.parse(o1.getConsultationsDate()));
+                } catch (ParseException e) {
+                    throw new IllegalArgumentException(e);
+                }
             }
         });
     }

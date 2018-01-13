@@ -1,6 +1,5 @@
 package com.app.tanyahukum.fcm;
 
-import android.provider.Settings;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
@@ -27,7 +26,6 @@ public class FCMHelper {
     private static final String URL_SEND = "https://fcm.googleapis.com/fcm/send";
     public static final String TYPE_TO = "to";  // Use for single devices, device groups and topics
     public static final String TYPE_CONDITION = "condition"; // Use for Conditions
-   // private static final String FCM_SERVER_KEY = "<Enter your server key here>";
    private static final String FCM_SERVER_KEY ="AAAAuIDBb84:APA91bGy6bgEw998Q8sX4xEzV5jl3UIxBbX0p4FQP4Q3BVetIeGPX8sVG4gnVMAfeFOvykgHB67LR9VIAgm2v7eWKPLueDQTLodofHCZieUGaqBKVpE_RNvHPpsQS1LsNx4YrdFYKpFC";
      public static FCMHelper getInstance() {
         if (instance == null) instance = new FCMHelper();
@@ -124,18 +122,18 @@ public class FCMHelper {
             for (int i=0; i < deviceToken.size(); i++) {
                 jsonArray.put(deviceToken.get(i));
             }
-            String timestamp="";
             Log.d("device array : ",jsonArray.toString());
             msgObject.put("body",message);
             msgObject.put("title",questions);
             msgObject.put("click_action",clickAction);
+            msgObject.put("sound","default");
             dataObject.put("title",title);
             dataObject.put("message",message);
             dataObject.put("statusQuestions",statusQuestions);
             dataObject.put("timestamp","");
             dataObject.put("questions",questions);
             dataObject.put("usertype",usertype);
-            dataObject.put("consultationid",consultationId);
+            dataObject.put("consultationId",consultationId);
             dataObject.put("fromId",fromId);
             dataObject.put("toId",toId);
             obj.put("registration_ids",jsonArray);
@@ -151,6 +149,10 @@ public class FCMHelper {
                 .addHeader("authorization", "key="+FCM_SERVER_KEY).build();
         Response response = client.newCall(request).execute();
         Log.d("response","Notification response >>>" +response.body().string());
+
+        if(response.body().string().contains("error")){
+            sendNotificationMultipleDevice(statusQuestions, deviceToken, consultationId, message,  title, questions, usertype, clickAction, fromId, toId);
+        }
     }
 
 }
