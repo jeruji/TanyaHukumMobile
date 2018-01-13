@@ -133,7 +133,7 @@ public class FCMHelper {
             dataObject.put("timestamp","");
             dataObject.put("questions",questions);
             dataObject.put("usertype",usertype);
-            dataObject.put("consultationid",consultationId);
+            dataObject.put("consultationId",consultationId);
             dataObject.put("fromId",fromId);
             dataObject.put("toId",toId);
             obj.put("registration_ids",jsonArray);

@@ -64,6 +64,8 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
     TextView answers_;
     @BindView(R.id.consultationType)
     TextView consultationType;
+    @BindView(R.id.chronology)
+    TextView chronology;
     @BindView(R.id.status)
     TextView status_;
     @BindView(R.id.attachmentLayout)
@@ -124,17 +126,14 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
 
         String consultationId;
         if (startingIntent != null) {
-            consultationId= startingIntent.getStringExtra("consultationId"); // Retrieve the id
+            consultationId = startingIntent.getStringExtra("consultationId"); // Retrieve the id
             questionDetailPresenter.getConsultationDetailById(consultationId);
         }
     }
 
     @Override
     public void onBackPressed() {
-        Intent a = new Intent(Intent.ACTION_MAIN);
-        a.addCategory(Intent.CATEGORY_HOME);
-        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(a);
+        super.onBackPressed();
     }
 
     @Override
@@ -229,6 +228,7 @@ public class QuestionsDetailActivity extends AppCompatActivity implements Questi
         questions_.setText(consultations.getQuestions());
         answers_.setText(consultations.getAnswers());
         consultationType.setText(consultations.getConsultationsType());
+        chronology.setText(consultations.getChronology());
         status_.setText(consultations.getStatus());
 
         if(consultations.getAttachment()!=null) {
