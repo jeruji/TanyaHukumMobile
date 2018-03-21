@@ -77,7 +77,7 @@ public class AddConsultationPresenter implements AddConsultationActivityInterfac
         userRef = this.firebase.getReference("users");
         consultationTypeRef = this.firebase.getReference("consultationType");
         storage= FirebaseStorage.getInstance();
-        storageReference=storage.getReferenceFromUrl("gs://tanyahukum-9d16f.appspot.com");
+        storageReference=storage.getReferenceFromUrl("gs://tanyahukum-c060c.appspot.com");
         this.context = context;
 
     }

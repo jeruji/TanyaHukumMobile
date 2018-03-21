@@ -3,12 +3,10 @@ package com.app.tanyahukum.presenter;
 import android.content.Context;
 import android.util.Log;
 
-import com.app.tanyahukum.App;
 import com.app.tanyahukum.model.Province;
 import com.app.tanyahukum.model.Regency;
 import com.app.tanyahukum.model.User;
 import com.app.tanyahukum.view.EditAccountInterface;
-import com.app.tanyahukum.view.MyAccountActivityInterface;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -48,7 +46,7 @@ public class EditAccountPresenter implements EditAccountInterface.Presenter {
         countryRef = this.firebase.getReference("country");
         firebaseAuth = FirebaseAuth.getInstance();
         storage= FirebaseStorage.getInstance();
-        storageReference=storage.getReferenceFromUrl("gs://tanyahukum-9d16f.appspot.com");
+        storageReference=storage.getReferenceFromUrl("gs://tanyahukum-c060c.appspot.com");
     }
 
     @Override

@@ -223,7 +223,7 @@ public class RegistrationPresenter implements RegistrationActivityInterface.Pres
     public void submitConsultantFiles(User user, File[] fileArr) {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageReference = storage.getReferenceFromUrl("gs://tanyahukum-9d16f.appspot.com");
+        StorageReference storageReference = storage.getReferenceFromUrl("gs://tanyahukum-c060c.appspot.com");
         StorageReference fileRef = null;
         Bitmap bmp = null;
 

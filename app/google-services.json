@@ -1,35 +1,43 @@
 {
   "project_info": {
-    "project_number": "792434143182",
-    "firebase_url": "https://tanyahukum-9d16f.firebaseio.com",
-    "project_id": "tanyahukum-9d16f",
-    "storage_bucket": "tanyahukum-9d16f.appspot.com"
+    "project_number": "766492958077",
+    "firebase_url": "https://tanyahukum-c060c.firebaseio.com",
+    "project_id": "tanyahukum-c060c",
+    "storage_bucket": "tanyahukum-c060c.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:792434143182:android:2c8a91000f22d9c0",
+        "mobilesdk_app_id": "1:766492958077:android:2c8a91000f22d9c0",
         "android_client_info": {
           "package_name": "com.app.tanyahukum"
         }
       },
       "oauth_client": [
         {
-          "client_id": "792434143182-1s4ulrickdet66jv9s4do0qj21nguto3.apps.googleusercontent.com",
+          "client_id": "766492958077-dlgk9ca7ilc604a0bk2lofflffeaptja.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.app.tanyahukum",
-            "certificate_hash": "186f71560ec150f83ac8f3c78740d62d9cbde488"
+            "certificate_hash": "b54a2a98fc9b69176a83211e2f308cc38d9e4039"
           }
         },
         {
-          "client_id": "792434143182-r3ifo7h23ph6aehanhqrv2b68l5gjqd5.apps.googleusercontent.com",
+          "client_id": "766492958077-ighl0p00evicbvhcv79te06d6g1vrpgf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.tanyahukum",
+            "certificate_hash": "ab6baa793722ec08703c1491a1570bdabd3c5d67"
+          }
+        },
+        {
+          "client_id": "766492958077-6a3t8n37kjad1gs7thbvkds74a3sssft.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB9SAPd0uIvXnvKdUteAuK4cR85uIT_ly4"
+          "current_key": "AIzaSyAmHGIiMkSjUF6dptQlG4RM6r7G5HTXDKc"
         }
       ],
       "services": {
@@ -40,7 +48,7 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "792434143182-r3ifo7h23ph6aehanhqrv2b68l5gjqd5.apps.googleusercontent.com",
+              "client_id": "766492958077-6a3t8n37kjad1gs7thbvkds74a3sssft.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

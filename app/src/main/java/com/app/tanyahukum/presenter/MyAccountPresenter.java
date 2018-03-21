@@ -1,15 +1,11 @@
 package com.app.tanyahukum.presenter;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-import com.app.tanyahukum.model.Consultations;
 import com.app.tanyahukum.model.User;
-import com.app.tanyahukum.util.Config;
-import com.app.tanyahukum.view.DashboardActivityInterface;
 import com.app.tanyahukum.view.MyAccountActivityInterface;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,9 +18,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
@@ -50,7 +43,7 @@ public class MyAccountPresenter implements MyAccountActivityInterface.Presenter 
         userRef = this.firebase.getReference().child("users");
         firebaseAuth = FirebaseAuth.getInstance();
         storage= FirebaseStorage.getInstance();
-        storageReference=storage.getReferenceFromUrl("gs://tanyahukum-9d16f.appspot.com");
+        storageReference=storage.getReferenceFromUrl("gs://tanyahukum-c060c.appspot.com");
     }
 
     @Override

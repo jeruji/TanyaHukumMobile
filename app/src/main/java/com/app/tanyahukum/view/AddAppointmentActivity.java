@@ -3,7 +3,6 @@ package com.app.tanyahukum.view;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -14,37 +13,27 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.app.tanyahukum.App;
 import com.app.tanyahukum.R;
-import com.app.tanyahukum.data.component.DaggerAcceptQuestionsActivityComponent;
 import com.app.tanyahukum.data.component.DaggerAddAppointmentActivityComponent;
-import com.app.tanyahukum.data.module.AcceptQuestionsActivityModule;
 import com.app.tanyahukum.data.module.AddAppointmentActivityModule;
 import com.app.tanyahukum.model.Appointment;
-import com.app.tanyahukum.model.Consultations;
 import com.app.tanyahukum.presenter.AddAppointmentPresenter;
-import com.app.tanyahukum.presenter.QuestionDetailPresenter;
 import com.app.tanyahukum.util.Config;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
 import javax.inject.Inject;
 
@@ -125,9 +114,13 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     RelativeLayout layoutReport;
     @BindView(R.id.edTextReport)
     EditText report;
+
     @Inject
     AddAppointmentPresenter addAppointmentPresenter;
     Appointment appointments;
+
+    String dateAppointmentIntent;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -145,6 +138,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
         Intent intent=getIntent();
          appointments=new Appointment();
         String status=intent.getStringExtra("status");
+        dateAppointmentIntent = intent.getStringExtra("date");
         appointments.setAppointmentId(intent.getStringExtra("id"));
         appointments.setClientId(intent.getStringExtra("clientId"));
         appointments.setConsultantId(intent.getStringExtra("consultantId"));
@@ -527,7 +521,7 @@ public class AddAppointmentActivity extends AppCompatActivity implements AddAppo
     @Override
     @OnClick(R.id.btnApproveAppointment)
     public void approve() {
-      addAppointmentPresenter.approveAppointment(appointments.getAppointmentId(),appointments.getClientId(),appointments.getConsultantId());
+      addAppointmentPresenter.approveAppointment(appointments.getAppointmentId(),appointments.getClientId(),appointments.getConsultantId(), dateAppointmentIntent);
     }
 
     @Override

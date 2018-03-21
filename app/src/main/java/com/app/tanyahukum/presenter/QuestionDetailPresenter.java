@@ -47,7 +47,7 @@ public class QuestionDetailPresenter implements QuestionsDetailActivityInterface
         questionsRef = this.firebase.getReference("questions");
         this.context = context;
         storage= FirebaseStorage.getInstance();
-        storageReference=storage.getReferenceFromUrl("gs://tanyahukum-9d16f.appspot.com");
+        storageReference=storage.getReferenceFromUrl("gs://tanyahukum-c060c.appspot.com");
 
     }
 
@@ -110,7 +110,7 @@ public class QuestionDetailPresenter implements QuestionsDetailActivityInterface
         view.showProgressDialog(true);
         String filePath="doc/"+filename;
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReferenceFromUrl("gs://tanyahukum-9d16f.appspot.com/doc/").child(filename);
+        StorageReference storageRef = storage.getReferenceFromUrl("gs://tanyahukum-c060c.appspot.com/doc/").child(filename);
         File rootPath = new File(Environment.getExternalStorageDirectory(), "doc");
         if(!rootPath.exists()) {
             rootPath.mkdirs();

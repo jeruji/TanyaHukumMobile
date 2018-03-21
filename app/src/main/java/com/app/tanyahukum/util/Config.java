@@ -7,7 +7,7 @@ import com.app.tanyahukum.App;
  */
 
 public class Config {
-    public static final String FIREBASE_URL = "https://tanyahukum-9d16f.firebaseio.com/";
+    public static final String FIREBASE_URL = "https://tanyahukum-c060c.firebaseio.com/";
     public static final String TOPIC_GLOBAL = "global";
     public static final String REGISTRATION_COMPLETE = "registrationComplete";
     public static final String PUSH_NOTIFICATION = "pushNotification";

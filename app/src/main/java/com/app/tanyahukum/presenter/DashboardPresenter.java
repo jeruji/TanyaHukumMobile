@@ -44,7 +44,7 @@ public class DashboardPresenter implements DashboardActivityInterface.Presenter 
         dbRef = this.firebase.getReference().child("users");
         firebaseAuth = FirebaseAuth.getInstance();
         storage= FirebaseStorage.getInstance();
-        storageReference=storage.getReferenceFromUrl("gs://tanyahukum-9d16f.appspot.com");
+        storageReference=storage.getReferenceFromUrl("gs://tanyahukum-c060c.appspot.com");
     }
 
     @Override

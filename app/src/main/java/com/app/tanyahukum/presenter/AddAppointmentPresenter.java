@@ -6,11 +6,10 @@ import android.util.Log;
 import com.app.tanyahukum.App;
 import com.app.tanyahukum.fcm.FCMHelper;
 import com.app.tanyahukum.model.Appointment;
-import com.app.tanyahukum.model.Consultations;
 import com.app.tanyahukum.model.User;
+import com.app.tanyahukum.util.AddEventCalendar;
 import com.app.tanyahukum.util.Config;
 import com.app.tanyahukum.view.AddAppointmentActivityInterface;
-import com.app.tanyahukum.view.AddConsultationActivityInterface;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,8 +19,12 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -230,7 +233,7 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
     }
 
     @Override
-    public void approveAppointment(final String appointmentId,final String clientId,final String consultantId) {
+    public void approveAppointment(final String appointmentId, final String clientId, final String consultantId, final String dateAppointment) {
         if (App.getInstance().getPrefManager().getUser().getUsertype().equalsIgnoreCase("CLIENT")){
             final List<String> deviceToken = new ArrayList<>();
             Query userQuery = userRef.orderByChild("id").equalTo(consultantId);
@@ -268,6 +271,8 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
                 public void onDataChange(DataSnapshot tasksSnapshot) {
                     try {
                         appointmentRef.child(appointmentId).child("status").setValue("Accepted");
+                        AddEventCalendar addEventCalendar = new AddEventCalendar();
+                        addEventCalendar.setEventUtilities(context, dateNow(), untilDate(dateAppointment), "TanyaHukum", "You Have an Appointment with our Consultant at "+dateAppointment);
                         view.toAppointmentList(true,"APPOINTMENT");
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -519,5 +524,33 @@ public class AddAppointmentPresenter implements AddAppointmentActivityInterface.
 
             }
         });
+    }
+
+    public String dateNow(){
+        Date date = Calendar.getInstance().getTime();
+        DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+        String today = formatter.format(date);
+
+        return today;
+    }
+
+    public String untilDate(String untilDateString){
+
+        try{
+            DateFormat formatter = new SimpleDateFormat("yyyyMMdd");
+            Date untilDate = formatter.parse(untilDateString);
+            Calendar dt = Calendar.getInstance();
+            dt.setTime(untilDate);
+            dt.add(Calendar.DATE, 1);
+            String dtUntill = formatter.format(dt.getTime());
+
+            return dtUntill;
+        }
+        catch(ParseException parseException){
+            parseException.printStackTrace();
+        }
+
+        return null;
+
     }
 }

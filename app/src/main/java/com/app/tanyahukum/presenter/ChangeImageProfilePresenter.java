@@ -10,10 +10,8 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.app.tanyahukum.view.ChangeImageProfileActivityInterface;
-import com.app.tanyahukum.view.EditAccountInterface;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -44,7 +42,7 @@ public class ChangeImageProfilePresenter implements ChangeImageProfileActivityIn
         this.context = context;
         userRef = this.firebase.getReference().child("users");
         storage= FirebaseStorage.getInstance();
-        storageReference=storage.getReferenceFromUrl("gs://tanyahukum-9d16f.appspot.com");
+        storageReference=storage.getReferenceFromUrl("gs://tanyahukum-c060c.appspot.com");
     }
     public void submitProfileImage(File file, String child) {
         view.showProgress(true);

@@ -26,7 +26,7 @@ public class FCMHelper {
     private static final String URL_SEND = "https://fcm.googleapis.com/fcm/send";
     public static final String TYPE_TO = "to";  // Use for single devices, device groups and topics
     public static final String TYPE_CONDITION = "condition"; // Use for Conditions
-   private static final String FCM_SERVER_KEY ="AAAAuIDBb84:APA91bGy6bgEw998Q8sX4xEzV5jl3UIxBbX0p4FQP4Q3BVetIeGPX8sVG4gnVMAfeFOvykgHB67LR9VIAgm2v7eWKPLueDQTLodofHCZieUGaqBKVpE_RNvHPpsQS1LsNx4YrdFYKpFC";
+   private static final String FCM_SERVER_KEY ="AAAAsnaKXX0:APA91bGFiKMyri8Er28LuFaVqE90Dn7WGbEJjrvuWihCz8xrCCuqK6OdXS39skstfYOwOh024cq7sJYGdlqFaK9QQhNmNXwxzhmUO7HdC5aF7NMIBM3DsU8u7kFn4I3FDL2au9NhrpKM";
      public static FCMHelper getInstance() {
         if (instance == null) instance = new FCMHelper();
         return instance;

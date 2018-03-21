@@ -1,7 +1,6 @@
 package com.app.tanyahukum.view;
 
 import com.app.tanyahukum.model.Appointment;
-import com.app.tanyahukum.model.Consultations;
 
 /**
  * Created by emerio on 4/19/17.
@@ -25,7 +24,7 @@ public interface AddAppointmentActivityInterface {
     interface Presenter{
         void submitAppointment(Appointment appointment, String status);
         void proposeAppointment(String appointmetId,String clientId,String consultantId,String date,String appointment);
-        void approveAppointment(String appointmentId,String clientId,String consultantId);
+        void approveAppointment(String appointmentId,String clientId,String consultantId, String dateAppointment);
         void doneAppointment(String appointmentId,String questionsId,String clientId, String consultantId);
         void rateConsultant(String appointmentId,String rate,String report);
         void reportAppointment(String appointmentId,String report);
